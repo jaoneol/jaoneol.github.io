@@ -8,8 +8,8 @@ jaoneol:
   # Used at the bottom of each page and at the top of the `about` layout
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about:             |
-    Data science enthusiast and addict :)
-
+    about Data science
+    
   # This photo will be used in the about section
   picture:
     src:             /assets/img/MyPicture.jpg
