@@ -1,0 +1,2 @@
+서버 실행 명령어
+ - bundle exec jekyll serve
