@@ -1,5 +1,5 @@
 ---
-title: "확률 기초"
+title: "통계학의 이해"
 description: Statistics
 author: Devin
 date: 2023-12-20 17:00:00 +0000
@@ -15,3 +15,11 @@ tags: [확률, 조건부 확률, 베이즈 정리]
 
 ![Desktop View](/commons/statistics1.png){: width="972" height="589" }
 _통계 커리큘럼_
+
+# 통계적 추론
+
+통계적 추론 과정을 통해 모집단의 특성인 모수를 표본의 통계량으로 맞추고자 하는 것이다.
+크게 두 분류로 나눠 볼수 있는데, 추정(Estimation, 구간 추정)과 가설 검정(Test of Hypotheses, 귀무/대립 가설)이다.
+
+![Desktop View](/commons/statistics1.png){: width="972" height="589" }
+_통계적 추론 과정_
