@@ -1,10 +1,16 @@
 ---
-title: "확률 기초"
+title: 확률 기초
 description: Statistics
 author: Devin
 date: 2023-12-21 06:00:00 +0000
-categories: [Statistics]
-tags: [확률, 조건부 확률, 베이즈 정리]
+categories:
+  - Statistics
+tags:
+  - 확률
+  - 조건부
+  - 확률
+  - 베이즈
+  - 정리
 math: true
 pin: true
 ---
@@ -46,14 +52,7 @@ $$
   그냥 𝑨가 발생할 확률이 동일함<br>
   다음 조건을 하나라도 만족하는 경우에 두 사건 𝑨와 𝑩는 독립
 
-![Desktop View](/commons/statistics3.png){: width="972" height="589" }
+![ss](/commons/statistics3.png)
+
 
 - 참고로, 배반사건과 독립사건은 서로 관련이 없음
-
-<!-- <div style="display: flex; align-items: center;">
-  <img src="../commons/statistics4.png" alt="설명" width="200" style="margin-right: 10px;">
-  <p>- 𝑨와 𝑩는 독립사건이나, 교집합 6이 있으므로 배반 사건이라 볼수 없음<br>
-  H<sub>2</sub>O
-  </p>
-  
-</div> -->
