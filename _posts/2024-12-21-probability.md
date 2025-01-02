@@ -6,6 +6,7 @@ date: 2023-12-21 06:00:00 +0000
 categories: [Statistics]
 tags: [확률, 조건부 확률, 베이즈 정리]
 math: true
+pin: true
 ---
 
 ## 확률의 이해

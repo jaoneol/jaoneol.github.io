@@ -5,6 +5,8 @@ author: Devin
 date: 2023-12-20 17:00:00 +0000
 categories: [Statistics]
 tags: [통계학, 추론]
+math: true
+pin: true
 ---
 
 # 통계학의 이해
