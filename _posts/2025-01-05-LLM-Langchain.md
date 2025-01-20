@@ -4,15 +4,16 @@ description: LangChain은 이렇게 사용하자.
 author: DS2Man
 date: 2025-01-05 11:00:00 +0000
 categories:
-  - '[알쓸엘잡]알아두면 쓸모있는 LLM 잡학사전'
+  - 생성형 AI 도전기
 tags:
   - LLM
   - LangChain
+  - LCEL
 math: true
 pin: true
 ---
 
-LLM을 통해서 추론하는 방법은 **Huggingface Transformers**, **OpenAI API**를 활용하는 방법이 있다. Application을 구축하기 위해 **LangChain**과 **Semantic Kernel** 프레임워크 중에서 LangChain으로 Application을 구축하고자 한다. Huggingface 등록된 모델 중 **polyglot-ko-1.3b**와 **Llama-3.2-3B-Instruct**을 대상으로 스터디해보았다.
+LLM을 통해서 추론하는 방법은 **Huggingface Transformers**, **OpenAI API**, **Ollama**를 활용하는 방법이 있다. Application을 구축하기 위해 **LangChain**과 **Semantic Kernel** 프레임워크 중에서 LangChain으로 Application을 구축하고자 한다. Huggingface 등록된 모델 중 **polyglot-ko-1.3b**와 **Llama-3.2-3B-Instruct**을 대상으로 스터디해보았다.
 
 ## 1. LangChain 구성
 ```  
@@ -111,13 +112,6 @@ for chunk in response:
         if iflag == 1: print("The type of chunk is AIMessageChunk...")
         iflag += 1
         answer += chunk.content
-        # end="" 사용 목적 :
-        # print 함수는 기본적으로 줄 끝에 줄바꿈 문자(\n, 개행)를 추가합니다.
-        # 줄바꿈(\n) 대신 빈 문자열("")을 사용하도록 지정합니다.
-        # 결과적으로 여러 출력이 한 줄로 이어져 출력됩니다.
-        # flush=True 사용 목적 :
-        # print 함수는 출력 데이터를 일시적으로 버퍼에 저장한 다음, 특정 조건(줄바꿈 등)에서 출력
-        # flush=True 함으로써, 버퍼에 저장된 데이터를 즉시 출력하도록 강제
         print(chunk.content, end="", flush=True)
     elif isinstance(chunk, str): #로컬 모델 return 타입
         if iflag == 1: print("The type of chunk is str...")

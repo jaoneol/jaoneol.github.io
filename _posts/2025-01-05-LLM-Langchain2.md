@@ -4,7 +4,7 @@ description: 현재 상황에 어울리는 모델 선정하기
 author: DS2Man
 date: 2025-01-05 11:00:00 +0000
 categories:
-  - '[알쓸엘잡]알아두면 쓸모있는 LLM 잡학사전'
+  - '생성형 AI 도전기'
 tags:
   - LLM
   - LangChain
