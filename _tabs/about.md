@@ -25,7 +25,7 @@ font-weight:bold">
 
 > 1998.02 ~ 2006.01 Hanyang University, ERICA
 
-> 2005.12 ~ Test&Package Center, Samsung Electroics
+> 2005.12 ~ Test&Package Center, Samsung Electronics(Semiconductor)
 
 > e-mail : jaoneol@gmail.com
 
