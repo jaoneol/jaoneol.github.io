@@ -32,11 +32,15 @@ Huggingface에 공개된 모델 사용법, Ollama를 활용한 LLM 추론, LangC
 
 This tutorial is perfect for those who relate to any of the following scenarios ~~(and, to be honest, all of these apply to me!)~~:
 
-Your company has restricted the use of ChatGPT due to security concerns.
-You want to run an LLM on your own computer but don’t know how to get started.
-You feel that ChatGPT gives irrelevant or nonsensical answers to slightly more technical questions, and you’re wondering if this can be improved.
-You want to build a dataset tailored to your domain and create your own version of ChatGPT.
-You’d like to share a ChatGPT model infused with your domain knowledge with others.
+- Your company has restricted the use of ChatGPT due to security concerns.
+
+- You want to run an LLM on your own computer but don’t know how to get started.
+
+- You feel that ChatGPT gives irrelevant or nonsensical answers to slightly more technical questions, and you’re wondering if this can be improved.
+
+- You want to build a dataset tailored to your domain and create your own version of ChatGPT.
+
+- You’d like to share a ChatGPT model infused with your domain knowledge with others.
 
 <!-- 이런 분들께 추천합니다!
 아래 내용에 해당되는 분들께서 본Tutorial을 보시면 좋을 것 같아요. (아래는 사실 전부 제 이야기입니다…)
