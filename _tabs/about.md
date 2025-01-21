@@ -19,8 +19,6 @@ font-weight:bold">
 
 ## Personal Data
 ---
-> 1979.09.26 Born in Seocheon, Chungcheongnam-do, South Korea
-
 > 1995.02 ~ 1998.02 Kongju National University High School
 
 > 1998.02 ~ 2006.01 Hanyang University, ERICA
