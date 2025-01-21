@@ -88,14 +88,14 @@ Cheating Sheet에 있는 내용을 기반으로 LLM이 대답하게 만드는 �
 2. **Data Retrieval and Segmentation for the Cheating Sheet**  
    Relevant data is gathered and segmented from sources such as web searches or documents (e.g., PDF, HTML).
 
-3. **Text Embedding of the Query**  
+3. **Data Embedding and Storage in a Vector Database**  
+   Data is embedded into vector representations and stored in a vector database.
+
+4. **Text Embedding of the Query**  
    The query is transformed into an embedding vector.
 
-4. **Data Storage in a Vector Database**  
-   The processed data is stored in a vector database.
-
 5. **Similarity-Based Retrieval via Retriever**  
-   The retriever searches the vector database for data most similar to the query.
+   The retriever searches the vector database for data most similar to the query(e.g., cosine similarity).
 
 6. **Prompt Context Construction**  
    Contexts for the prompt are created using the retrieved data.
@@ -103,12 +103,13 @@ Cheating Sheet에 있는 내용을 기반으로 LLM이 대답하게 만드는 �
 7. **Response Generation by the LLM**  
    The LLM generates an answer based on the constructed prompt contexts.
 
-<!-- 1. 사용자의 질문 입력(Query)
+<!--
+1. 사용자의 질문 입력(Query)
 2. Cheating Sheet위한 데이터 확보 및 분할(Web Search, Documents(e.g. PDF, Html)
-3. 질문에 대한 텍스트 임베딩(Embedding)
-4. Vector DB로 데이터 저장
+3. 데이터 임베딩 이후 Vector DB로  저장
+4. 질문에 대한 텍스트 임베딩(Embedding)
 5. Retriever 통해 Vector DB와 Query 유사도 기반 검색
 6. Prompt Contexts 구성
 7. LLM의 답변 생성(Response) -->
 ![RAG Intro](/images/llm_prologue_img1.png)
-_RAG Intro(출처: NAVER CLOUD PLATFORM)_
+_RAG Intro(Source: [NAVER CLOUD PLATFORM](https://www.ncloud-forums.com/topic/277/))_
