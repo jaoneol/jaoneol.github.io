@@ -4,7 +4,7 @@ description: Ollama 사용해보자
 author: DS2Man
 date: 2025-01-05 11:00:00 +0000
 categories:
-  - 생성형 AI 도전기
+  - Journey into Generative AI
 tags:
   - LLM
 math: true
