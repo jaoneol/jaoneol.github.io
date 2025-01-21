@@ -1,6 +1,6 @@
 ---
-title: Create a LangChain using Hugging Face Transformers.1
-description: Let's create a LangChain using Hugging Face Transformers.
+title: Create a LangChain using Hugging Face Transformers.
+description: Let’s Write code to create a LangChain.
 author: DS2Man
 date: 2025-01-05 11:00:00 +0000
 categories:
@@ -99,6 +99,7 @@ chain = prompt | llm
 1. **invoke** processes input data in a single instance and returns the response at once.
 2. When a user provides input, the model generates the entire result and then returns it in one go.
 3. The response is provided only after the model completes generating all the text.
+
 <!--
 1.`invoke`는 한 번에 입력 데이터를 처리하여 전한 응답을 반환하는 방식입니다.
 2. 사용자가 입력을 주면, 모델은 전체 결과를 생성한 후 한꺼번에 반환합니다.
@@ -152,5 +153,3 @@ Streamed Result:
 The type of chunk is str...
 The capital of the United States is Washington, D.C.
 ```
-
-[[2025-01-04-RAG-Prologue]]
