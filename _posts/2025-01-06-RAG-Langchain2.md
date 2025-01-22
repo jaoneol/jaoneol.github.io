@@ -1,0 +1,133 @@
+---
+title: Create a LangChain using Ollama
+description: Let's write code to create a LangChain using Ollama.
+author: DS2Man
+date: 2025-01-06 11:00:00 +0000
+categories:
+  - Journey into Generative AI
+tags:
+  - LLM
+  - RAG
+  - LangChain
+  - LCEL
+  - Ollama
+math: true
+pin: true
+---
+
+In the previous post, we implemented LangChain using Hugging Face transformers. However, using **Ollama** to build LangChain enables the implementation of most features in a way that is very similar to using ChatOpenAI. Ollama allows large models to be quantized, reducing memory usage and improving speed (related term: GGUF). More details on this will be shared in another post. In this session, we’ll create a LangChain using Ollama.
+
+<!--
+이전글에서는 Huggingface transformers를 사용하여 LangChain을 구현해봤습니다. 그러나, Ollama를 사용하여 LangChain을 구성하면 ChatOpenAI를 사용할때와 거의 유사하게 대부분의 기능을 구현 가능합니다. 파라미터가 큰 모델을 양자화하여 메모리 사용량을 줄이고 속도를 향상시킬수 있습니다(관련용어: GGUF). 자세한 내용은 다른 글에서 공유하겠습니다. 이번 과정에서는 Ollama를 사용해서 LangChain 생성을 해보겠습니다.
+-->
+
+## *Preparation: Install Ollama*
+
+With Ollama, you can run open-source large language models like Llama3 locally.
+Preparation,
+1. Download and install Ollama on a supported platform (Mac/Linux/Windows).  
+	 [Ollama Discord](https://discord.com/invite/ollama)  
+	 [Ollama model github](https://github.com/ollama/ollama)  
+	 [Ollama model library](https://ollama.com/library)
+2. Verify successful installation  
+	ollama
+	ollama list
+1. Download models provided by Ollama (using the two examples below)  
+	ollama pull/run gemma2  
+	ollama pull/run llama3.2-vision
+	
+<!--
+Ollama를 사용하면 Llama3와 같은 오픈 소스 대규모 언어 모델을 로컬에서 실행할 수 있습니다.
+사전 준비
+1. Ollama를 지원되는 플랫폼(Mac / Linux / Windows)에 다운로드하고 설치 설치주소: 
+2. 정상적으로 설치 여부 확인
+	ollama, ollama list
+3. Ollama 제공 모델 다운로드(아래 두가지 사용)  
+	ollama pull/run gemma2  
+	ollama pull/run llama3.2-vision
+-->
+
+## *1. Steps to Build LangChain Using Ollama*
+
+1. Load the **Ollama model**.
+2. Generate a **prompt**
+3. Create a **LangChain**
+
+~~~python
+from langchain_ollama import ChatOllama
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import PromptTemplate
+
+# Step 1: Load the Ollama model.
+llm = ChatOllama(model="gemma:7b")
+
+# Step 2: Generate a prompt
+template = "{question}"
+prompt = PromptTemplate.from_template(template)
+
+# Step 3: Create a LangChain
+# StrOutputParser() is one of the output_parsers classes that converts the model's output into structured information. I will explain it in detail in the OutputParser post.
+chain = prompt | llm | StrOutputParser()
+~~~
+
+## *2. invoke*
+
+1. **invoke** processes input data in a single instance and returns the response at once.
+2. When a user provides input, the model generates the entire result and then returns it in one go.
+3. The response is provided only after the model completes generating all the text.
+
+<!--
+1.`invoke`는 한 번에 입력 데이터를 처리하여 전한 응답을 반환하는 방식입니다.
+2. 사용자가 입력을 주면, 모델은 전체 결과를 생성한 후 한꺼번에 반환합니다.
+3. 모델이 생성하는 모든 텍스트가 완성된 후에 응답을 제공합니다.
+-->
+
+~~~python
+response = chain.invoke({"question": "What is the capital of the United States?"})
+print("Invoke Result:")
+print(response)
+~~~
+```
+Invoke Result:
+ The capital of the United States is Washington, D.C.
+```
+
+## *3. stream*
+
+1. **stream** is a method that partially returns results in real-time as the model generates text.
+2. You can observe the process of the model generating the response text in real-time.
+
+<!--
+1.`stream`는 모델이 텍스트를 생성하는 동안 부분적으로 결과를 실시간으로 반환하는 방식입니다.
+2. 모델이 응답 텍스트를 생성하는 과정을 실시간으로 확인할 수 있습니다.
+-->
+
+~~~python
+from langchain_core.messages import AIMessageChunk
+
+response = chain.stream({"question": "What is the capital of the United States?"})
+print("Streamed Result:")
+answer = ""
+iflag = 0
+for chunk in response:
+    if isinstance(chunk, AIMessageChunk):
+        if iflag == 1: print("The type of chunk is AIMessageChunk...")
+        iflag += 1
+        answer += chunk.content
+        print(chunk.content, end="", flush=True)
+    elif isinstance(chunk, str):
+        if iflag == 1: print("The type of chunk is str...")
+        iflag += 1
+        answer += chunk
+        print(chunk, end="", flush=True)
+    else:
+        if iflag == 1: print(f"The type of chunk is {type(chunk)}...")
+        iflag += 1
+~~~
+
+```
+Streamed Result:
+The type of chunk is str...
+The capital of the United States is Washington, D.C.
+```

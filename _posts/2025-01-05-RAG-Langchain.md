@@ -1,6 +1,6 @@
 ---
 title: Create a LangChain using Hugging Face Transformers.
-description: Let’s Write code to create a LangChain.
+description: Let’s write code to create a LangChain.
 author: DS2Man
 date: 2025-01-05 11:00:00 +0000
 categories:
@@ -28,7 +28,7 @@ LLM을 통해서 추론하는 방법은 **OpenAI API**, **Huggingface Transforme
 
 1. Load the model and tokenizer using **transformers**
 2. Configure the **pipeline**   
-<ins>`These steps are identical to the basic usage of LLMs (explicit approach).`<ins>
+<ins>`These steps are identical to the basic usage of LLMs (explicit approach).`</ins>
 3. Create a **HuggingFacePipeline** object for LangChain
 4. Generate a **prompt**
 5. Create a **LangChain**
@@ -95,7 +95,8 @@ prompt = PromptTemplate.from_template(
 chain = prompt | llm
 ~~~
 
-## 2. invoke
+## *2. invoke*
+
 1. **invoke** processes input data in a single instance and returns the response at once.
 2. When a user provides input, the model generates the entire result and then returns it in one go.
 3. The response is provided only after the model completes generating all the text.
@@ -107,15 +108,16 @@ chain = prompt | llm
 -->
 
 ~~~python
-answer = chain.invoke({"question": "What is the capital of the United States?"})
+reponse = chain.invoke({"question": "What is the capital of the United States?"})
 print("Invoke Result:")
-print(answer)
+print(reponse)
 ~~~
 ```
 Invoke Result: <|begin_of_text|><|start_header_id|>system<|end_header_id|> You are a friendly AI assistant. Your name is DS2Man. Please answer questions briefly. <|eot_id|><|start_header_id|>user<|end_header_id|>What is the capital of the United States? <|eot_id|><|start_header_id|>assistant<|end_header_id|> The capital of the United States is Washington, D.C.
 ```
 
-## 3. stream
+## *3. stream*
+
 1. **stream** is a method that partially returns results in real-time as the model generates text.
 2. You can observe the process of the model generating the response text in real-time.
 
@@ -125,7 +127,6 @@ Invoke Result: <|begin_of_text|><|start_header_id|>system<|end_header_id|> You a
 -->
 
 ~~~python
-from langchain_teddynote.messages import stream_response
 from langchain_core.messages import AIMessageChunk
 
 response = chain.stream({"question": "What is the capital of the United States?"})
