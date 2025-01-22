@@ -15,6 +15,7 @@ math: true
 pin: true
 related_posts:
     - _posts/2025-01-04-RAG-Prologue.md
+    - _posts/2025-01-06-RAG-LangChain2.md
 ---
 
 There are various ways to perform inference using LLMs, including **OpenAI API**, **Hugging Face Transformers**, and **Ollama**. However, due to company security policies, the use of ChatGPT is restricted, so methods involving OpenAI are unfortunately excluded. In this tutorial, we will focus on setting up LangChain using Hugging Face Transformers.(For reference, there are two main frameworks for RAG: **LangChain** and **Semantic Kernel**.)

@@ -13,6 +13,9 @@ tags:
   - Ollama
 math: true
 pin: true
+related_posts:
+    - _posts/2025-01-04-RAG-Prologue.md
+    - _posts/2025-01-06-RAG-LangChain.md
 ---
 
 In the previous post, we implemented LangChain using Hugging Face transformers. However, using **Ollama** to build LangChain enables the implementation of most features in a way that is very similar to using ChatOpenAI. Ollama allows large models to be quantized, reducing memory usage and improving speed (related term: GGUF). More details on this will be shared in another post. In this session, we’ll create a LangChain using Ollama.
@@ -30,7 +33,7 @@ Preparation,
 	 [Ollama model github](https://github.com/ollama/ollama)  
 	 [Ollama model library](https://ollama.com/library)
 2. Verify successful installation  
-	ollama
+	ollama  
 	ollama list
 1. Download models provided by Ollama (using the two examples below)  
 	ollama pull/run gemma2  

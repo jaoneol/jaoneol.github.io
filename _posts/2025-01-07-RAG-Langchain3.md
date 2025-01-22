@@ -1,8 +1,8 @@
 ---
-title: 로컬 모델별 성능 비교
-description: 현재 상황에 어울리는 모델 선정하기
+title: Performance Comparison by Local Model
+description: Let's select a model that meets the business requirements.
 author: DS2Man
-date: 2025-01-05 11:00:00 +0000
+date: 2025-01-07 11:00:00 +0000
 categories:
   - Journey into Generative AI
 tags:
@@ -10,6 +10,8 @@ tags:
   - LangChain
 math: true
 pin: true
+related_posts:
+    - _posts/2025-01-04-RAG-Prologue.md
 ---
 
 | Model | GPU  |VRAM(GB)|
