@@ -12,7 +12,7 @@ math: true
 pin: true
 ---
 
-Hello, my name is Yongcheol Jang, a engineer/researcher at the Semiconductor Division of Samsung Electronics.
+Hello, my name is Yongcheol Jang, a ai engineer/data scientist at the Semiconductor Division of Samsung Electronics.
 Since the public release of ChatGPT on November 30, 2022, large language models (LLMs) have driven revolutionary advancements in artificial intelligence, gaining attention across various industries.
 LLMs are models trained on vast amounts of text data, enabling them to understand and generate human-like language. These models are widely applied in tasks such as natural language processing, translation, and text summarization.
 In 2023, we witnessed the development of various LLMs, including OpenAI’s GPT-4, Google’s BERT, and Meta’s LLaMA. Each of these models has continued to evolve, leveraging unique features and strengths. Notably, Meta’s LLaMA series offers versions with 7 billion, 13 billion, and 70 billion parameters, showcasing exceptional performance in diverse natural language processing tasks.
