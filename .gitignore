@@ -27,6 +27,7 @@ _sass/vendors
 assets/js/dist
 
 # MyIgnore
+_posts/Article_pre-work_folder
 _posts/.obsidian
 _posts/Welcome.md
 _posts/2019-08-08-text-and-typography.md
