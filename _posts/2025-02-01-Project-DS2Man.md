@@ -11,37 +11,122 @@ math: true
 pin: true
 ---
 
-Due to Docker Desktop's monetization policy (as of August 31, 2021), companies with more than 250 employees or annual revenue exceeding $10 million cannot use it. Since I fall into this category, I plan to install Docker using a different method. (If I get the chance, I will write a post on utilizing Docker Desktop.) In the previous post, we installed WSL, and now we aim to set up a Docker environment without Docker Desktop.    
-This document is based on docker documentation ([https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)).
+Let's install MySQL which are necessary for the LLM service(DS2Man).
 
 <!--
-도커 데스크톱(Docker Desktop) 유료화 정책(2021년 8월 31일)으로 250명 이상의 직원을 보유하거나 연 매출이 1,000만 달러를 초과하는 기업에서는 사용이 불가능하다. 나의 경우도 여기에 해당되어 다른 방법으로 Docker 설치하려한다.(기회가 된다면 Docker Desktop을 활용하는 글을 쓰겠다.)
-앞서 나는 WSL을 설치했는데 Docker Desktop 없이 Docker 환경을 구축하고자 한다.
-
-docker의 문서(https://docs.docker.com/engine/install/ubuntu/) 기준으로 작성되었습니다.
+Let's install MySQL which are necessary for the LLM service(DS2Man).
 -->
 
-## *Install Docker Engine on Ubuntu*
+## *Install MySQL on Ubuntu*
 
-- According to the documentation ([Installation methods](https://docs.docker.com/engine/install/ubuntu/)), there are three ways to install the Docker Engine. In this post, I will install it using the script method.    
-	`curl -sSL https://get.docker.com | sh`        
+- MySQL    
+	`docker pull mysql`        
+	`docker run -d --restart always --name mysql -e MYSQL_ROOT_PASSWORD=1234 -d -p 3306:3306 mysql:latest`      
 
 <!--
-문서(https://docs.docker.com/engine/install/ubuntu/)에 따르면 도커 엔진을 설치하는 방법은 3가지가 있다. 이번 글에서는 script를 활용하는 방법으로 설치하겠다.
+MySQL
 -->
 
 ```bash
-# curl -fsSL https://get.docker.com -o get-docker.sh
-# sudo sh get-docker.sh
-jaoneol@DESKTOP-B7GM3C5:~$ curl -sSL https://get.docker.com | sh
-# Executing docker install script, commit: 4c94a56999e10efcf48c5b8e3f6afea464f9108e
-
-WSL DETECTED: We recommend using Docker Desktop for Windows. 
-Please get Docker Desktop from https://www.docker.com/products/docker-desktop
-
-You may press Ctrl+C now to abort this script.
-+ sleep 20
+jaoneol@DESKTOP-B7GM3C5:~$ docker pull mysql
+Using default tag: latest
+latest: Pulling from library/mysql
+2c0a233485c3: Pull complete
+21577e00f2ba: Pull complete
+c294da35c13e: Pull complete
+facc8f3107c1: Pull complete
+de4342aa4ad8: Pull complete
+4643f1cf56c2: Pull complete
+139aca660b47: Pull complete
+b10e1082570e: Pull complete
+26313a3e0799: Pull complete
+d43055c38217: Pull complete
+Digest: sha256:45f5ae20cfe1d6e6c43684dfffef17db1e1e8dc9bf7133ceaafb25c16b10f31b
+Status: Downloaded newer image for mysql:latest
+docker.io/library/mysql:latest
+jaoneol@DESKTOP-B7GM3C5:~$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+mysql        latest    a52cba19e8cc   13 days ago   797MB
 ```
 
-![docker engine Installation](/assets/img/2025-01-28-Docker2_1.png)
-_docker engine Installation_
+```bash
+# docker run --name mysql -e MYSQL_ROOT_PASSWORD=1234 -d -p 3306:3306 mysql:latest
+# docker update --restart always mysql # docker stop mysql 할 필요없음. 바로 update 됨.
+# docker start mysql
+jaoneol@DESKTOP-B7GM3C5:~$ docker run -d --restart always --name mysql -e MYSQL_ROOT_PASSWORD=1234 -d -p 3306:3306 mysql:latest
+987a0e7deafecd99436ce56629150a2fbe648380620c5230fa24869e22c8b6d1
+jaoneol@DESKTOP-B7GM3C5:~$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS                                                  NAMES
+987a0e7deafe   mysql:latest   "docker-entrypoint.s…"   7 seconds ago   Up 6 seconds   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   mysql
+jaoneol@DESKTOP-B7GM3C5:~$
+```
+
+- 계정 생성
+-
+<!--
+계정 생성 및 삭제
+-->
+
+```sql
+-- 외부 접근을 허용하는 사용자 추가
+create user 'user_id'@'%' identified by 'passwd';
+drop user 'user_id';
+
+-- 내부 접근을 허용하는 사용자 추가
+create user 'user_id'@'localhost' identified by 'passwd';
+drop user 'user_id';
+
+-- 특정 ip만 접근을 허용하는 사용자 추가
+create user 'user_id'@'123.456.789.100' identified by 'passwd';
+drop user 'user_id';
+
+-- 특정 ip 대역을 허용하는 사용자 추가
+create user 'user_id'@'192.168.%' identified by 'passwd';
+drop user 'user_id';
+```
+
+- 사용자 권한 부여
+-
+<!--
+사용자 권한 부여
+-->
+
+```sql
+-- 모든 데이터베이스의 모든 테이블에 모든 권한을 줌
+grant all privileges on *.* to 'user_id'@'%';
+flush privileges;
+
+-- 특정 데이터베이스의 모든 테이블에 모든 권한을 줌
+grant all privileges on 'db_name'.* to 'userid'@'%';
+flush privileges;
+
+-- 특정 데이터베이스의 특정 테이블에 모든 권한을 줌
+grant all privileges on 'db_name'.'table_name' to 'userid'@'%';
+flush privileges;
+
+-- 특정 데이터베이스의 특정 테이블에 select, insert 권한을 줌
+grant select, insert on 'db_name'.'table_name' to 'userid'@'%';
+flush privileges;
+
+-- 특정 데이터베이스의 특정 테이블의 컬럼1과 컬럼2의 update 권한을 줌
+grant update(컬럼1, 컬럼2) on 'db_name'.'table_name' to 'userid'@'%';
+flush privileges;
+```
+
+- comment
+-
+<!--
+comment
+-->
+
+```bash
+```
+
+- comment
+-
+<!--
+comment
+-->
+
+```bash
+```
