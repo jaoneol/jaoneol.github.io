@@ -71,6 +71,10 @@ jaoneol@DESKTOP-B7GM3C5:~$
 
 <!--
 https://do-hyeon.tistory.com/entry/Milvus-Milvus란-M1-Mac-Milvus-개발환경-구성하기
+https://devocean.sk.com/blog/techBoardDetail.do?ID=165368
+https://www.youtube.com/watch?v=K0ZayH0n7sI&t=65s
+https://blog.csdn.net/qq_34146694/article/details/132658533
+https://jackerlab.com/milvus-attu-docker-install/
 -->
 
 ```bash
@@ -93,6 +97,72 @@ docker-compose.yml                               100%[==========================
 
 (base) jaoneol@DESKTOP-B7GM3C5:~$ ls
 docker-compose.yml  miniconda3
+```
+
+```yml
+(base) jaoneol@DESKTOP-B7GM3C5:~$ vi docker-compose.yml
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  minio:
+    container_name: milvus-minio
+    image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/minio:/minio_data
+    command: minio server /minio_data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  standalone:
+    container_name: milvus-standalone
+    image: milvusdb/milvus:v2.5.4
+    command: ["milvus", "run", "standalone"]
+    security_opt:
+    - seccomp:unconfined
+    environment:
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: minio:9000
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/milvus:/var/lib/milvus
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 30s
+      start_period: 90s
+      timeout: 20s
+      retries: 3
+    ports:
+      - "19530:19530"
+      - "9091:9091"
+    depends_on:
+      - "etcd"
+      - "minio"
+  # Adding attu on docker-compose.yml
+  attu:
+    container_name: attu
+    image: zilliz/attu:v2.2.6
+    environment:
+      MILVUS_URL: milvus-standalone:19530
+    ports:
+      - "8000:3000"
+    depends_on:
+      - "standalone"
+
+networks:
+  default:
+    name: milvus
+
 ```
 
 ```bash
