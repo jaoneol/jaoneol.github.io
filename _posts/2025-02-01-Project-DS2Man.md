@@ -1,5 +1,5 @@
 ---
-title: MySQL Installation and Configuration
+title: MySQL, Milvus Installation and Configuration
 description: Let's install MySQL which are necessary for the LLM service(DS2Man).
 author: DS2Man
 date: 2025-02-01 17:00:00 +0000
@@ -11,10 +11,10 @@ math: true
 pin: true
 ---
 
-Let's install MySQL which are necessary for the LLM service(DS2Man).
+Let's install MySQL, Milvus which are necessary for the LLM service(DS2Man).
 
 <!--
-Let's install MySQL which are necessary for the LLM service(DS2Man).
+Let's install MySQL, Milvus which are necessary for the LLM service(DS2Man).
 -->
 
 ## *Install MySQL on Ubuntu*
@@ -59,4 +59,18 @@ jaoneol@DESKTOP-B7GM3C5:~$ docker ps -a
 CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS                                                  NAMES
 987a0e7deafe   mysql:latest   "docker-entrypoint.s…"   7 seconds ago   Up 6 seconds   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   mysql
 jaoneol@DESKTOP-B7GM3C5:~$
+```
+
+## *Install Milvus on Ubuntu*
+
+- Milvus    
+	`wget https://github.com/milvus-io/milvus/releases/download/v2.3.3/milvus-standalone-docker-compose.yml -O docker-compose.yml`        
+	`sudo docker-compose up -d`     
+	`sudo docker compose ps` 
+
+<!--
+https://do-hyeon.tistory.com/entry/Milvus-Milvus란-M1-Mac-Milvus-개발환경-구성하기
+-->
+
+```bash
 ```
