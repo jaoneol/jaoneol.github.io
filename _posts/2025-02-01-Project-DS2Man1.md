@@ -64,10 +64,10 @@ jaoneol@DESKTOP-B7GM3C5:~$
 ## *Install Milvus on Ubuntu(Ing..)*
 
 - Milvus    
-	`wget https://github.com/milvus-io/milvus/releases/download/v2.3.3/milvus-standalone-docker-compose.yml -O docker-compose.yml`        
-	`sudo docker-compose up -d`     
+	`wget https://github.com/milvus-io/milvus/releases/download/v2.3.3/milvus-standalone-docker-compose.yml -O docker-compose.yml`     
+	`vi docker-compose.yml(adding attu)`    
+	`sudo docker compose up -d`     
 	`sudo docker compose ps`     
-	`docker run -p 8000:3000 -d milvusdb/milvus-insight`
 
 <!--
 https://do-hyeon.tistory.com/entry/Milvus-Milvus란-M1-Mac-Milvus-개발환경-구성하기
@@ -206,40 +206,17 @@ WARN[0000] /home/jaoneol/docker-compose.yml: the attribute `version` is obsolete
  ✔ Container milvus-etcd        Started                                                                                                                                                     4.5s
  ✔ Container milvus-minio       Started                                                                                                                                                     4.5s
  ✔ Container milvus-standalone  Started                                                                                                                                                     0.6s
-(base) jaoneol@DESKTOP-B7GM3C5:~$ docker-compose ps
-Command 'docker-compose' not found, but can be installed with:
-sudo snap install docker          # version 27.2.0, or
-sudo apt  install docker-compose  # version 1.29.2-6
-See 'snap info docker' for additional versions.
+(base) jaoneol@DESKTOP-B7GM3C5:~$ 
 ```
 
 ```bash
-(base) jaoneol@DESKTOP-B7GM3C5:~$ sudo docker-compose ps
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker compose ps -a
 WARN[0000] /home/jaoneol/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
-NAME                IMAGE                                      COMMAND                  SERVICE      CREATED         STATUS                   PORTS
-milvus-etcd         quay.io/coreos/etcd:v3.5.16                "etcd -advertise-cli…"   etcd         5 minutes ago   Up 5 minutes (healthy)   2379-2380/tcp
-milvus-minio        minio/minio:RELEASE.2023-03-20T20-16-18Z   "/usr/bin/docker-ent…"   minio        5 minutes ago   Up 5 minutes (healthy)   0.0.0.0:9000-9001->9000-9001/tcp, :::9000-9001->9000-9001/tcp
-milvus-standalone   milvusdb/milvus:v2.5.4                     "/tini -- milvus run…"   standalone   5 minutes ago   Up 5 minutes (healthy)   0.0.0.0:9091->9091/tcp, :::9091->9091/tcp, 0.0.0.0:19530->19530/tcp, :::19530->19530/tcp
+NAME                IMAGE                                      COMMAND                  SERVICE      CREATED          STATUS                    PORTS
+attu                zilliz/attu:v2.2.6                         "docker-entrypoint.s…"   attu         24 minutes ago   Up 24 minutes             0.0.0.0:8000->3000/tcp, [::]:8000->3000/tcp
+milvus-etcd         quay.io/coreos/etcd:v3.5.16                "etcd -advertise-cli…"   etcd         6 hours ago      Up 41 minutes (healthy)   2379-2380/tcp
+milvus-minio        minio/minio:RELEASE.2023-03-20T20-16-18Z   "/usr/bin/docker-ent…"   minio        6 hours ago      Up 41 minutes (healthy)   0.0.0.0:9000-9001->9000-9001/tcp, :::9000-9001->9000-9001/tcp
+milvus-standalone   milvusdb/milvus:v2.5.4                     "/tini -- milvus run…"   standalone   6 hours ago      Up 41 minutes (healthy)   0.0.0.0:9091->9091/tcp, :::9091->9091/tcp, 0.0.0.0:19530->19530/tcp, :::19530->19530/tcp
 (base) jaoneol@DESKTOP-B7GM3C5:~$
 
-```
-
-```bash
-(base) jaoneol@DESKTOP-B7GM3C5:~$ docker run -p 8000:3000 -d milvusdb/milvus-insight
-Unable to find image 'milvusdb/milvus-insight:latest' locally
-latest: Pulling from milvusdb/milvus-insight
-3c55fec5aa21: Pull complete
-70c9ba1bcd3f: Pull complete
-bcd611556cda: Pull complete
-921d745fc5a4: Pull complete
-2daa4ad36fda: Pull complete
-38304eb5bd66: Pull complete
-d7d26aa929d8: Pull complete
-a2f53a5f850e: Pull complete
-e69849d04b49: Pull complete
-721af8aa4534: Pull complete
-Digest: sha256:f4d74a93e456c49f6e60885ae333f12f5856068a4cab2f3ddfe8bdd9b972a023
-Status: Downloaded newer image for milvusdb/milvus-insight:latest
-406f28e7c980626b507f87abc8c65ac98168002e348f9da44b77e6462bb980e0
-(base) jaoneol@DESKTOP-B7GM3C5:~$ docker ps
 ```
