@@ -190,3 +190,24 @@ Deleted: sha256:d0c9e1d9df6f4a64dc0e3484c0dedae0ee5a97128c8b198bf4a67e9bb5077f58
 REPOSITORY            TAG                            IMAGE ID       CREATED         SIZE
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ 
 ```
+
+## *How to Delete Image Layers*
+
+- As you know, **/var/lib/docker/overlay2** is where Docker's Union File System (OverlayFS) layers are stored. Do not manually delete **/var/lib/docker/overlay2** under any circumstances! Since it is a storage location used by Docker, deleting it manually may cause Docker to malfunction. Let's delete image layers using the following command. If the purpose of deleting files is simply for cleanup, <ins>**`docker system prune -af --volumes`**</ins> should be sufficient.   
+	
+	1. Stop and Remove Running Containers    
+	   	`docker ps -q | xargs docker stop`   
+	   	`docker ps -aq | xargs docker rm`    
+	2. Remove Unused Images    
+	   	`docker images -q | xargs docker rmi -f`   
+	3. Remove Unused Volumes    
+	   	`docker volume prune -f`,     
+	4. Remove Unused Networks    
+	   	`docker network prune -f`    
+	5. (Recommend)Clean Up Docker System Cache    
+	   	`docker system prune -af --volumes`    
+
+<!--
+아시다시피 ' /var/lib/docker/overlay2' 는 Docker의 Union File System (OverlayFS) 레이어가 저장되는 곳이다. 무조건 /var/lib/docker/overlay2를 수동으로 직접 삭제하지 마세요! Docker가 사용하는 저장소이기 때문에, 직접 삭제하면 Docker가 정상적으로 동작하지 않을 수 있습니다.
+파일을 삭제하는 목적이 단순한 정리라면, docker system prune -af --volumes 만으로도 충분합니다.
+-->
