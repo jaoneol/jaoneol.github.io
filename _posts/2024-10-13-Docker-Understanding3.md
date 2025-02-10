@@ -111,7 +111,36 @@ zDockerBuild.txt
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker images
 REPOSITORY            TAG                            IMAGE ID       CREATED          SIZE                                                                                                                                                                           
 ds2man/dockertest     v0.1                           d2bf3aae2280   36 seconds ago   440MB
-(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$    
+(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ su -
+Password: 
+# the location where image layers are stored is `/var/lib/docker/overlay2`.    
+# This is where Docker's Union File System (OverlayFS) layers are stored.
+# For reference, based on the Dockerfile, there should be a total of 6 layers(1 `FROM`, 3 `RUN`, and 2 `COPY`). 
+# However, it was observed that a total of 13 layers were added.
+# Here’s why:
+# 1. Docker Uses Additional Metadata Layers
+# 2. Multiple Layer IDs for a Single `RUN`
+# 3. Cache and Intermediate Layers
+# 4. Base Image (Python 3.11-slim) May Have Multiple Layers
+The number of directories in **/var/lib/docker/overlay2/** does not always directly correspond to the number of layers in your Docker image. Here’s why:
+root@DESKTOP-B7GM3C5:~# cd /var/lib/docker/overlay2
+root@DESKTOP-B7GM3C5:/var/lib/docker/overlay2# ls -lrt
+total 56
+drwx--x--- 3 root root 4096 Feb 10 23:28 x7x9g5ma755hstt5pa9lsesbe
+drwx--x--- 3 root root 4096 Feb 10 23:29 uhov30mxr5oouxlwdfeu5vndm
+drwx--x--- 3 root root 4096 Feb 10 23:29 q7ej3cmtyuqadsj9g7rsklrpn
+drwx--x--- 3 root root 4096 Feb 10 23:29 bba9b62b6e19449cf185100b6435349ea98942de2ff8f30415909d62aadb5cc7
+drwx--x--- 4 root root 4096 Feb 10 23:29 1b92b82ac65573f09370464bc93b0494317c67a2e1d53fd39d348e6119d5b153
+drwx--x--- 4 root root 4096 Feb 10 23:29 d90cbc202fcbb29ca8558e1d5a8fd601751739eb65939aadf0a217f2f587630d
+drwx--x--- 4 root root 4096 Feb 10 23:29 d634bb397fb296e81aa3496e2ca71fb7e84a86e45ca4b135e4b280c08609ad6f
+drwx--x--- 4 root root 4096 Feb 10 23:29 yc8cnrxe527q5ity9rsgvtaha
+drwx--x--- 4 root root 4096 Feb 10 23:29 rgqlm10jleb879npij8e6iiqh
+drwx--x--- 4 root root 4096 Feb 10 23:29 h2tl0wo9rypf4txvet5gq830r
+drwx--x--- 4 root root 4096 Feb 10 23:29 st0t93ceil3umbwnl9t0awb4c
+drwx------ 2 root root 4096 Feb 10 23:29 l
+drwx--x--- 4 root root 4096 Feb 10 23:29 migrpzts9fsudtavuf44z3pd4
+drwx--x--- 4 root root 4096 Feb 10 23:29 h0mfkmt88jzso9nbhjyu5mnot
+root@DESKTOP-B7GM3C5:/var/lib/docker/overlay2# 
 ```
 
 ## *Run and Access Docker Container*
@@ -127,6 +156,10 @@ ds2man/dockertest     v0.1                           d2bf3aae2280   36 seconds a
 ```bash
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker run -d --env-file=.env --name mydocker ds2man/dockertest:v0.1
 7a82d4dd52c5e78b14af53a5f28ba0c1b4a5cbdd74a1fb8a8b6ccb9347701381
+(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker ps
+CONTAINER ID   IMAGE                    COMMAND                  CREATED          STATUS          PORTS     NAMES
+0558e84e3e9e   ds2man/dockertest:v0.1   "python dockertest_m…"   19 seconds ago   Up 18 seconds             mydocker
+(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ 
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker exec -it mydocker /bin/bash
 root@7a82d4dd52c5:/app# ls
 common  config  dockerfile  dockertest_main.py  log  requirements.txt
