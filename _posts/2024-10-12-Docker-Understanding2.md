@@ -52,7 +52,7 @@ Docker registry에서 mysql image를 가져와 Docker Container를 실행시켜 
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker pull mysql
 Using default tag: latest
 latest: Pulling from library/mysql
-# MySQL consists of a total of 11 image layers.
+# MySQL consists of a total of 10 image layers.
 4473ac30a868: Pull complete 
 1e59b1e9b7fc: Pull complete 
 bdf87f630bc8: Pull complete 
@@ -69,15 +69,60 @@ docker.io/library/mysql:latest
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker images
 REPOSITORY            TAG                            IMAGE ID       CREATED         SIZE
 mysql                 latest                         3e34946bc4c4   2 weeks ago     797MB
-(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ 
+(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ su -
+Password: 
+# the location where image layers are stored is `/var/lib/docker/overlay2`.    
+# This is where Docker's Union File System (OverlayFS) layers are stored.
+root@DESKTOP-B7GM3C5:~# cd  /var/lib/docker/overlay2
+root@DESKTOP-B7GM3C5:/var/lib/docker/overlay2# ls -lrt
+total 44
+drwx--x--- 3 root root 4096 Feb 10 22:12 9e3bf5200687a5e0ccb88af7ad4ee06893adcf097443424df44eb07f723cdece
+drwx--x--- 4 root root 4096 Feb 10 22:12 1b391626a13451c3c38a9a3947134df5e5c57174bf03cc9ea113464048b810cb
+drwx--x--- 4 root root 4096 Feb 10 22:12 fdf593cba5d5614d199f03419d81aa88a11beaaf7e4009d4b244aa9ff4a19652
+drwx--x--- 4 root root 4096 Feb 10 22:12 81a1805bdb968fe3491f60aade77e61dcd1d654007f152632fa09eba9dc86051
+drwx--x--- 4 root root 4096 Feb 10 22:12 1cc95ee7a44b4c9e10cb25c0a9369bcb99f958bdbb05c5945c73590b27b577d6
+drwx--x--- 4 root root 4096 Feb 10 22:12 9590135d338dd622929c2603358e61b1becf5e422a272d45c119dd86d6fb4409
+drwx--x--- 4 root root 4096 Feb 10 22:12 3d48337bc6e8edbde090848414c8fecf99598c56e39ff9ef9eee5f9d67ec11df
+drwx--x--- 4 root root 4096 Feb 10 22:12 a10dca5a7925633e6004d704d587af121d913cc8aea68992e50ce5b901b1da8a
+drwx------ 2 root root 4096 Feb 10 22:12 l
+drwx--x--- 4 root root 4096 Feb 10 22:12 35f35e341cadf7df8479528f63351b07cb31cb04cf35485626c0ae4c3a084947
+drwx--x--- 4 root root 4096 Feb 10 22:12 1167f9760815c65b52d8cd335ff28992c6885326cf1cd7c9a2dfc7c6c0b4247d
+root@DESKTOP-B7GM3C5:/var/lib/docker/overlay2# 
 ```
 
+- The basic principles for calculating the number of Docker image layers are as follows:    
+	`FROM` → Provides the base image layer for the new image.    
+	`RUN` → Creates a new layer each time it is executed.    
+	`COPY` and `ADD` → Create a new layer each time a file is copied.    
+	`ENV`, `VOLUME`, `EXPOSE`, `CMD`, `ENTRYPOINT` → **Do not create new layers** (only modify metadata).
+
+<!--
+Docker Image Layer의 수 계산의 기본 윈칙은 다음과 같디ㅏ.
+- `FROM` → 새로운 이미지의 기본 레이어를 제공
+- `RUN` → 실행될 때마다 새로운 레이어를 생성
+- `COPY` 및 `ADD` → 파일이 복사될 때마다 새로운 레이어를 생성
+- `ENV`, `VOLUME`, `EXPOSE`, `CMD`, `ENTRYPOINT` → **새로운 레이어를 생성하지 않음** (메타데이터 변경만 수행)
+-->
+
 - When searching for MySQL on Docker Hub, you can see various versions available.  
-Clicking on **latest** redirects you to the Dockerfile, and upon closer inspection, you can see that it consists of a total of **11 image layers**, including `1 FROM (Base Image)`, `7 RUN`, and `3 ENV` commands.
+Clicking on **latest** redirects you to the [Dockerfile](https://github.com/docker-library/mysql/blob/df3a5c483a5e8c3c4d1eae61678fa5372c403bf0/innovation/Dockerfile.oracle), and upon closer inspection, you can see that it consists of a total of **10 image layers**, including `1 FROM (Base Image)`, `8 RUN`, and `1 COPY` commands.
 
 <!--
 Docker Hub에서 mysql 검색 시 다양한 버전을 확인할 수 있다. latest를 클릭시, dockerfile로 연결되고, 내용을 자세히 보면 FROM 1개(Base Image), RUN 7개, ENV 3개로 총 11개 Image Layer로 구성됨을 확인할수 있다.
 -->
+
+|Command|Description|Layer Count|
+|---|---|---|
+|`FROM oraclelinux:9-slim`|Base image|1|
+|`RUN set -eux; groupadd --system ...`|Create MySQL group and user|2|
+|`RUN set -eux; arch="$(uname -m)"; curl ... install gosu`|Download and install gosu|3|
+|`RUN set -eux; microdnf install -y bzip2 ...`|Install essential packages|4|
+|`RUN set -eux; gpg --batch --recv-keys ...`|Register MySQL GPG key|5|
+|`RUN set -eu; { echo '[mysqlinnovation-server-minimal]'; ...}`|Add MySQL repository|6|
+|`RUN set -eux; microdnf install -y "mysql-community-server-minimal-$MYSQL_VERSION"`|Install MySQL server package|7|
+|`RUN set -eu; { echo '[mysql-tools-community]'; ...}`|Add MySQL Tools repository|8|
+|`RUN set -eux; microdnf install -y "mysql-shell-$MYSQL_SHELL_VERSION"`|Install MySQL Shell|9|
+|`COPY docker-entrypoint.sh /usr/local/bin/`|Copy file|10|
 
 ![Dockerfile](/assets/img/2024-10-12-Docker-Understanding2_2.png)
 _Dockerfile in Dockerhub(Source: [Dockerhub](https://hub.docker.com), [Dockerfile](https://github.com/docker-library/mysql/blob/df3a5c483a5e8c3c4d1eae61678fa5372c403bf0/innovation/Dockerfile.oracle))_
@@ -125,6 +170,8 @@ mysql
 CONTAINER ID   IMAGE                                      COMMAND                  CREATED      STATUS                      PORTS                                                                                      NAMES
 # Removes a Docker image
 # From the output below, you can see that a total of 11 layers have been deleted.
+# The output of 'docker rmi` may include image metadata (Untagged), unused intermediate layers, and hidden layers related to the base image.
+# So, the output may show 11 layers being deleted instead of 10.
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker rmi mysql
 Untagged: mysql:latest
 Untagged: mysql@sha256:d56d039139a7f3b71f6d1c9f07ca4ee9f977b0fca13acdd27a1b13bfd4a4e3be

@@ -65,7 +65,7 @@ While Docker shares similarities with LXC, there are clear differences. The tabl
 |---|---|---|
 |**Isolation Level**|Provides a full OS environment similar to a VM|Isolates at the application level|
 |**Kernel Sharing**|Shares the host OS kernel|Shares the host OS kernel (**optimized for running containerized applications**)|
-|**File System**|Provides a complete root file system (including `/bin`, `/lib`, `/etc`)|Uses a layered file system (OverlayFS) for lightweight operation|
+|**File System**|Provides a complete root file system (including `/bin`, `/lib`, `/etc`)|Uses a layered file system (OverlayFS) for lightweight operation(`/var/lib/docker/overlay2`)|
 |**Networking**|Supports a separate network stack (can assign a physical interface)|Uses NAT-based networking by default|
 |**Process Management**|Can run multiple processes similar to the host OS|Typically runs a single main process inside the container|
 |**Advantages**|High flexibility, provides a full OS environment|**Lightweight, fast deployment, portability**|
