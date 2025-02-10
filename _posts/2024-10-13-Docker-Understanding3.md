@@ -1,6 +1,6 @@
 ---
-title: About Dockerfile
-description: Let's write a Dockerfile and build it.
+title: Dockerfile, Docker Image, Docker Container
+description: Let's write a Dockerfile and build a image and run a container.
 author: DS2Man
 date: 2024-10-13 11:00:00 +0000
 categories: [Docker, Understanding]
@@ -21,7 +21,7 @@ pin: true
 ![Dockerfile, Image, Container](/assets/img/2024-10-12-Docker-Understanding3_1.png)
 _Dockerfile, Docker Image, Docker Container_
 
-## *Create a [Dockerfile]*
+## *Write a [Dockerfile]*
 
 - A Dockerfile is **a file written for the purpose of creating an image in Docker**.  It can be considered a **template** that specifies information about the image to be built.  After writing a Dockerfile based on various commands and building it, Docker sequentially executes the instructions listed in the Dockerfile to create a Docker image.
 
