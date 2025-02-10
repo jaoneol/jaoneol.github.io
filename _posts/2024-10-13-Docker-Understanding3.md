@@ -13,7 +13,15 @@ math: true
 pin: true
 ---
 
-## *Introduce Dockerfile*
+## *Dockerfile, Docker Image, Docker Container*
+
+- It could be difficult to comprehend all the terms if you are new to Docker. Many Docker terminology can signify various things to different people, and they are occasionally used in diverse contexts. For instance, you could be curious about the differences between a Docker image and a Docker container, much like other people who are learning about Docker. They differ in a modest but important way.    
+- The differences between Docker images and containers, and docker files will be covered in this article, which will also explain how and when to utilize each.
+
+![Dockerfile, Image, Container](/assets/img/2024-10-12-Docker-Understanding3_1.png)
+_Dockerfile, Docker Image, Docker Container_
+
+## *Create a [Dockerfile]*
 
 - A Dockerfile is **a file written for the purpose of creating an image in Docker**.  It can be considered a **template** that specifies information about the image to be built.  After writing a Dockerfile based on various commands and building it, Docker sequentially executes the instructions listed in the Dockerfile to create a Docker image.
 
@@ -75,7 +83,7 @@ ENTRYPOINT ["python", "dockertest_main.py"]
 zDockerBuild.txt
 ```
 
-## *Create a Docker Image using Dockerfile*
+## *Build a [Docker Image]*
 
 - When creating a Docker image, you can enter the following command, and the image build process will start based on the contents of the Dockerfile.     
 	`docker build -t {image_name:version} {path_to_dockerfile}`    
@@ -143,7 +151,7 @@ drwx--x--- 4 root root 4096 Feb 10 23:29 h0mfkmt88jzso9nbhjyu5mnot
 root@DESKTOP-B7GM3C5:/var/lib/docker/overlay2# 
 ```
 
-## *Run and Access Docker Container*
+## *Run a [Docker Container]*
 
 - Let's run the container using the following command.    
 	`docker run -d --env-file={environment variable file} --name {container_name} {image_name:version}`    
