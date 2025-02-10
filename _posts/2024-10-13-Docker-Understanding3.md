@@ -40,7 +40,7 @@ FROM python:3.11-slim
 # Install required packages (optimize apt and clean up)
 # Execute commands in a new layer and create a new image.  
 # (Each RUN command creates a single image.)
-RUN apt update && apt install -y vim && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y vim && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory first
 # Specify the working directory. If the directory does not exist, it will be created.  
@@ -63,24 +63,6 @@ COPY . /app/
 
 # Set the entry point
 ENTRYPOINT ["python", "dockertest_main.py"]
-```
-
-- The **.dockerignore** file specifies which files should be excluded when building an image with a Dockerfile (similar to **.gitignore**).  I configured the **.dockerignore** file as follows to exclude files unrelated to production when building the image.
-
-<!--
-**.dockerignore**파일은 Dockerfile로 이미지를 빌드할 때 어떤 파일을 제외시킬 것인지를 명시하는 파일입니다.(.gitignore와 유사함)
-**.dockerignore**파일을 다음과 같이 구성하여 프로덕션과 관련없는 파일들을 이미지를 빌드할 때 제외시켜 주었습니다.
--->
-
-```bash
-##################
-# vi .dockerignore
-##################
-.gitignore
-.dockerignore
-.flake8
-.env
-zDockerBuild.txt
 ```
 
 ## *Build a [Docker Image]*
@@ -149,6 +131,24 @@ drwx------ 2 root root 4096 Feb 10 23:29 l
 drwx--x--- 4 root root 4096 Feb 10 23:29 migrpzts9fsudtavuf44z3pd4
 drwx--x--- 4 root root 4096 Feb 10 23:29 h0mfkmt88jzso9nbhjyu5mnot
 root@DESKTOP-B7GM3C5:/var/lib/docker/overlay2# 
+```
+
+- The **.dockerignore** file specifies which files should be excluded when building an image with a Dockerfile (similar to **.gitignore**).  I configured the **.dockerignore** file as follows to exclude files unrelated to production when building the image.
+
+<!--
+**.dockerignore**파일은 Dockerfile로 이미지를 빌드할 때 어떤 파일을 제외시킬 것인지를 명시하는 파일입니다.(.gitignore와 유사함)
+**.dockerignore**파일을 다음과 같이 구성하여 프로덕션과 관련없는 파일들을 이미지를 빌드할 때 제외시켜 주었습니다.
+-->
+
+```bash
+##################
+# vi .dockerignore
+##################
+.gitignore
+.dockerignore
+.flake8
+.env
+mytestfile.txt
 ```
 
 ## *Run a [Docker Container]*
