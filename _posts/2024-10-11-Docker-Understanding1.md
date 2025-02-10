@@ -23,7 +23,7 @@ chroot를 통해 특정 경로의 디렉터리를 루트 디렉터리로 설정�
 chroot의 단점은 무엇이었을 까요? 바로 라이브러리 문제입니다. 프로세스 상에서 chroot를 통해 root directory를 변경하게 된다면 기존에 참조해서 사용하던 library가 변경된 root directory의 상위 directory에 존재하게 된다면 당연히 사용하지 못하게 됩니다.
 -->
 
-![chroot](/assets/img/2024-10-11-Docker5_1.png)
+![chroot](/assets/img/2024-10-11-Docker-Understanding1_1.png)
 _chroot Features_
 
 ## LXC(LinuX Container)
@@ -50,7 +50,7 @@ process tree, user account, file system, IPC 등을 컨테이너 마다 격리�
 LXC는 이러한 시스템 레벨 가상화 기술을 통해 chroot의 단점을 보완하였습니다.
 -->
 
-![LXC](/assets/img/2024-10-11-Docker5_2.png)
+![LXC](/assets/img/2024-10-11-Docker-Understanding1_2.png)
 _LXC Features_
 
 
@@ -88,5 +88,5 @@ LXC와 유사하면서도  차이점은 분명히 있다. 아래 표에 정리�
 |단점|상대적으로 무거움, VM과 유사한 설정 필요|제한적인 OS 환경, 단일 프로세스 실행 방식|
 -->
 
-![Docker](/assets/img/2024-10-11-Docker5_3.png)
+![Docker](/assets/img/2024-10-11-Docker-Understanding1_3.png)
 _Docker containers(Source: [Docker Homepage](https://www.docker.com/resources/what-container/))_

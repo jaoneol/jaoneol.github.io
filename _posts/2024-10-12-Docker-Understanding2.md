@@ -34,7 +34,7 @@ Docker image는 layer로 이루어져 있으며, 각 layer 계층은 모두 Read
 또한 동일한 image를 run할 때 image를 새로 받아오지 않는 이유도 다 이 때문입니다.
 -->
 
-![Containers and Layers](/assets/img/2024-10-12-Docker6_1.png)
+![Containers and Layers](/assets/img/2024-10-12-Docker-Understanding2_1.png)
 _Docker containers and layers(Source: [Docker Docs](https://docs.docker.com/engine/storage/drivers/))_
 
 ## *Pull Docker Image*
@@ -79,7 +79,7 @@ Clicking on **latest** redirects you to the Dockerfile, and upon closer inspecti
 Docker Hub에서 mysql 검색 시 다양한 버전을 확인할 수 있다. latest를 클릭시, dockerfile로 연결되고, 내용을 자세히 보면 FROM 1개(Base Image), RUN 7개, ENV 3개로 총 11개 Image Layer로 구성됨을 확인할수 있다.
 -->
 
-![Dockerfile](/assets/img/2024-10-12-Docker6_2.png)
+![Dockerfile](/assets/img/2024-10-12-Docker-Understanding2_2.png)
 _Dockerfile in Dockerhub(Source: [Dockerhub](https://hub.docker.com), [Dockerfile](https://github.com/docker-library/mysql/blob/df3a5c483a5e8c3c4d1eae61678fa5372c403bf0/innovation/Dockerfile.oracle))_
 
 ## *Run Docker Container*
