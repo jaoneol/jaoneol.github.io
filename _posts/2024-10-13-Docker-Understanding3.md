@@ -37,14 +37,19 @@ https://hstory0208.tistory.com/entry/Docker-dockerfile의-개념과-작성법에
 # If the image is not available locally, it will be pulled from Docker Hub.
 FROM python:3.11-slim
 
+LABEL maintainer="ds2man@example.com"
+LABEL version="1.0"
+
 # Install required packages (optimize apt and clean up)
 # Execute commands in a new layer and create a new image.  
 # (Each RUN command creates a single image.)
-RUN apt-get update && apt-get install -y vim && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y vim && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set the working directory first
 # Specify the working directory. If the directory does not exist, it will be created.  
-Once the working directory is set, all subsequent commands operate relative to this directory
+# Once the working directory is set, all subsequent commands operate relative to this directory
 WORKDIR /app
 
 # Create required directories

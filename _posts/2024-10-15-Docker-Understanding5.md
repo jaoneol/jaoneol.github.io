@@ -1,6 +1,6 @@
 ---
-title: Dockerfile Commands
-description: Let's learn Dockerfile commands to Write a Dockerfile.
+title: Docker Commands
+description: Let's learn Docker commands to build a image and to run a container.
 author: DS2Man
 date: 2024-10-13 11:00:00 +0000
 categories: [Docker, Understanding]
