@@ -2,7 +2,7 @@
 title: Docker Commands
 description: Let's learn Docker commands to build a image and to run a container.
 author: DS2Man
-date: 2024-10-13 11:00:00 +0000
+date: 2024-10-15 11:00:00 +0000
 categories: [Docker, Understanding]
 tags:
   - WSL
@@ -15,6 +15,12 @@ pin: true
 
 ## *Docker Commands*
 
+In the previous post, we created a Dockerfile. Now, let's build a Docker image and run a Docker container to explore various commands. Each command has different options, so it would be helpful to search or ask GPT when needed.
+
+<!--
+이전 글에서 Dockerfile을 만들어 보았다. 그걸 가지고 도커 이미지 빌드, 도커 컨테이너 실행을 해보며 다양한 명령어들을 경험해 보자. 명령어마다 다양한 옵션이 존재하므로, 필요 시 검색하거나 GPT에 물어봐서 활용하면 좋을 거 같다.
+-->
+
 |**Command**|**Description**|**Example**|
 |---|---|---|
 |`docker version`|Displays the installed Docker version|`docker version`|
@@ -25,13 +31,13 @@ pin: true
 |`docker run`|Creates and starts a new container|`docker run -d --restart always --name mysqldb -p 3306:3306 -v /dbdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 mysql:latest`|
 |`docker ps`|Lists running containers|`docker ps`|
 |`docker ps -a`|Lists all containers, including stopped ones|`docker ps -a`|
-|`docker start`|Creates a new container|`docker create --restart always --name mysqldb -p 3306:3306 -v /dbdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 mysql:latest`|
+|`docker create`|Creates a new container|`docker create --restart always --name mysqldb -p 3306:3306 -v /dbdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 mysql:latest`|
 |`docker start`|Starts a stopped container|`docker start mysqldb`|
 |`docker stop`|Stops a running container|`docker stop mysqldb`|
 |`docker restart`|Restarts a container|`docker restart mysqldb`|
 |`docker rm`|Deletes a container|`docker rm mysqldb`|
-|`docker rm`|Stops and Deletes a container|`docker rm -f mysqldb`|
-|`docker rm`|retrieves detailed information about containers, images, volumes, and networks in JSON format.|`docker inspect mysqldb`|
+|`docker rm -f`|Stops and Deletes a container|`docker rm -f mysqldb`|
+|`docker inspect`|retrieves detailed information in JSON format.|`docker inspect mysqldb`|
 |`docker exec`|Runs a command inside a running container|`docker exec -it mysqldb /bin/bash`|
 |`docker logs`|Displays logs from a container|`docker logs mysqldb`|
 |`docker volume ls`|Lists available Docker volumes|`docker volume ls`|
@@ -40,6 +46,8 @@ pin: true
 |`docker build`|Builds a Docker image from a Dockerfile|`docker build -t dockertest .`|
 |`docker tag`|Adds a tag to an existing image|`docker tag dockertest ds2man/dockertest:v1`|
 |`docker push`|Uploads an image to Docker Hub|`docker push ds2man/dockertest:v1`|
+
+## *Docker Commands Practice*
 
 - Here are some Docker commands I have executed.
 
@@ -97,13 +105,3 @@ root@79685bc8687b:/app# exit
 2025-02-11 11:30:31 | MyDockerTest | INFO | [MainThread] MySQLDB Connect Test
 2025-02-11 11:30:31 | MyDockerTest | INFO | [MainThread] DockerTest End!!
 ```
-
-
-## *Docker Compose Commands*
-|**Command**|**Description**|**Example**|
-|---|---|---|
-|`docker compose up`|Starts services defined in `docker-compose.yml`|`docker compose up -d`|
-|`docker compose down`|Stops and removes Compose services|`docker compose down`|
-|`docker compose ps`|Lists running Compose services|`docker compose ps`|
-|`docker compose logs`|Displays logs from Compose services|`docker compose logs`|
-|`docker compose build`|Builds images for Compose services|`docker compose build`|
