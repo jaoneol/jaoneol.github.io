@@ -41,7 +41,7 @@ _Docker volume and Bind Mount(Source: [Blog](https://deveric.tistory.com/111))_
 ## *Docker Volume*
 
 - The following describes the experiment conducted to verify whether data persists after creating a Docker volume, mounting it using `run -v`, deleting, and recreating the `mydocker` container.    
-	`docker volume create myvolume`
+	`docker volume create myvolume`    
 	`docker run -d --env-file=.env --name mydocker -v myvolume:/app/log ds2man/dockertest:v0.1`
 
 <!--
