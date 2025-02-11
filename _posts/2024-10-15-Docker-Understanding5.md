@@ -13,276 +13,37 @@ math: true
 pin: true
 ---
 
-## *Basic format*
+## *Docker Commands*
 
-```bash
-# Set Base Image
-FROM {base_image}
-
-# Maintainer Information (Optional)
-LABEL maintainer="your_email@example.com"
-
-# Set Environment Variables
-ENV {key}={value}
-
-# Set Working Directory
-WORKDIR /app
-
-# Copy Files
-COPY {src} {dest}
-ADD {src} {dest}
-
-# Install Packages
-RUN {command}
-
-# Command to Execute When Container Runs
-CMD ["executable", "arg1", "arg2"]
-ENTRYPOINT ["executable", "arg1", "arg2"]
-
-# Expose Port
-EXPOSE {port}
-
-# Configuration for Container Execution
-VOLUME ["/data"]
-
-# Change User Permissions
-USER {username}
-
-# Command to Execute When Container Starts
-CMD ["python", "app.py"]
-
-```
-
-
-## *Explanation of Key Commands*
-
-- **From**    
-	Command to specify the base image    
-	`FROM {base_image}`
-		
-```bash
-# Full Image(in my case, 440MB)
-# Based on Debian with a full set of system libraries and utilities.
-# it includes tools like `gcc`, `curl`, and `gi`
-FROM python:3.11
-################################################
-# Lightweight Image(in my case, 377MB)
-# Based on Debian Slim, containing only essential packages.
-# Lacks many common utilities (`gcc`, `make`, `curl`, `git`, 'vim', etc.), requiring manual installation if needed.
-FROM python:3.11-slim
-RUN apt-get update && apt-get install -y vim && rm -rf /var/lib/apt/lists/*
-```
-
-- **LABEL**    
-	Adds metadata such as author information and version.    
-	`LABEL {key}={value}`
-		
-```bash
-LABEL my-email="ds2man@example.com"
-LABEL version="1.0"
-```
-
-```bash
-(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker inspect ds2man/dockertest:v0.1 | grep Label -A 5
-            "Labels": {
-                "my-email": "ds2man@example.com",
-                "version": "1.0"
-            }
-        },
-        "Architecture": "amd64",
-```
-
-- **ENV**    
-	Sets environment variables inside the container.    
-	`ENV {key}={value}`
-		
-```bash
-# Set Python environment variable to prevent buffering
-ENV PYTHONUNBUFFERED=1
-ENV MY_ENV=3
-```
-
-```bash
-# When you check the environment variables inside the Docker container, you can see that they are registered.
-(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker exec -it mydocker env
-PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-HOSTNAME=2fe44df6540c
-TERM=xterm
-USE_CONFIGMAP=True
-CONFIGMAP_PATH=./config/myconfigmap.yml
-MYSQL_USER=userid
-MYSQL_PASSWORD=passwd1
-PYTHONUNBUFFERED=1
-MY_ENV=3
-HOME=/root
-```
-
-- **WORKDIR**    
-	Sets the working directory inside the container.    
-	`WORKDIR {work_directory}`
-		
-```bash
-WORKDIR /app
-```
-
-```bash
-(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker inspect mydocker | grep "WorkingDir" -A 4
-            "WorkingDir": "/app",
-            "Entrypoint": [
-                "python",
-                "dockertest_main.py"
-            ],
-# When you access the Docker container, you can see that `/app` is set as the home directory.
-(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker exec -it mydocker /bin/bash
-root@2fe44df6540c:/app# 
-```
-
-- **COPY & ADD**    
-	**COPY**: Copies local files to the container. Create a new layer each time a file is copied.    
-	**ADD**: Similar to COPY but can also extract compressed files. It copies a compressed file (`.tar.gz`) into the container while automatically extracting it. Create a new layer each time a file is copied.    
-	`COPY {host file or directory} {container path}`    
-	`ADD {extract compressed files} {container path}`    
-		
-```bash
-COPY requirements.txt . 
-ADD config.tar.gz ./config/
-```
-
-```bash
-#######################################
-# If `config.tar.gz` is compressed as shown below, 
-config.tar.gz 
-	├── settings.json 
-	├── database.yml
-#######################################
-# it will be extracted into the `./config/` directory inside the container.
-./config/ 
-	├── settings.json 
-	├── database.yml
-```
-
-- **RUN**    
-	Executes commands during the image build process, typically for installing dependencies.    
-	Creates a new layer each time it is executed.
-	`RUN {command}`
-		
-```bash
-RUN apt-get update && apt-get install -y curl 
-RUN pip install -r requirements.txt
-```
-
-- **CMD & ENTRYPOINT**    
-	**CMD**: Provides a default command, which can be **fully overridden**. Use CMD when you want to provide a default command that users **can override**.    
-	**ENTRYPOINT**(In my case, Recommend): Ensures a **fixed command** runs, passing arguments instead of replacing it. Use ENTRYPOINT when the container **must always** run a specific application.    
-	For reference, use both when you need a fixed command with flexible default parameters.
-	`CMD [{command}, {parameter1}]`    
-	`ENTRYPOINT [{command}, {parameter1}, {parameter2}]`    
-		
-```bash
-CMD ["python", "app.py"] 
-ENTRYPOINT ["python", "app.py"]
-```
-
-|Feature|`CMD ["python", "app.py"]`|`ENTRYPOINT ["python", "app.py"]`|
+|**Command**|**Description**|**Example**|
 |---|---|---|
-|Default Execution|Runs `python app.py`|Runs `python app.py`|
-|Override Behavior|Replaced completely|Treated as additional arguments|
-|Example Override|`docker run myapp python other_script.py` (Runs `python other_script.py`)|`docker run myapp --debug` (Runs `python app.py --debug`)|
-|Use Case|When users should be able to replace the command|
+|`docker version`|Displays the installed Docker version|`docker version`|
+|`docker search`|Search for Docker images in Docker Hub|`docker search mysql`|
+|`docker pull`|Downloads an image from Docker Hub|`docker pull mysql:latest`|
+|`docker images`|Lists locally available Docker images|`docker images`|
+|`docker rmi`|Removes a Docker image|`docker rmi mysql:latest`|
+|`docker run`|Creates and starts a new container|`docker run -d --restart always --name mysqldb -p 3306:3306 -v /dbdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 mysql:latest`|
+|`docker ps`|Lists running containers|`docker ps`|
+|`docker ps -a`|Lists all containers, including stopped ones|`docker ps -a`|
+|`docker start`|Creates a new container|`docker create --restart always --name mysqldb -p 3306:3306 -v /dbdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 mysql:latest`|
+|`docker start`|Starts a stopped container|`docker start mysqldb`|
+|`docker stop`|Stops a running container|`docker stop mysqldb`|
+|`docker restart`|Restarts a container|`docker restart mysqldb`|
+|`docker rm`|Deletes a container|`docker rm mysqldb`|
+|`docker rm`|Stops and Deletes a container|`docker rm -f mysqldb`|
+|`docker rm`|retrieves detailed information about containers, images, volumes, and networks in JSON format.|`docker inspect mysqldb`|
+|`docker exec`|Runs a command inside a running container|`docker exec -it mysqldb /bin/bash`|
+|`docker logs`|Displays logs from a container|`docker logs mysqldb`|
+|`docker volume ls`|Lists available Docker volumes|`docker volume ls`|
+|`docker volume create`|Creates a new Docker volume|`docker volume create my_volume`|
+|`docker volume rm`|Deletes a Docker volume|`docker volume rm my_volume`|
+|`docker build`|Builds a Docker image from a Dockerfile|`docker build -t dockertest .`|
+|`docker tag`|Adds a tag to an existing image|`docker tag dockertest ds2man/dockertest:v1`|
+|`docker push`|Uploads an image to Docker Hub|`docker push ds2man/dockertest:v1`|
 
-- **EXPOSE(In my case, Not recommended)**    
-	The `EXPOSE` command declares the port that the container uses internally.  However, it does not open the port for external access. It is useful for communication between containers and helps when connecting with other containers in a Docker network. For reference, there is no `PORT` command in a Dockerfile.    
-	`EXPOSE {port}`    
-	
-	Instead, when running a container, the `-p` (or `--publish`) option maps the container's internal port to the host (your PC), allowing external access.    
-	The first `port1` → Port `port1` on the host (your PC)    
-	The second `port2` → Port `port2` inside the container    
-	`docker run -d -p {port1}:{port2} myfastapi`    
-	
-	The best approach is to use `EXPOSE` in the Dockerfile to clearly define which port will be used internally and then use the `-p` option when running the container to open the necessary port for external access. However, I usually don't use `EXPOSE` and primarily rely on the `-p` option.
-		
-```bash
-EXPOSE 8080
-```
-
-```
-(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker run -d -p 8080:8080 myfastapi
-```
-
-- **VOLUME(In my case, Not recommended)**    
-	The `VOLUME` instruction in a **Dockerfile** is used to create a **persistent storage location** inside the container. It ensures that the specified directory (`/data` in this case) is **not lost** when the container stops or is removed.    
-	`VOLUME [{container directory}]`   		
-	
-	Instead, when running a container, the `-v` option maps the container's internal port to the host (your PC), allowing external access. You can mount a specific directory from the host inside the container,  and the data persists even after the container is stopped. The volume's location can be explicitly specified, making it easier to manage,  and multiple containers can share the same data.     
-	
-```bash
-VOLUME ["/data"]
-```
-
-```
-(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker run -d --name mydocker -v /home/user/data:/data myimage:latest
-```
-
-- **USER**
-	Sets the user that will run inside the container for security purposes.   
-	`USER {userid}`
-		
-```bash
-# Create a new user "nonroot"
-RUN useradd -m nonroot 
-# Switch to nonroot user
-USER nonroot
-# Set working directory (important for non-root users) 
-WORKDIR /home/nonroot
-```
-
-## *Example*
-
-- The Dockerfile below is what I actually applied. Please refer to it.   
+- Here are some Docker commands I have executed.
 
 ```bash
-# This refers to the image that will serve as the foundation for the image being created.  
-# If the image is not available locally, it will be pulled from Docker Hub.
-FROM python:3.11-slim
-
-LABEL maintainer="ds2man@example.com"
-LABEL version="1.0"
-
-# Install required packages (optimize apt and clean up)
-# Execute commands in a new layer and create a new image.  
-# (Each RUN command creates a single image.)
-RUN apt-get update && \
-    apt-get install -y vim && \
-    rm -rf /var/lib/apt/lists/*
-
-# Set the working directory first
-# Specify the working directory. If the directory does not exist, it will be created.  
-# Once the working directory is set, all subsequent commands operate relative to this directory
-WORKDIR /app
-
-# Create required directories
-RUN mkdir -p Common Config
-
-# Set Python environment variable to prevent buffering
-# When you want a Python application running inside a Docker container to output logs immediately.
-ENV PYTHONUNBUFFERED=1 
-
-# Copy only requirements.txt first to leverage Docker cache
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the application files
-COPY . /app/
-
-# Set the entry point
-ENTRYPOINT ["python", "dockertest_main.py"]
-```
-
-- Build a docker image and run a docker container.    
-	`docker build -t ds2man/dockertest:v0.1 .`    
-	`docker run -d --env-file=.env --name mydocker ds2man/dockertest:v0.1`
-
-```
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker build -t ds2man/dockertest:v0.1 .
 [+] Building 1.9s (13/13) FINISHED                                                                                                                                                                                                    docker:default
  => [internal] load build definition from dockerfile                                                                                                                                                                                            0.0s
@@ -306,5 +67,43 @@ ENTRYPOINT ["python", "dockertest_main.py"]
  => => naming to docker.io/ds2man/dockertest:v0.1                                                                                                                                                                                               0.0s
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker run -d --env-file=.env --name mydocker ds2man/dockertest:v0.1
 79685bc8687b1d017163221da1d47fd0df1f3c9ce40a1f016295644e1ab98330
-(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ 
+(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker ps
+CONTAINER ID   IMAGE                    COMMAND                  CREATED          STATUS         PORTS     NAMES
+79685bc8687b   ds2man/dockertest:v0.1   "python dockertest_m…"   26 minutes ago   Up 8 seconds             mydocker
+(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker stop mydocker
+mydocker
+(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker start mydocker
+mydocker
+(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker inspect mydocker
+[
+    {
+        "Id": "79685bc8687b1d017163221da1d47fd0df1f3c9ce40a1f016295644e1ab98330",
+        "Created": "2025-02-11T11:00:50.741714182Z",
+        "Path": "python",
+        "Args": [
+            "dockertest_main.py"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+........
+........
+]
+(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker exec -it mydocker /bin/bash
+root@79685bc8687b:/app# exit
+(MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker logs mydocker
+2025-02-11 11:30:31 | MyDockerTest | INFO | [MainThread] Test Start
+2025-02-11 11:30:31 | MyDockerTest | INFO | [MainThread] UTC Time: 2025-02-11 11:30:31+00:00, KST Time: 2025-02-11 20:30:31+09:00
+2025-02-11 11:30:31 | MyDockerTest | INFO | [MainThread] MySQLDB Connect Test
+2025-02-11 11:30:31 | MyDockerTest | INFO | [MainThread] DockerTest End!!
 ```
+
+
+## *Docker Compose Commands*
+|**Command**|**Description**|**Example**|
+|---|---|---|
+|`docker compose up`|Starts services defined in `docker-compose.yml`|`docker compose up -d`|
+|`docker compose down`|Stops and removes Compose services|`docker compose down`|
+|`docker compose ps`|Lists running Compose services|`docker compose ps`|
+|`docker compose logs`|Displays logs from Compose services|`docker compose logs`|
+|`docker compose build`|Builds images for Compose services|`docker compose build`|

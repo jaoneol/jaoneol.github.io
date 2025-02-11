@@ -282,7 +282,7 @@ ENTRYPOINT ["python", "dockertest_main.py"]
 	`docker build -t ds2man/dockertest:v0.1 .`    
 	`docker run -d --env-file=.env --name mydocker ds2man/dockertest:v0.1`
 
-```
+```bash
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ docker build -t ds2man/dockertest:v0.1 .
 [+] Building 1.9s (13/13) FINISHED                                                                                                                                                                                                    docker:default
  => [internal] load build definition from dockerfile                                                                                                                                                                                            0.0s
