@@ -16,7 +16,7 @@ pin: true
 WSL lets developers run a GNU/Linux environment -- including most command-line tools, utilities, and applications -- directly on Windows, unmodified, without the overhead of a traditional virtual machine or dual-boot setup.  
 This document is based on Microsoft's WSL documentation ([https://learn.microsoft.com/en-us/windows/wsl/](https://learn.microsoft.com/en-us/windows/wsl/)).
 
-![WSL Intro](/assets/img/2024-10-07-Docker-Setup1_1.png)
+![WSL Intro](./img/2024-10-07-Docker-Setup1_1.png)
 _WSL Intro(Source: [WikiDocs](https://wikidocs.net/252140))_
 
 <!--
