@@ -50,7 +50,7 @@ mysql        latest    a52cba19e8cc   13 days ago   797MB
 -  Step2) Create a Docker volume
 ```bash
 # When you run the command `docker volume create mysql_volume`, Docker creates a managed volume directory. 
-# The location of this directory is `/var/lib/docker/volumes/myvolume/_data`.
+# The location of this directory is `/var/lib/docker/volumes/mysql_volume/_data`.
 # You can check it using `docker volume inspect mysql_volume`.
 (base) jaoneol@DESKTOP-B7GM3C5:~$ docker volume create mysql_volume
 mysql_volume
@@ -100,8 +100,10 @@ exit
 - Milvus    
 	`wget https://github.com/milvus-io/milvus/releases/download/v2.3.3/milvus-standalone-docker-compose.yml -O docker-compose.yml`     
 	`vi docker-compose.yml(adding attu)`    
+	`echo 'export DOCKER_VOLUME_DIRECTORY=/var/lib/docker/volumes/milvus_volume' >> ~/.bashrc`    
 	`sudo docker compose up -d`     
-	`sudo docker compose ps`     
+	`sudo docker compose ps`    
+	`docker compose down --volumes` or `docker compose down`
 
 <!--
 https://do-hyeon.tistory.com/entry/Milvus-Milvus란-M1-Mac-Milvus-개발환경-구성하기
@@ -141,6 +143,7 @@ services:
   etcd:
     container_name: milvus-etcd
     image: quay.io/coreos/etcd:v3.5.5
+    restart: always # Adding restart option on docker-compose.yml
     environment:
       - ETCD_AUTO_COMPACTION_MODE=revision
       - ETCD_AUTO_COMPACTION_RETENTION=1000
@@ -158,6 +161,7 @@ services:
   minio:
     container_name: milvus-minio
     image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    restart: always # Adding restart option on docker-compose.yml
     environment:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
@@ -176,6 +180,7 @@ services:
   standalone:
     container_name: milvus-standalone
     image: milvusdb/milvus:v2.3.3
+    restart: always # Adding restart option on docker-compose.yml
     command: ["milvus", "run", "standalone"]
     security_opt:
     - seccomp:unconfined
@@ -201,6 +206,7 @@ services:
   attu:
     container_name: attu
     image: zilliz/attu:v2.2.6
+    restart: always # Adding restart option on docker-compose.yml
     environment:
       MILVUS_URL: milvus-standalone:19530
     ports:

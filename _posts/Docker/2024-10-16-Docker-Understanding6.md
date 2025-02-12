@@ -16,7 +16,7 @@ pin: true
 ## *Why should we use Docker volumes?*
 
 Docker containers each have their own independent storage by default. If multiple containers are created from a single image, each container is allocated an independent volume (an accessible storage space with its own file system). When a container is deleted, its associated volume is also removed. The issue is that **data stored inside a container is deleted when the container itself is deleted**.    
-To ensure data persistence, Docker provides **volumes** and **bind mounts**. These methods maintain data persistence by separating the file system from the container. This means that even if a container is deleted and recreated, the data remains intact as long as it is connected to a Docker volume.    
+To ensure data persistence, Docker provides **volumes** and **bind mount**. These methods maintain data persistence by separating the file system from the container. This means that even if a container is deleted and recreated, the data remains intact as long as it is connected to a Docker volume.    
 Later, in a Kubernetes (K8s) environment, you will learn about **Persistent Volumes (PV)**, which function **similarly to Docker volumes**. Keep this in mind as you explore these concepts further.
 
 |Feature|Volume|Bind Mount|
