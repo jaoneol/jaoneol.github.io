@@ -21,14 +21,12 @@ Let's install MySQL, Milvus which are necessary for the LLM service(DS2Man).
 
 - MySQL    
 	`docker pull mysql`        
-	`docker run -d --restart always --name mysql -e MYSQL_ROOT_PASSWORD=1234 -d -p 3306:3306 mysql:latest`      
+	`docker volume create mysql_volume`    
+	`docker run -d --restart always --name mysql -v mysql_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mysql:latest`      
 
-<!--
-MySQL
--->
-
+- Step1) Pull the MySQL image.
 ```bash
-jaoneol@DESKTOP-B7GM3C5:~$ docker pull mysql
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker pull mysql
 Using default tag: latest
 latest: Pulling from library/mysql
 2c0a233485c3: Pull complete
@@ -44,21 +42,56 @@ d43055c38217: Pull complete
 Digest: sha256:45f5ae20cfe1d6e6c43684dfffef17db1e1e8dc9bf7133ceaafb25c16b10f31b
 Status: Downloaded newer image for mysql:latest
 docker.io/library/mysql:latest
-jaoneol@DESKTOP-B7GM3C5:~$ docker images
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker images
 REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
 mysql        latest    a52cba19e8cc   13 days ago   797MB
 ```
 
+-  Step2) Create a Docker volume
 ```bash
-# docker run --name mysql -e MYSQL_ROOT_PASSWORD=1234 -d -p 3306:3306 mysql:latest
+# When you run the command `docker volume create mysql_volume`, Docker creates a managed volume directory. 
+# The location of this directory is `/var/lib/docker/volumes/myvolume/_data`.
+# You can check it using `docker volume inspect mysql_volume`.
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker volume create mysql_volume
+mysql_volume
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker volume ls
+DRIVER    VOLUME NAME
+local     mysql_volume
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker volume inspect mysql_volume
+[
+    {
+        "CreatedAt": "2025-02-12T22:57:40+09:00",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/mysql_volume/_data",
+        "Name": "mysql_volume",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+(base) jaoneol@DESKTOP-B7GM3C5:~$ 
+```
+
+-  Step3) Run the MySQL container
+```bash
+# docker run -d --name mysql -v mysql_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mysql:latest
 # docker update --restart always mysql # No need to run `docker stop mysql`. The update takes effect immediately.
 # docker start mysql
-jaoneol@DESKTOP-B7GM3C5:~$ docker run -d --restart always --name mysql -e MYSQL_ROOT_PASSWORD=1234 -d -p 3306:3306 mysql:latest
-987a0e7deafecd99436ce56629150a2fbe648380620c5230fa24869e22c8b6d1
-jaoneol@DESKTOP-B7GM3C5:~$ docker ps -a
-CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS                                                  NAMES
-987a0e7deafe   mysql:latest   "docker-entrypoint.s…"   7 seconds ago   Up 6 seconds   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   mysql
-jaoneol@DESKTOP-B7GM3C5:~$
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker run -d --restart always --name mysql -v mysql_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mysql:latest
+1b98f129501345342c6c12c7d2a8b1629a27f6175aca3809de1bfa3f0ee3c322
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+1b98f1295013   mysql:latest   "docker-entrypoint.s…"   29 seconds ago   Up 28 seconds   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   mysql
+
+# If you navigate to `/var/lib/docker/volumes/mysql_volume/_data`, 
+# you can see that all the files in the MySQL container's `/var/lib/mysql` directory are mounted there.
+(base) jaoneol@DESKTOP-B7GM3C5:~$ su 
+Password: 
+root@DESKTOP-B7GM3C5:/home/jaoneol# cd /var/lib/docker/volumes/mysql_volume/_data
+root@DESKTOP-B7GM3C5:/var/lib/docker/volumes/mysql_volume/_data# ls
+'#ib_16384_0.dblwr'  '#innodb_redo'   auto.cnf        binlog.000002   ca-key.pem   client-cert.pem   ib_buffer_pool   ibtmp1   mysql.ibd    mysql_upgrade_history   private_key.pem   server-cert.pem   sys        undo_002
+'#ib_16384_1.dblwr'  '#innodb_temp'   binlog.000001   binlog.index    ca.pem       client-key.pem    ibdata1          mysql    mysql.sock   performance_schema      public_key.pem    server-key.pem    undo_001
+root@DESKTOP-B7GM3C5:/var/lib/docker/volumes/mysql_volume/_data# 
 ```
 
 ## *Install Milvus on Ubuntu(Ing..)*
