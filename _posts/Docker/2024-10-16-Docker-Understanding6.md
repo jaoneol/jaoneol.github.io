@@ -132,7 +132,7 @@ DRIVER    VOLUME NAME
 (MyDev) jaoneol@DESKTOP-B7GM3C5:~/GP-MyReference/10.MyDockerTest$ 
 ```
 
-## *Bind Mounts*
+## *Bind Mount*
 
 - The following describes the experiment conducted to verify whether data persists after mounting using `run -v` without creating a Docker volume and then deleting and recreating the Docker container.      
 	`docker run -d --env-file=.env --name mydocker -v /home/jaoneol/GP-MyReference/10.MyDockerTest/mydata:/app/log ds2man/dockertest:v0.1`
