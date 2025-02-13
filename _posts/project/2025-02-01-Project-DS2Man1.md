@@ -102,7 +102,7 @@ exit
 	`vi docker-compose.yml(adding attu)`    
 	`echo 'export DOCKER_VOLUME_DIRECTORY=/var/lib/docker/volumes/milvus_volume' >> ~/.bashrc`    
 	`sudo docker compose up -d`     
-	`sudo docker compose ps`    
+	`sudo docker compose ps`   
 	`docker compose down --volumes` or `docker compose down`
 
 <!--
