@@ -18,7 +18,7 @@ pin: true
 By default, containers are not restricted in their use of the host's hardware resources. However, if resource limits are not set, a container may excessively consume resources, preventing other containers from functioning properly. Therefore, it is necessary to impose resource limits when needed. In this post, we will conduct stress testing to analyze various constraints.    
 The resources that can be limited using Docker commands are `CPU`, `Memory`. The command to monitor a running container is as follows.
 
-- `docker stat` or `docker stat {container}`
+- `docker stat` or `docker stat {container}`    
 	Check the runtime statistics of a running container.
 
 ```bash

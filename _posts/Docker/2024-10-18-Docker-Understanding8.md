@@ -23,18 +23,17 @@ docker compose는 여러 컨테이너를 일괄적으로 정의하고 실행할 
 
 |**Category**|**Description**|**Example**|
 |---|---|---|
-|**version**|Specifies the Compose version. The supported syntax varies depending on the version.|`version: "3.5"`|
-|**services**|Defines the container options to run using Compose.|`service:`  <br>`etcd:`  <br>    `image: quay.io/coreos/etcd:v3.5.16` <br>`minio:` <br>    `image: minio/minio:RELEASE.2023-03-20T20-16-18Z`|
+|**services**|Defines the container options <br>to run using Compose.|`service:`  <br>`etcd:`  <br>    `image: quay.io/coreos/etcd:v3.5.16` <br>`minio:` <br>    `image: minio/minio:RELEASE.2023-03-20T20-16-18Z`|
 |**build**|Builds the container.|`webapp:`  <br>    `build: .`|
-|**image**|Specifies the image to run using Compose.|`etcd:`  <br>    `image: quay.io/coreos/etcd:v3.5.16`|
-|**command**|Specifies the command to execute when running the container.|`etcd:`  <br>    `image: quay.io/coreos/etcd:v3.5.16`<br>    `command: etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls `|
+|**image**|Specifies the image <br>to run using Compose.|`etcd:`  <br>    `image: quay.io/coreos/etcd:v3.5.16`|
+|**command**|Specifies the command <br>to execute when running the container.|`etcd:`  <br>    `image: quay.io/coreos/etcd:v3.5.16`<br>    `command: etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls `|
 |**port**|Declares the ports exposed by the container.|`minio:`  <br>    `image: minio/minio:RELEASE.2023-03-20T20-16-18Z`  <br>    `port:`  <br>        `- "9001:9001"`  <br>        `- "9000:9000"`|
-|**link**|Specifies the container to link when connecting to another container.|`webserver:`  <br>    `image: wordpress:latest`  <br>    `link:`  <br>        `- db:mysql`|
+|**link**|Specifies the container to link <br>when connecting to another container.|`webserver:`  <br>    `image: wordpress:latest`  <br>    `link:`  <br>        `- db:mysql`|
 |**expose**|Ports exposed to linked containers.|`webapp:`  <br>    `expose:`|
 |**volumes**|Mounts volumes in the container.|`etcd:`  <br>    `image: quay.io/coreos/etcd:v3.5.16`  <br>    `volumes:`  <br>         `- /var/lib/docker/volumes/etcd:/etcd`|
 |**environment**|Defines environment variables to apply in the container.|`etcd:`  <br>    `image: quay.io/coreos/etcd:v3.5.16`  <br>    `environment:`  <br>        `- ETCD_AUTO_COMPACTION_MODE=revision`|
 |**restart**|Restart policy applied when the container stops.  <br>- **no**: Do not restart  <br>- **always**: Always restart the container  <br>- **on-failure**: Restart only when an error occurs|`etcd:`  <br>    `image: quay.io/coreos/etcd:v3.5.16`  <br>    `restart: always`|
-|**depends_on**|Defines dependencies between containers. **The specified container must start first.**|`services:`  <br>`standalone:`  <br>    `image: milvusdb/milvus:v2.5.4-gpu`  <br>    `depends_on:`  <br>        `- "etcd"`  <br>        `- "minio"`|
+|**depends_on**|Defines dependencies between containers. <br>**The specified container must start first.**|`services:`  <br>`standalone:`  <br>    `image: milvusdb/milvus:v2.5.4-gpu`  <br>    `depends_on:`  <br>        `- "etcd"`  <br>        `- "minio"`|
 
 ## *Docker Compose file Example*
 
