@@ -7,6 +7,7 @@ categories: [Docker, Setup]
 tags:
   - WSL
   - Ubuntu
+  - Docker
   - MiniConda3
 math: true
 pin: true

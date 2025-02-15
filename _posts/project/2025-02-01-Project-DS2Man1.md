@@ -98,7 +98,7 @@ exit
 ## *Install Milvus on Ubuntu(Ing..)*
 
 - Milvus    
-	`wget https://github.com/milvus-io/milvus/releases/download/v2.3.3/milvus-standalone-docker-compose.yml -O docker-compose.yml`     
+	`wget https://github.com/milvus-io/milvus/releases/download/v2.5.4/milvus-standalone-docker-compose-gpu.yml -O docker-compose.yml`     
 	`vi docker-compose.yml(adding attu)`    
 	`echo 'export DOCKER_VOLUME_DIRECTORY=/var/lib/docker/volumes/milvus_volume' >> ~/.bashrc`    
 	`sudo docker compose up -d`     
@@ -137,12 +137,10 @@ docker-compose.yml  miniconda3
 
 ```yml
 (base) jaoneol@DESKTOP-B7GM3C5:~$ vi docker-compose.yml
-version: '3.5'
-
 services:
   etcd:
     container_name: milvus-etcd
-    image: quay.io/coreos/etcd:v3.5.5
+    image: quay.io/coreos/etcd:v3.5.16
     restart: always # Adding restart option on docker-compose.yml
     environment:
       - ETCD_AUTO_COMPACTION_MODE=revision
@@ -179,7 +177,7 @@ services:
 
   standalone:
     container_name: milvus-standalone
-    image: milvusdb/milvus:v2.3.3
+    image: milvusdb/milvus:v2.5.4-gpu
     restart: always # Adding restart option on docker-compose.yml
     command: ["milvus", "run", "standalone"]
     security_opt:
@@ -189,15 +187,16 @@ services:
       MINIO_ADDRESS: minio:9000
     volumes:
       - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/milvus:/var/lib/milvus
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
-      interval: 30s
-      start_period: 90s
-      timeout: 20s
-      retries: 3
     ports:
       - "19530:19530"
       - "9091:9091"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: ["gpu"]
+              device_ids: ["0"]
     depends_on:
       - "etcd"
       - "minio"
@@ -205,7 +204,7 @@ services:
   # Adding attu on docker-compose.yml
   attu:
     container_name: attu
-    image: zilliz/attu:v2.2.6
+    image: zilliz/attu:v2.4.7
     restart: always # Adding restart option on docker-compose.yml
     environment:
       MILVUS_URL: milvus-standalone:19530
@@ -220,9 +219,17 @@ networks:
 ```
 
 ```bash
+(base) jaoneol@DESKTOP-B7GM3C5:~$ 여기에 환경변수 등록하는 거 넣도록!
+확인해보니, docker-compose.yml에 DOCKER_VOLUME_DIRECTORY 사용하고 있고, env로 넣어 두면 정상적으로 /var/lib/docker/volumes/milvus_volume 사용하는거 확인함.
+(base) jaoneol@DESKTOP-B7GM3C5:~$ DOCKER_VOLUME_DIRECTORY=/var/lib/docker/volumes/milvus_volume
+(base) jaoneol@DESKTOP-B7GM3C5:~$ echo 'export DOCKER_VOLUME_DIRECTORY=/path/to/volume' >> ~/.bashrc 
+source ~/.bashrc
+(base) jaoneol@DESKTOP-B7GM3C5:~$ echo $DOCKER_VOLUME_DIRECTORY
+```
+
+```bash
 (base) jaoneol@DESKTOP-B7GM3C5:~$ sudo docker compose up -d
 [sudo] password for jaoneol:
-WARN[0000] /home/jaoneol/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
 [+] Running 31/31
  ✔ minio Pulled                                                                                                                                                                             7.2s
    ✔ c7e856e03741 Pull complete                                                                                                                                                             1.9s
@@ -280,4 +287,12 @@ CONTAINER ID   IMAGE                                      COMMAND               
 9f44aacbe577   minio/minio:RELEASE.2023-03-20T20-16-18Z   "/usr/bin/docker-ent…"   3 minutes ago    Up 3 minutes (healthy)   0.0.0.0:9000-9001->9000-9001/tcp, :::9000-9001->9000-9001/tcp                              milvus-minio
 33e02b7bf540   quay.io/coreos/etcd:v3.5.5                 "etcd -advertise-cli…"   3 minutes ago    Up 3 minutes (healthy)   2379-2380/tcp                                                                              milvus-etcd
 1b98f1295013   mysql:latest                               "docker-entrypoint.s…"   28 minutes ago   Up 28 minutes            0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                       mysql
+```
+
+```bash
+# 삭제
+# 현재 `docker-compose.yml`로 실행한 모든 컨테이너를 중지하고 삭제
+docker compose down
+# 현재 volumes 포함하여 `docker-compose.yml`로 실행한 모든 컨테이너를 중지하고 삭제
+docker compose down --volumes
 ```

@@ -1,6 +1,6 @@
 ---
 title: Container Volume
-description: Let's explore the various options for the run command in Docker.
+description: Let's use Container Volume, a essential concept for data persistence.
 author: DS2Man
 date: 2024-10-16 11:00:00 +0000
 categories: [Docker, Understanding]

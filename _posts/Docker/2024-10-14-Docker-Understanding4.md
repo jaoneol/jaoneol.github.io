@@ -182,14 +182,14 @@ RUN pip install -r requirements.txt
 	`ENTRYPOINT [{command}, {parameter1}]`    
 	`CMD [{parameter2}]`    
 
-|Feature|`CMD ["python", "app.py"]`|`ENTRYPOINT ["python", "app.py"]`|
-|---|---|---|
-|Dockerfile|`FROM python:3.11-slim`<br>`WORKDIR /app`<br>`COPY app.py /app`<br>`COPY app2.py /app`<br>`CMD ["python", "app.py"]`|`FROM python:3.11-slim`<br>`WORKDIR /app`<br>`COPY app.py /app`<br>`COPY app2.py /app`<br>`ENTRYPOINT  ["python", "app.py"]`|
-|Default Execution|Runs `python app.py`|Runs `python app.py`|
-|Override Behavior|Replaced completely|Treated as additional arguments|
-|Example Override|`docker run myapp python app2.py`<br>Runs `python app2.py`|`docker run myapp python app2.py`<br>Runs `python app1.py`|
-|Example Override|`docker run myapp --debug`<br>Runs `python --debug`|`docker run myapp --debug`<br>Runs `python app1.py --debug`|
-|Use Case|When users should be able to replace the command|
+| Feature           | `CMD ["python", "app.py"]`                                                                                           | `ENTRYPOINT ["python", "app.py"]`                                                                                            |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Dockerfile        | `FROM python:3.11-slim`<br>`WORKDIR /app`<br>`COPY app.py /app`<br>`COPY app2.py /app`<br>`CMD ["python", "app.py"]` | `FROM python:3.11-slim`<br>`WORKDIR /app`<br>`COPY app.py /app`<br>`COPY app2.py /app`<br>`ENTRYPOINT  ["python", "app.py"]` |
+| Default Execution | Runs `python app.py`                                                                                                 | Runs `python app.py`                                                                                                         |
+| Override Behavior | Replaced completely                                                                                                  | Treated as additional arguments                                                                                              |
+| Example Override  | `docker run myapp python app2.py`<br>Runs `python app2.py`                                                           | `docker run myapp python app2.py`<br>Runs `python app1.py`                                                                   |
+| Example Override  | `docker run myapp --debug`<br>Runs `python --debug`                                                                  | `docker run myapp --debug`<br>Runs `python app1.py --debug`                                                                  |
+| Use Case          | When users should be able to replace the command                                                                     |                                                                                                                              |
 
 ```bash
 # Default execution: `docker run myapp` → `python app.py`
@@ -265,7 +265,7 @@ WORKDIR /home/nonroot
 
 - The Dockerfile below is what I actually applied. Please refer to it.   
 
-```bash
+```yml
 # This refers to the image that will serve as the foundation for the image being created.  
 # If the image is not available locally, it will be pulled from Docker Hub.
 FROM python:3.11-slim

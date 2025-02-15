@@ -7,6 +7,7 @@ categories: [Docker, Setup]
 tags:
   - WSL
   - Ubuntu
+  - Docker
   - Git
 math: true
 pin: true

@@ -1,6 +1,6 @@
 ---
 title: Container Resource
-description: Let's learn Docker commands to build a image and to run a container.
+description: Let's limit container resources.
 author: DS2Man
 date: 2024-10-17 11:00:00 +0000
 categories: [Docker, Understanding]
