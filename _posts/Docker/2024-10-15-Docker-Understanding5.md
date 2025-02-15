@@ -46,6 +46,7 @@ In the previous post, we created a Dockerfile. Now, let's build a Docker image a
 |`docker build`|Builds a Docker image from a Dockerfile|`docker build -t dockertest .`|
 |`docker tag`|Adds a tag to an existing image|`docker tag dockertest ds2man/dockertest:v1`|
 |`docker push`|Uploads an image to Docker Hub|`docker push ds2man/dockertest:v1`|
+|`docker stats`|Check the runtime statistics of a running container|`docker stats ds2man/dockertest:v1`|
 
 ## *Docker Commands Practice*
 

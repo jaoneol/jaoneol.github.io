@@ -177,18 +177,43 @@ RUN pip install -r requirements.txt
 	For reference, use both when you need a fixed command with flexible default parameters.
 	`CMD [{command}, {parameter1}]`    
 	`ENTRYPOINT [{command}, {parameter1}, {parameter2}]`    
-		
-```bash
-CMD ["python", "app.py"] 
-ENTRYPOINT ["python", "app.py"]
-```
+	
+	**Mixed use available.** : ENTRYPOINT and CMD can be used simultaneously.    
+	`ENTRYPOINT [{command}, {parameter1}]`    
+	`CMD [{parameter2}]`    
 
 |Feature|`CMD ["python", "app.py"]`|`ENTRYPOINT ["python", "app.py"]`|
 |---|---|---|
+|Dockerfile|`FROM python:3.11-slim`<br>`WORKDIR /app`<br>`COPY app.py /app`<br>`COPY app2.py /app`<br>`CMD ["python", "app.py"]`|`FROM python:3.11-slim`<br>`WORKDIR /app`<br>`COPY app.py /app`<br>`COPY app2.py /app`<br>`ENTRYPOINT  ["python", "app.py"]`|
 |Default Execution|Runs `python app.py`|Runs `python app.py`|
 |Override Behavior|Replaced completely|Treated as additional arguments|
-|Example Override|`docker run myapp python other_script.py` (Runs `python other_script.py`)|`docker run myapp --debug` (Runs `python app.py --debug`)|
+|Example Override|`docker run myapp python app2.py`<br>Runs `python app2.py`|`docker run myapp python app2.py`<br>Runs `python app1.py`|
+|Example Override|`docker run myapp --debug`<br>Runs `python --debug`|`docker run myapp --debug`<br>Runs `python app1.py --debug`|
 |Use Case|When users should be able to replace the command|
+
+```bash
+# Default execution: `docker run myapp` → `python app.py`
+# Execution change: `docker run myapp python app2.py` → `python app2.py`
+#                   `docker run myapp app2.py` → Error
+# Execution change: `docker run myapp python --debug` or `docker run myapp --debug` → Error
+CMD ["python", "app.py"] 
+```
+
+```bash
+# Default execution: `docker run myapp` → `python app.py`
+# Execution change: `docker run myapp python app2.py` → `python app1.py`
+#                   `docker run myapp app2.py` → `python app1.py`
+# Execution change: `docker run myapp python --debug` → `python app1.py --debug`
+#                   `docker run myapp --debug` → `python app1.py --debug`
+ENTRYPOINT ["python", "app.py"]
+```
+
+```bash
+# Default execution: `docker run myapp` → `python app.py --debug`
+# Execution change: `docker run myapp --verbose` → `python app.py --verbose`
+ENTRYPOINT ["python", "app.py"]    
+CMD ["--debug"]
+```
 
 - **EXPOSE(In my case, Not recommended)**    
 	The `EXPOSE` command declares the port that the container uses internally.  However, it does not open the port for external access. It is useful for communication between containers and helps when connecting with other containers in a Docker network. For reference, there is no `PORT` command in a Dockerfile.    

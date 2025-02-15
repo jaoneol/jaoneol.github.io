@@ -12,7 +12,6 @@ math: true
 pin: true
 ---
 
-Hello, my name is Yongcheol Jang, a ai engineer/data scientist at the Semiconductor Division of Samsung Electronics.
 Since the public release of ChatGPT on November 30, 2022, large language models (LLMs) have driven revolutionary advancements in artificial intelligence, gaining attention across various industries.
 LLMs are models trained on vast amounts of text data, enabling them to understand and generate human-like language. These models are widely applied in tasks such as natural language processing, translation, and text summarization.
 In 2023, we witnessed the development of various LLMs, including OpenAI’s GPT-4, Google’s BERT, and Meta’s LLaMA. Each of these models has continued to evolve, leveraging unique features and strengths. Notably, Meta’s LLaMA series offers versions with 7 billion, 13 billion, and 70 billion parameters, showcasing exceptional performance in diverse natural language processing tasks.
@@ -20,7 +19,6 @@ The advancements in LLMs have brought about transformative changes in areas such
 Through this tutorial, I aim to share the knowledge and insights I have gained. I will cover topics such as using publicly available models on Hugging Face, performing LLM inference with Ollama, applying various techniques with LangChain, and exploring AI agents and LangGraph. Please stay tuned and join me on this journey!
 
 <!-- 
-안녕하세요, 삼성전자 반도체사업부에서 근무하는 장용철 연구원입니다.
 2022년 11월 30일 ChatGPT의 공개 이후, 대규모 언어 모델(Large Language Model, LLM)은 인공지능 분야에서 혁신적인 발전을 이끌며 다양한 산업에서 주목받고 있습니다. 
 LLM은 방대한 텍스트 데이터를 학습하여 인간과 유사한 언어 이해 및 생성 능력을 갖춘 모델로, 자연어 처리, 번역, 텍스트 요약 등 여러 작업에서 활용되고 있습니다. 
 2023년에는 OpenAI의 GPT-4, Google's BERT, Meta의 LLaMA 등 다양한 LLM이 개발되어 각자의 특성과 강점을 바탕으로 발전해왔습니다. 

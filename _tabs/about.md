@@ -13,7 +13,7 @@ font-weight:bold">
 장용철
 </span>
 </center>
-<center>Software & AI Engineer</center>
+<center>Software & AI Engineer & Data Scientist</center>
 <center>Samsung Electroics, Asan</center>
 
 
