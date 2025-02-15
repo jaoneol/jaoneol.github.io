@@ -24,6 +24,9 @@ K8s(Kubernetes)는 2015년 공식 출시 이후에, Azure, AWS에서는 2018년�
 우선은 K8s에 대한 이해에 앞서, Docker사용을 위한 환경 구축해보고, Docker Image 및 Container 생성해 보겠다. 관심있게 지켜봐 주세요.
 -->
 
+![Historical context for Kubernetes](/assets/img/2024-10-05-Docker-Prologue1_1.png)
+_Historical context for Kubernetes(Source: [Kubernetes](https://kubernetes.io/docs/concepts/overview/))_
+
 ## *Recommended For:*
 
 This tutorial is perfect for those who relate to any of the following scenarios ~~(and, to be honest, all of these apply to me!)~~:
