@@ -64,7 +64,7 @@ services:
       - ETCD_QUOTA_BACKEND_BYTES=4294967296
       - ETCD_SNAPSHOT_COUNT=50000
     volumes: # Mounts volumes in the container.
-	    # `DOCKER_VOLUME_DIRECTORY` must be predefined as an environment variable in the Linux (Ubuntu) system.
+      # `DOCKER_VOLUME_DIRECTORY` must be predefined as an environment variable in the Linux (Ubuntu) system.
       - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/etcd
     command: etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
     healthcheck: # **monitors the health of a container** by running a command at specified intervals.
