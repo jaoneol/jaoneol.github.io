@@ -1,5 +1,5 @@
 ---
-title: Docker Compose
+title: Docker Compose file and Docker Compose Commands
 description: Let's learn Docker Compose commands.
 author: DS2Man
 date: 2024-10-18 11:00:00 +0000
