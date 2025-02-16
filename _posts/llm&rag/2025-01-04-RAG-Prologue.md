@@ -3,8 +3,7 @@ title: RAG Prologue
 description: Let’s Use RAG Like This
 author: DS2Man
 date: 2025-01-04 11:00:00 +0000
-categories:
-  - Journey into Generative AI
+categories: [LLM&RAG, Prologue]
 tags:
   - LLM
   - RAG
