@@ -1,5 +1,5 @@
 ---
-title: MySQL, Milvus Installation and Configuration
+title: MySQL, Milvus Installation and Configuration(Ing...)
 description: Let's install MySQL, Milvus which are necessary for the LLM service(DS2Man).
 author: DS2Man
 date: 2025-02-01 17:00:00 +0000
