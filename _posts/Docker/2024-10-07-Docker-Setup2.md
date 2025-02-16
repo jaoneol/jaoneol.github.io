@@ -3,7 +3,7 @@ title: Linux(Ubuntu), Export & Import
 description: Let's manage Ubuntu history, just like snapshots in VirtualBox.
 author: DS2Man
 date: 2024-10-07 11:00:00 +0000
-categories: [Docker, Setup]
+categories: [Docker, D-Setup]
 tags:
   - WSL
   - Ubuntu

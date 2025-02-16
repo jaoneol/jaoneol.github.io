@@ -3,7 +3,7 @@ title: Dockerfile, Docker Image, Docker Container
 description: Let's write a Dockerfile and build a image and run a container.
 author: DS2Man
 date: 2024-10-13 11:00:00 +0000
-categories: [Docker, Understanding]
+categories: [Docker, D-Understanding]
 tags:
   - WSL
   - Ubuntu

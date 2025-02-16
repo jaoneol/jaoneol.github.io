@@ -3,7 +3,7 @@ title: Docker Engine on Ubuntu
 description: Let's Install Docker Engine on Ubuntu.
 author: DS2Man
 date: 2024-10-08 11:00:00 +0000
-categories: [Docker, Setup]
+categories: [Docker, D-Setup]
 tags:
   - WSL
   - Ubuntu

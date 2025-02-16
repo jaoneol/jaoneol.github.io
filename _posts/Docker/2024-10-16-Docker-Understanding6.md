@@ -3,7 +3,7 @@ title: Container Volume
 description: Let's use Container Volume, a essential concept for data persistence.
 author: DS2Man
 date: 2024-10-16 11:00:00 +0000
-categories: [Docker, Understanding]
+categories: [Docker, D-Understanding]
 tags:
   - WSL
   - Ubuntu

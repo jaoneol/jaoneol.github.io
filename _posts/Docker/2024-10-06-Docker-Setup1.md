@@ -3,7 +3,7 @@ title: WSL, Running Linux on Windows
 description: Let's Install Linux on Windows 10 (11) Using WSL Virtualization.
 author: DS2Man
 date: 2024-10-06 11:00:00 +0000
-categories: [Docker, Setup]
+categories: [Docker, D-Setup]
 tags:
   - WSL
   - Ubuntu

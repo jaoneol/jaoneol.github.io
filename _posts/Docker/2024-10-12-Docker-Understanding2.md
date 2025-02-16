@@ -3,7 +3,7 @@ title: Docker Image Layers
 description: Let's Understand the Features of Docker Image Layers.
 author: DS2Man
 date: 2024-10-12 11:00:00 +0000
-categories: [Docker, Understanding]
+categories: [Docker, D-Understanding]
 tags:
   - WSL
   - Ubuntu

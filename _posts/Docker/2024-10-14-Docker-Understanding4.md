@@ -3,7 +3,7 @@ title: Dockerfile Commands
 description: Let's learn Dockerfile commands to Write a Dockerfile.
 author: DS2Man
 date: 2024-10-14 11:00:00 +0000
-categories: [Docker, Understanding]
+categories: [Docker, D-Understanding]
 tags:
   - WSL
   - Ubuntu
