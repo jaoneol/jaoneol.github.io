@@ -24,7 +24,7 @@ orchestration platform 의 종류는 k8s이외에 Amazon ECS, Docker Swarm 등�
 우선은 K8s에 대한 이해에 앞서, Docker사용을 위한 환경 구축해보고, Docker Image 및 Container 생성해 보겠다. 관심있게 지켜봐 주세요.
 -->
 
-|**Platform**|**Market Share (Estimated)**|**Description**|
+|**Platform**|**Market Share<br>(Estimated)**|**Description**|
 |---|---|---|
 |**Kubernetes**|**~70%**|The dominant open-source container orchestration platform, widely adopted across various cloud environments.|
 |Amazon ECS|~10%|AWS’s container orchestration service, tightly integrated with AWS infrastructure.|
