@@ -33,6 +33,10 @@ docker의 문서(https://docs.docker.com/engine/install/ubuntu/) 기준으로 �
 
 ```bash
 # curl -fsSL https://get.docker.com -o get-docker.sh
+# `-f`: Fails silently without displaying an error message if the download fails.
+# `-s`: Executes in silent mode without displaying the progress status.
+# `-S`: Used together with `-s`, it displays an error message if the operation fails.
+# `-L`: Automatically follows redirects if they are present.
 # sudo sh get-docker.sh
 jaoneol@DESKTOP-B7GM3C5:~$ curl -sSL https://get.docker.com | sh
 # Executing docker install script, commit: 4c94a56999e10efcf48c5b8e3f6afea464f9108e
