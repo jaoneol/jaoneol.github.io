@@ -72,7 +72,8 @@ local     mysql
 (base) jaoneol@DESKTOP-B7GM3C5:~$ 
 ```
 
--  Step3) Run the MySQL container
+-  Step3) Run the MySQL container    
+
 ```bash
 # docker run -d --name mysql -v mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mysql:latest
 # docker update --restart always mysql # No need to run `docker stop mysql`. The update takes effect immediately.
@@ -112,21 +113,14 @@ exit
 
 ## *Install Milvus on Ubuntu*
 
-
 - Milvus    
 	`wget https://github.com/milvus-io/milvus/releases/download/v2.5.4/milvus-standalone-docker-compose-gpu.yml -O docker-compose.yml`     
 	`vi docker-compose.yml(adding attu and modifying named_volume, restart)`    
 	`docker compose -p ds2man up -d`
 	`docker compose -p ds2man ps -a`  
-	`docker compose -p ds2man down --volumes` or `docker compose -p ds2man down`
+	`docker compose -p ds2man down --volumes` or `docker compose -p ds2man down`    
 
-<!--
-https://do-hyeon.tistory.com/entry/Milvus-Milvus란-M1-Mac-Milvus-개발환경-구성하기
-https://devocean.sk.com/blog/techBoardDetail.do?ID=165368
-https://www.youtube.com/watch?v=K0ZayH0n7sI&t=65s
-https://blog.csdn.net/qq_34146694/article/details/132658533
-https://jackerlab.com/milvus-attu-docker-install/
--->
+- Step1) Pull the Milvus' docker-compose file.
 
 ```bash
 # To use `docker compose up -d`, make sure to name the file `docker-compose.yml` instead of `docker-compose-gpu.yml`, otherwise it won't execute properly!
@@ -150,6 +144,9 @@ docker-compose.yml                              100%[===========================
 (base) jaoneol@DESKTOP-B7GM3C5:~$ ls
 docker-compose.yml  miniconda3
 ```
+
+- Step2) Modify the Milvus' docker-compose file.
+	adding attu and modifying named_volume, restart    
 
 ```yml
 # In `docker-compose.yml`, the Bind Mount method was used, but I will change it to a Named Volume so that it can be managed by Docker Volume.
@@ -267,6 +264,7 @@ networks:
     name: milvus
 ```
 
+-   Step3) Run the Milvus container
 ```bash
 # When running `docker compose up -d`, the volume is created with the account name attached. 
 # Use the `-p` option to attach it with the project name instead.
