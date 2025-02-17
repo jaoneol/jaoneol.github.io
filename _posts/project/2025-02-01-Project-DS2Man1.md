@@ -1,5 +1,5 @@
 ---
-title: MySQL, Milvus Installation and Configuration(Ing...)
+title: MySQL, Milvus Installation and Configuration
 description: Let's install MySQL, Milvus which are necessary for the LLM service(DS2Man).
 author: DS2Man
 date: 2025-02-01 17:00:00 +0000
@@ -21,8 +21,8 @@ Let's install MySQL, Milvus which are necessary for the LLM service(DS2Man).
 
 - MySQL    
 	`docker pull mysql`        
-	`docker volume create mysql_volume`    
-	`docker run -d --restart always --name mysql -v mysql_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mysql:latest`      
+	`docker volume create mysql`    
+	`docker run -d --restart always --name mysql -v mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mysql:latest`      
 
 - Step1) Pull the MySQL image.
 ```bash
@@ -49,22 +49,22 @@ mysql        latest    a52cba19e8cc   13 days ago   797MB
 
 -  Step2) Create a Docker volume
 ```bash
-# When you run the command `docker volume create mysql_volume`, Docker creates a managed volume directory. 
-# The location of this directory is `/var/lib/docker/volumes/mysql_volume/_data`.
+# When you run the command `docker volume create mysql`, Docker creates a managed volume directory. 
+# The location of this directory is `/var/lib/docker/volumes/mysql/_data`.
 # You can check it using `docker volume inspect mysql_volume`.
-(base) jaoneol@DESKTOP-B7GM3C5:~$ docker volume create mysql_volume
-mysql_volume
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker volume create mysql
+mysql
 (base) jaoneol@DESKTOP-B7GM3C5:~$ docker volume ls
 DRIVER    VOLUME NAME
-local     mysql_volume
-(base) jaoneol@DESKTOP-B7GM3C5:~$ docker volume inspect mysql_volume
+local     mysql
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker volume inspect mysql
 [
     {
         "CreatedAt": "2025-02-12T22:57:40+09:00",
         "Driver": "local",
         "Labels": null,
-        "Mountpoint": "/var/lib/docker/volumes/mysql_volume/_data",
-        "Name": "mysql_volume",
+        "Mountpoint": "/var/lib/docker/volumes/mysql/_data",
+        "Name": "mysql",
         "Options": null,
         "Scope": "local"
     }
@@ -74,10 +74,10 @@ local     mysql_volume
 
 -  Step3) Run the MySQL container
 ```bash
-# docker run -d --name mysql -v mysql_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mysql:latest
+# docker run -d --name mysql -v mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mysql:latest
 # docker update --restart always mysql # No need to run `docker stop mysql`. The update takes effect immediately.
 # docker start mysql
-(base) jaoneol@DESKTOP-B7GM3C5:~$ docker run -d --restart always --name mysql -v mysql_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mysql:latest
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker run -d --restart always --name mysql -v mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234 -p 3306:3306 mysql:latest
 1b98f129501345342c6c12c7d2a8b1629a27f6175aca3809de1bfa3f0ee3c322
 (base) jaoneol@DESKTOP-B7GM3C5:~$ docker ps
 CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
@@ -86,24 +86,39 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS  
 # you can see that all the files in the MySQL container's `/var/lib/mysql` directory are mounted there.
 (base) jaoneol@DESKTOP-B7GM3C5:~$ su 
 Password: 
-root@DESKTOP-B7GM3C5:/home/jaoneol# cd /var/lib/docker/volumes/mysql_volume/_data
-root@DESKTOP-B7GM3C5:/var/lib/docker/volumes/mysql_volume/_data# ls
+root@DESKTOP-B7GM3C5:/home/jaoneol# cd /var/lib/docker/volumes/mysql/_data
+root@DESKTOP-B7GM3C5:/var/lib/docker/volumes/mysql/_data# ls
 '#ib_16384_0.dblwr'  '#innodb_redo'   auto.cnf        binlog.000002   ca-key.pem   client-cert.pem   ib_buffer_pool   ibtmp1   mysql.ibd    mysql_upgrade_history   private_key.pem   server-cert.pem   sys        undo_002
 '#ib_16384_1.dblwr'  '#innodb_temp'   binlog.000001   binlog.index    ca.pem       client-key.pem    ibdata1          mysql    mysql.sock   performance_schema      public_key.pem    server-key.pem    undo_001
-root@DESKTOP-B7GM3C5:/var/lib/docker/volumes/mysql_volume/_data# exit
+root@DESKTOP-B7GM3C5:/var/lib/docker/volumes/mysql/_data# exit
 exit
-(base) jaoneol@DESKTOP-B7GM3C5:~$
+
+# You can verify that it is a Named Volume using the `docker inspect mysql` command.
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker inspect mysql
+# The above part is omitted. 
+"Mounts": [
+            {
+                "Type": "volume",
+                "Name": "mysql",
+                "Source": "/var/lib/docker/volumes/mysql/_data",
+                "Destination": "/var/lib/mysql",
+                "Driver": "local",
+                "Mode": "z",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
 ```
 
-## *Install Milvus on Ubuntu(Ing..)*
+## *Install Milvus on Ubuntu*
+
 
 - Milvus    
 	`wget https://github.com/milvus-io/milvus/releases/download/v2.5.4/milvus-standalone-docker-compose-gpu.yml -O docker-compose.yml`     
-	`vi docker-compose.yml(adding attu)`    
-	`echo 'export DOCKER_VOLUME_DIRECTORY=/var/lib/docker/volumes/milvus_volume' >> ~/.bashrc`    
-	`sudo docker compose up -d`     
-	`sudo docker compose ps`   
-	`docker compose down --volumes` or `docker compose down`
+	`vi docker-compose.yml(adding attu and modifying named_volume, restart)`    
+	`docker compose -p ds2man up -d`
+	`docker compose -p ds2man ps -a`  
+	`docker compose -p ds2man down --volumes` or `docker compose -p ds2man down`
 
 <!--
 https://do-hyeon.tistory.com/entry/Milvus-Milvus란-M1-Mac-Milvus-개발환경-구성하기
@@ -114,28 +129,30 @@ https://jackerlab.com/milvus-attu-docker-install/
 -->
 
 ```bash
-(base) jaoneol@DESKTOP-B7GM3C5:~$ wget https://github.com/milvus-io/milvus/releases/download/v2.5.4/milvus-standalone-docker-compose.yml -O docker-compose.yml
---2025-02-06 01:12:19--  https://github.com/milvus-io/milvus/releases/download/v2.5.4/milvus-standalone-docker-compose.yml
+# To use `docker compose up -d`, make sure to name the file `docker-compose.yml` instead of `docker-compose-gpu.yml`, otherwise it won't execute properly!
+(base) jaoneol@DESKTOP-B7GM3C5:~$ wget https://github.com/milvus-io/milvus/releases/download/v2.5.4/milvus-standalone-docker-compose-gpu.yml -O docker-compose.yml
+--2025-02-18 00:49:13--  https://github.com/milvus-io/milvus/releases/download/v2.5.4/milvus-standalone-docker-compose-gpu.yml
 Resolving github.com (github.com)... 20.200.245.247
 Connecting to github.com (github.com)|20.200.245.247|:443... connected.
 HTTP request sent, awaiting response... 302 Found
-Location: https://objects.githubusercontent.com/github-production-release-asset-2e65be/208728772/a8ed256e-9092-4694-a8fe-909c8e0a7018?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250205%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250205T161219Z&X-Amz-Expires=300&X-Amz-Signature=b1e5ce2386a701d3381910e3c8ff2688e9eb6f0e59030011e04ad2eb3ff743fa&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dmilvus-standalone-docker-compose.yml&response-content-type=application%2Foctet-stream [following]
---2025-02-06 01:12:19--  https://objects.githubusercontent.com/github-production-release-asset-2e65be/208728772/a8ed256e-9092-4694-a8fe-909c8e0a7018?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250205%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250205T161219Z&X-Amz-Expires=300&X-Amz-Signature=b1e5ce2386a701d3381910e3c8ff2688e9eb6f0e59030011e04ad2eb3ff743fa&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dmilvus-standalone-docker-compose.yml&response-content-type=application%2Foctet-stream
-Resolving objects.githubusercontent.com (objects.githubusercontent.com)... 185.199.109.133, 185.199.110.133, 185.199.108.133, ...
-Connecting to objects.githubusercontent.com (objects.githubusercontent.com)|185.199.109.133|:443... connected.
+Location: https://objects.githubusercontent.com/github-production-release-asset-2e65be/208728772/3ea6d6f2-5847-4c4a-b2f6-c9258911248e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250217%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250217T154914Z&X-Amz-Expires=300&X-Amz-Signature=8c3e71c0b84213986e19efff6817e9aeedb6e3b07d555350f5d1a14ae4586c99&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dmilvus-standalone-docker-compose-gpu.yml&response-content-type=application%2Foctet-stream [following]
+--2025-02-18 00:49:14--  https://objects.githubusercontent.com/github-production-release-asset-2e65be/208728772/3ea6d6f2-5847-4c4a-b2f6-c9258911248e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250217%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250217T154914Z&X-Amz-Expires=300&X-Amz-Signature=8c3e71c0b84213986e19efff6817e9aeedb6e3b07d555350f5d1a14ae4586c99&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dmilvus-standalone-docker-compose-gpu.yml&response-content-type=application%2Foctet-stream
+Resolving objects.githubusercontent.com (objects.githubusercontent.com)... 185.199.111.133, 185.199.109.133, 185.199.110.133, ...
+Connecting to objects.githubusercontent.com (objects.githubusercontent.com)|185.199.111.133|:443... connected.
 HTTP request sent, awaiting response... 200 OK
-Length: 1767 (1.7K) [application/octet-stream]
+Length: 1774 (1.7K) [application/octet-stream]
 Saving to: ‘docker-compose.yml’
 
-docker-compose.yml                               100%[=======================================================================================================>]   1.73K  --.-KB/s    in 0s
+docker-compose.yml                              100%[====================================================================================================>]   1.73K  --.-KB/s    in 0s      
 
-2025-02-06 01:12:19 (18.1 MB/s) - ‘docker-compose.yml’ saved [1767/1767]
+2025-02-18 00:49:14 (7.14 MB/s) - ‘docker-compose.yml’ saved [1774/1774]
 
 (base) jaoneol@DESKTOP-B7GM3C5:~$ ls
 docker-compose.yml  miniconda3
 ```
 
 ```yml
+# In `docker-compose.yml`, the Bind Mount method was used, but I will change it to a Named Volume so that it can be managed by Docker Volume.
 (base) jaoneol@DESKTOP-B7GM3C5:~$ vi docker-compose.yml
 services:
   etcd:
@@ -148,7 +165,11 @@ services:
       - ETCD_QUOTA_BACKEND_BYTES=4294967296
       - ETCD_SNAPSHOT_COUNT=50000
     volumes:
-      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/etcd
+      # Bind Mount Usage
+      # You need to add `DOCKER_VOLUME_DIRECTORY=/var/lib/docker` to the .env file.
+      # - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/etcd
+      # Named volume Usage
+      - etcd:/etcd
     command: etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
     healthcheck:
       test: ["CMD", "etcdctl", "endpoint", "health"]
@@ -167,7 +188,24 @@ services:
       - "9001:9001"
       - "9000:9000"
     volumes:
-      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/minio:/minio_data
+      # Bind Mount Usage
+      # You need to add `DOCKER_VOLUME_DIRECTORY=/var/lib/docker` to the .env file.
+      # - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/minio:/minio_data
+      # Named volume Usage
+      - minio:/minio_data
+      # During testing, there is a mount for MinIO's internal configuration storage. 
+      # Explicitly specify all related directories to prevent MinIO from automatically creating anonymous volumes.
+      #  {
+      #       "Type": "volume",
+      #       "Name": "2b202e0a21487176e2cb0994c61de329d2266b2b2948bd148015da16579ea5e5",
+      #       "Source": "/var/lib/docker/volumes/2b202e0a21487176e2cb0994c61de329d2266b2b2948bd148015da16579ea5e5/_data",
+      #       "Destination": "/data",
+      #       "Driver": "local",
+      #       "Mode": "",
+      #       "RW": true,
+      #       "Propagation": ""
+      #   }
+      - minio-anonymous:/data
     command: minio server /minio_data --console-address ":9001"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
@@ -186,7 +224,11 @@ services:
       ETCD_ENDPOINTS: etcd:2379
       MINIO_ADDRESS: minio:9000
     volumes:
-      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/milvus:/var/lib/milvus
+      # Bind Mount Usage
+      # You need to add `DOCKER_VOLUME_DIRECTORY=/var/lib/docker` to the .env file.
+      # - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/milvus:/var/lib/milvus
+      # Named volume Usage
+      - milvus:/var/lib/milvus
     ports:
       - "19530:19530"
       - "9091:9091"
@@ -213,86 +255,142 @@ services:
     depends_on:
       - "standalone"
 
+# To use a Named Volume, you must explicitly specify the volume.
+volumes:
+  milvus:
+  etcd:
+  minio:
+  minio-anonymous:
+  
 networks:
   default:
     name: milvus
 ```
 
 ```bash
-(base) jaoneol@DESKTOP-B7GM3C5:~$ 여기에 환경변수 등록하는 거 넣도록!
-확인해보니, docker-compose.yml에 DOCKER_VOLUME_DIRECTORY 사용하고 있고, env로 넣어 두면 정상적으로 /var/lib/docker/volumes/milvus_volume 사용하는거 확인함.
-(base) jaoneol@DESKTOP-B7GM3C5:~$ DOCKER_VOLUME_DIRECTORY=/var/lib/docker/volumes/milvus_volume
-(base) jaoneol@DESKTOP-B7GM3C5:~$ echo 'export DOCKER_VOLUME_DIRECTORY=/path/to/volume' >> ~/.bashrc 
-source ~/.bashrc
-(base) jaoneol@DESKTOP-B7GM3C5:~$ echo $DOCKER_VOLUME_DIRECTORY
-```
-
-```bash
-(base) jaoneol@DESKTOP-B7GM3C5:~$ sudo docker compose up -d
+# When running `docker compose up -d`, the volume is created with the account name attached. 
+# Use the `-p` option to attach it with the project name instead.
+# `docker compose up -d` → `docker compose -p ds2man up -d`
+# DRIVER    VOLUME NAME
+# local     jaoneol_etcd → ds2man_etcd
+# local     jaoneol_milvus → ds2man_milvus
+# local     jaoneol_minio → ds2man_minio
+# local     jaoneol_minio-anonymous → ds2man_minio-anonymous
+(base) jaoneol@DESKTOP-B7GM3C5:~$ sudo docker compose -p ds2man up -d
 [sudo] password for jaoneol:
-[+] Running 31/31
- ✔ minio Pulled                                                                                                                                                                             7.2s
-   ✔ c7e856e03741 Pull complete                                                                                                                                                             1.9s
-   ✔ c1ff217ec952 Pull complete                                                                                                                                                             1.9s
-   ✔ b12cc8972a67 Pull complete                                                                                                                                                             1.9s
-   ✔ 4324e307ea00 Pull complete                                                                                                                                                             1.9s
-   ✔ 152089595ebc Pull complete                                                                                                                                                             2.0s
-   ✔ 05f217fb8612 Pull complete                                                                                                                                                             3.9s
- ✔ standalone Pulled                                                                                                                                                                       22.0s
-   ✔ 7646c8da3324 Pull complete                                                                                                                                                             4.7s
-   ✔ dbc42d8e117f Pull complete                                                                                                                                                             5.2s
-   ✔ 76d3189230b2 Pull complete                                                                                                                                                             5.2s
-   ✔ 3b9d0f6feaf4 Pull complete                                                                                                                                                            11.5s
-   ✔ ac4cc8944ee4 Pull complete                                                                                                                                                            11.6s
-   ✔ 81a63fae5d9f Pull complete                                                                                                                                                            18.7s
- ✔ etcd Pulled                                                                                                                                                                             21.1s
-   ✔ 804c8aba2cc6 Pull complete                                                                                                                                                            11.6s
-   ✔ 2ae710cd8bfe Pull complete                                                                                                                                                            11.6s
-   ✔ d462aa345367 Pull complete                                                                                                                                                            12.8s
-   ✔ 0f8b424aa0b9 Pull complete                                                                                                                                                            13.3s
-   ✔ d557676654e5 Pull complete                                                                                                                                                            13.3s
-   ✔ c8022d07192e Pull complete                                                                                                                                                            14.4s
-   ✔ d858cbc252ad Pull complete                                                                                                                                                            14.4s
-   ✔ 1069fc2daed1 Pull complete                                                                                                                                                            15.2s
-   ✔ b40161cd83fc Pull complete                                                                                                                                                            15.3s
-   ✔ 5318d93a3a65 Pull complete                                                                                                                                                            15.3s
-   ✔ 307c1adadb60 Pull complete                                                                                                                                                            15.9s
-   ✔ fbb01d9e9dc9 Pull complete                                                                                                                                                            16.8s
-   ✔ fbfea02ac3cf Pull complete                                                                                                                                                            16.9s
-   ✔ 8c26e4bf18e2 Pull complete                                                                                                                                                            17.2s
-   ✔ 1e59a65f8816 Pull complete                                                                                                                                                            17.2s
-   ✔ ffbd4ca5f0bd Pull complete                                                                                                                                                            17.6s
-
-[+] Running 5/5
- ✔ Network milvus               Created                                                                                                                                                                                              0.1s 
- ✔ Container milvus-minio       Started                                                                                                                                                                                              3.7s 
- ✔ Container milvus-etcd        Started                                                                                                                                                                                              3.6s 
- ✔ Container milvus-standalone  Started                                                                                                                                                                                              0.7s 
- ✔ Container attu               Started                                                                                                                                                                                              1.0s 
+[+] Running 53/53
+ ✔ attu Pulled                                                                                                                                                                         13.7s 
+ ✔ minio Pulled                                                                                                                                                                         8.2s 
+ ✔ etcd Pulled                                                                                                                                                                         64.4s 
+ ✔ standalone Pulled                                                                                                                                                                   89.1s 
+[+] Running 9/9
+ ✔ Network milvus                   Created                                                                                                                                             0.1s 
+ ✔ Volume "ds2man_milvus"           Created                                                                                                                                             0.0s 
+ ✔ Volume "ds2man_etcd"             Created                                                                                                                                             0.0s 
+ ✔ Volume "ds2man_minio"            Created                                                                                                                                             0.0s 
+ ✔ Volume "ds2man_minio-anonymous"  Created                                                                                                                                             0.0s 
+ ✔ Container milvus-minio           Started                                                                                                                                             7.7s 
+ ✔ Container milvus-etcd            Started                                                                                                                                             7.7s 
+ ✔ Container milvus-standalone      Started                                                                                                                                             1.1s 
+ ✔ Container attu                   Started                                                                                                                                             1.5s 
 (base) jaoneol@DESKTOP-B7GM3C5:~$ 
 ```
 
 ```bash
+# Since `docker compose -p ds2man up -d` was executed, you can check it using `docker compose -p ds2man ps -a`. 
+# Note that it will not be visible with `docker compose ps -a`, so keep that in mind.
 (base) jaoneol@DESKTOP-B7GM3C5:~$ docker compose ps -a
-WARN[0000] /home/jaoneol/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
-NAME                IMAGE                                      COMMAND                  SERVICE      CREATED          STATUS                    PORTS
-attu                zilliz/attu:v2.2.6                         "docker-entrypoint.s…"   attu         24 minutes ago   Up 24 minutes             0.0.0.0:8000->3000/tcp, [::]:8000->3000/tcp
-milvus-etcd         quay.io/coreos/etcd:v3.5.16                "etcd -advertise-cli…"   etcd         6 hours ago      Up 41 minutes (healthy)   2379-2380/tcp
-milvus-minio        minio/minio:RELEASE.2023-03-20T20-16-18Z   "/usr/bin/docker-ent…"   minio        6 hours ago      Up 41 minutes (healthy)   0.0.0.0:9000-9001->9000-9001/tcp, :::9000-9001->9000-9001/tcp
-milvus-standalone   milvusdb/milvus:v2.5.4                     "/tini -- milvus run…"   standalone   6 hours ago      Up 41 minutes (healthy)   0.0.0.0:9091->9091/tcp, :::9091->9091/tcp, 0.0.0.0:19530->19530/tcp, :::19530->19530/tcp
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker compose -p ds2man ps -a
+NAME                IMAGE                                      COMMAND                  SERVICE      CREATED         STATUS                   PORTS
+attu                zilliz/attu:v2.4.7                         "docker-entrypoint.s…"   attu         6 minutes ago   Up 6 minutes             0.0.0.0:8000->3000/tcp, [::]:8000->3000/tcp
+milvus-etcd         quay.io/coreos/etcd:v3.5.16                "etcd -advertise-cli…"   etcd         6 minutes ago   Up 6 minutes (healthy)   2379-2380/tcp
+milvus-minio        minio/minio:RELEASE.2023-03-20T20-16-18Z   "/usr/bin/docker-ent…"   minio        6 minutes ago   Up 6 minutes (healthy)   0.0.0.0:9000-9001->9000-9001/tcp, :::9000-9001->9000-9001/tcp
+milvus-standalone   milvusdb/milvus:v2.5.4-gpu                 "/tini -- milvus run…"   standalone   6 minutes ago   Up 6 minutes             0.0.0.0:9091->9091/tcp, :::9091->9091/tcp, 0.0.0.0:19530->19530/tcp, :::19530->19530/tcp
+
 (base) jaoneol@DESKTOP-B7GM3C5:~$ docker ps -a
 CONTAINER ID   IMAGE                                      COMMAND                  CREATED          STATUS                   PORTS                                                                                      NAMES
-8f8e1173f0c1   zilliz/attu:v2.2.6                         "docker-entrypoint.s…"   3 minutes ago    Up 2 minutes             0.0.0.0:8000->3000/tcp, [::]:8000->3000/tcp                                                attu
-84802d64c365   milvusdb/milvus:v2.3.3                     "/tini -- milvus run…"   3 minutes ago    Up 2 minutes (healthy)   0.0.0.0:9091->9091/tcp, :::9091->9091/tcp, 0.0.0.0:19530->19530/tcp, :::19530->19530/tcp   milvus-standalone
-9f44aacbe577   minio/minio:RELEASE.2023-03-20T20-16-18Z   "/usr/bin/docker-ent…"   3 minutes ago    Up 3 minutes (healthy)   0.0.0.0:9000-9001->9000-9001/tcp, :::9000-9001->9000-9001/tcp                              milvus-minio
-33e02b7bf540   quay.io/coreos/etcd:v3.5.5                 "etcd -advertise-cli…"   3 minutes ago    Up 3 minutes (healthy)   2379-2380/tcp                                                                              milvus-etcd
-1b98f1295013   mysql:latest                               "docker-entrypoint.s…"   28 minutes ago   Up 28 minutes            0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                       mysql
+682e142fe7ea   zilliz/attu:v2.4.7                         "docker-entrypoint.s…"   7 minutes ago    Up 7 minutes             0.0.0.0:8000->3000/tcp, [::]:8000->3000/tcp                                                attu
+0e3d9c812be2   milvusdb/milvus:v2.5.4-gpu                 "/tini -- milvus run…"   7 minutes ago    Up 7 minutes             0.0.0.0:9091->9091/tcp, :::9091->9091/tcp, 0.0.0.0:19530->19530/tcp, :::19530->19530/tcp   milvus-standalone
+88079d4db07f   minio/minio:RELEASE.2023-03-20T20-16-18Z   "/usr/bin/docker-ent…"   7 minutes ago    Up 7 minutes (healthy)   0.0.0.0:9000-9001->9000-9001/tcp, :::9000-9001->9000-9001/tcp                              milvus-minio
+c6a22a7dcaa3   quay.io/coreos/etcd:v3.5.16                "etcd -advertise-cli…"   7 minutes ago    Up 7 minutes (healthy)   2379-2380/tcp                                                                              milvus-etcd
+cbd7bed0cee5   mysql:latest                               "docker-entrypoint.s…"   26 minutes ago   Up 26 minutes            0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                       mysql
+
+# `docker volume ls` 조회 결과는 앞서 말한 내용과 일치하게 생성된다.
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker volume ls
+DRIVER    VOLUME NAME
+local     ds2man_etcd
+local     ds2man_milvus
+local     ds2man_minio
+local     ds2man_minio-anonymous
+local     mysql
+
+(base) jaoneol@DESKTOP-B7GM3C5:~$ su
+Password:
+(base) root@DESKTOP-B7GM3C5:~$ su
+Password:
+root@DESKTOP-B7GM3C5:/home/jaoneol# cd /var/lib/docker/volumes
+root@DESKTOP-B7GM3C5:/var/lib/docker/volumes# ls -lrt
+total 48
+brw------- 1 root root 8, 32 Feb 18 00:39 backingFsBlockDev
+drwx-----x 3 root root  4096 Feb 18 00:41 mysql
+drwx-----x 3 root root  4096 Feb 18 01:02 ds2man_minio
+drwx-----x 3 root root  4096 Feb 18 01:02 ds2man_milvus
+drwx-----x 3 root root  4096 Feb 18 01:02 ds2man_etcd
+-rw------- 1 root root 32768 Feb 18 01:02 metadata.db
+drwx-----x 3 root root  4096 Feb 18 01:02 ds2man_minio-anonymous
+root@DESKTOP-B7GM3C5:/var/lib/docker/volumes# 
 ```
 
 ```bash
-# 삭제
-# 현재 `docker-compose.yml`로 실행한 모든 컨테이너를 중지하고 삭제
-docker compose down
-# 현재 volumes 포함하여 `docker-compose.yml`로 실행한 모든 컨테이너를 중지하고 삭제
-docker compose down --volumes
+# Since `docker compose -p ds2man up -d` was executed, you can check it using `docker compose -p ds2man stop` and `docker compose -p ds2man start`. 
+# Note that it will not stop with `docker compose stop`, so keep that in mind.
+# Note that it will not start with `docker compose start`, so keep that in mind.
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker compose -p ds2man stop
+[+] Stopping 4/4
+ ✔ Container attu               Stopped                                                                                                                                                                                              0.4s 
+ ✔ Container milvus-standalone  Stopped                                                                                                                                                                                              1.4s 
+ ✔ Container milvus-minio       Stopped                                                                                                                                                                                              1.0s 
+ ✔ Container milvus-etcd        Stopped                                                                                                                                                                                              0.4s 
+
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker compose -p ds2man ps -a
+NAME                IMAGE                                      COMMAND                  SERVICE      CREATED         STATUS                      PORTS
+attu                zilliz/attu:v2.4.7                         "docker-entrypoint.s…"   attu         5 minutes ago   Exited (1) 22 seconds ago   
+milvus-etcd         quay.io/coreos/etcd:v3.5.16                "etcd -advertise-cli…"   etcd         5 minutes ago   Exited (0) 20 seconds ago   
+milvus-minio        minio/minio:RELEASE.2023-03-20T20-16-18Z   "/usr/bin/docker-ent…"   minio        5 minutes ago   Exited (0) 20 seconds ago   
+milvus-standalone   milvusdb/milvus:v2.5.4-gpu                 "/tini -- milvus run…"   standalone   5 minutes ago   Exited (0) 21 seconds ago   
+
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker compose -p ds2man start
+[+] Running 4/4
+ ✔ Container milvus-minio       Started                                                                                                                                                                                              0.4s 
+ ✔ Container milvus-etcd        Started                                                                                                                                                                                              0.3s 
+ ✔ Container milvus-standalone  Started                                                                                                                                                                                              0.4s 
+ ✔ Container attu               Started                                                                                                                                                                                              0.3s 
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker compose -p ds2man ps -a
+NAME                IMAGE                                      COMMAND                  SERVICE      CREATED         STATUS                            PORTS
+attu                zilliz/attu:v2.4.7                         "docker-entrypoint.s…"   attu         9 minutes ago   Up 5 seconds                      0.0.0.0:8000->3000/tcp, [::]:8000->3000/tcp
+milvus-etcd         quay.io/coreos/etcd:v3.5.16                "etcd -advertise-cli…"   etcd         9 minutes ago   Up 6 seconds (health: starting)   2379-2380/tcp
+milvus-minio        minio/minio:RELEASE.2023-03-20T20-16-18Z   "/usr/bin/docker-ent…"   minio        9 minutes ago   Up 6 seconds (health: starting)   0.0.0.0:9000-9001->9000-9001/tcp, :::9000-9001->9000-9001/tcp
+milvus-standalone   milvusdb/milvus:v2.5.4-gpu                 "/tini -- milvus run…"   standalone   9 minutes ago   Up 6 seconds                      0.0.0.0:9091->9091/tcp, :::9091->9091/tcp, 0.0.0.0:19530->19530/tcp, :::19530->19530/tcp
+(base) jaoneol@DESKTOP-B7GM3C5:~$
+```
+
+```bash
+# Since `docker compose -p ds2man up -d` was executed, you can check it using `docker compose -p ds2man down --volumes`. 
+# Note that it will not delete with `docker compose down --volumes`, so keep that in mind.
+(base) jaoneol@DESKTOP-B7GM3C5:~/milvus_files$ docker compose -p ds2man down --volumes
+[+] Running 9/9
+ ✔ Container attu                 Removed                                                                                                                                                                                                      0.3s 
+ ✔ Container milvus-standalone    Removed                                                                                                                                                                                                      1.5s 
+ ✔ Container milvus-etcd          Removed                                                                                                                                                                                                      1.8s 
+ ✔ Container milvus-minio         Removed                                                                                                                                                                                                      1.9s 
+ ✔ Volume ds2man_minio-anonymous  Removed                                                                                                                                                                                                      0.0s 
+ ✔ Volume ds2man_milvus           Removed                                                                                                                                                                                                      0.0s 
+ ✔ Volume ds2man_etcd             Removed                                                                                                                                                                                                      0.0s 
+ ✔ Volume ds2man_minio            Removed                                                                                                                                                                                                      0.0s 
+ ✔ Network milvus                 Removed                                                                                                                                                                                                      0.4s 
+(base) jaoneol@DESKTOP-B7GM3C5:~/milvus_files$ docker volume ls
+DRIVER    VOLUME NAME
+local     mysql
+(base) jaoneol@DESKTOP-B7GM3C5:~/milvus_files$ 
 ```

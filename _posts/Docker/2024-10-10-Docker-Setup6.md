@@ -156,12 +156,14 @@ See 'docker run --help'.
 
 ```bash
 # The file `/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg` is created.
-# The `nvidia-container-toolkit-keyring.gpg` file stores NVIDIA's official GPG key. The GPG(GNU Privacy Guard) key is used to verify the integrity and origin of packages, ensuring that the software downloaded through the package management system is genuinely provided by NVIDIA.    	
+# The `nvidia-container-toolkit-keyring.gpg` file stores NVIDIA's official GPG key. 
+# The GPG(GNU Privacy Guard) key is used to verify the integrity and origin of packages, ensuring that the software downloaded through the package management system is genuinely provided by NVIDIA.    	
 (base) jaoneol@DESKTOP-B7GM3C5:~$ curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
 
 # The GPG key is recorded in `/etc/apt/sources.list.d/nvidia-container-toolkit.list`.
 # The file `libnvidia-container/stable/debian11/libnvidia-container.list` contains the list of NVIDIA's APT package repositories.     
-# The `sed` command is used to find and replace strings. Through this process, `[signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg]` is added to configure package verification using NVIDIA's official GPG key.    
+# The `sed` command is used to find and replace strings. 
+# Through this process, `[signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg]` is added to configure package verification using NVIDIA's official GPG key.    
 (base) jaoneol@DESKTOP-B7GM3C5:~$ curl -s -L https://nvidia.github.io/libnvidia-container/stable/debian11/libnvidia-container.list | \
     sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
     sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
@@ -195,6 +197,7 @@ Reading package lists... Done
 ```
 
 ```bash
+# Install the NVIDIA Container Toolkit packages
 (base) jaoneol@DESKTOP-B7GM3C5:~$ sudo apt-get install -y nvidia-container-toolkit
 Reading package lists... Done
 Building dependency tree... Done
@@ -241,7 +244,9 @@ Processing triggers for libc-bin (2.39-0ubuntu8.4) ...
 	`sudo systemctl restart docker`
 	
 ```bash
-# # The file `/etc/docker/daemon.json` is created.
+# The file `/etc/docker/daemon.json` is created.
+# The file is updated so that Docker can use the NVIDIA Container Runtime. 
+# This configuration ensures that all runtimes use the NVIDIA runtime.
 (base) jaoneol@DESKTOP-B7GM3C5:~$ sudo nvidia-ctk runtime configure --runtime=docker
 INFO[0000] Loading config from /etc/docker/daemon.json  
 INFO[0000] Wrote updated config to /etc/docker/daemon.json 
@@ -255,12 +260,15 @@ INFO[0000] It is recommended that docker daemon be restarted.
             "path": "nvidia-container-runtime"
         }
     }
-}(base) jaoneol@DESKTOP-B7GM3C5:~$ 
+}
+
+(base) jaoneol@DESKTOP-B7GM3C5:~$ sudo systemctl restart docker
+(base) jaoneol@DESKTOP-B7GM3C5:~$ 
 ```
 
 ## *Running a Sample Workload with Docker*
 
-After you install and configure the toolkit and install an NVIDIA GPU Driver, you can verify your installation by running a sample workload. I wrote this based on [NVIDIA]https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/sample-workload.html) to install the NVIDIA Container Toolkit.
+After you install and configure the toolkit and install an NVIDIA GPU Driver, you can verify your installation by running a sample workload. I wrote this based on [NVIDIA](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/sample-workload.html) to install the NVIDIA Container Toolkit.
 
 - 1.Run a sample CUDA container    
 	`sudo docker run --rm --runtime=nvidia --gpus all ubuntu:24.04 nvidia-smi`    
@@ -270,9 +278,9 @@ After you install and configure the toolkit and install an NVIDIA GPU Driver, yo
 	
 ```bash
 # If `--runtime=nvidia --gpus all` is not specified, an error will occur.
-(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/keyrings$ docker run --rm ubuntu:24.04 nvidia-smi
+(base) jaoneol@DESKTOP-B7GM3C5:~$ docker run --rm ubuntu:24.04 nvidia-smi
 docker: Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: exec: "nvidia-smi": executable file not found in $PATH: unknown.
-(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/keyrings$ 
+(base) jaoneol@DESKTOP-B7GM3C5:~$ 
 
 # --rm : Automatically deletes the container after it exits.
 # --runtime=nvidia : Sets the runtime for Docker to the NVIDIA runtime, enabling the use of NVIDIA GPUs.

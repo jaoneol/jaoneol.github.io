@@ -38,13 +38,15 @@ Miniconda is a software distribution that helps easily install and manage Python
 
 ## *Install Miniconda on Ubuntu*
 
-- According to the documentation ([Installation methods](https://docs.anaconda.com/miniconda/install/#quick-command-line-install)), you need to run the following command. For more details, please refer to the official documentation.    
+- According to the documentation ([Installation methods](https://docs.anaconda.com/miniconda/install/#quick-command-line-install)), you need to run the following command. For more details, please refer to the official documentation.
+- For reference, even if Miniconda is installed with a super account, it cannot be used in my account. I will install it under my account (jaoneol).
 	`wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`      
 	`bash ~/Miniconda3-latest-Linux-x86_64.sh`      
 	`source ~/.bashrc`
 
 <!--
 문서(https://docs.anaconda.com/miniconda/install/#quick-command-line-install)에 따르면 아래 명령어를 실행하면 된다. 자세한 사항은 공식 문서를 참고 바란다.
+참고로 miniconda를 super 계정으로 설치해도 나의 계정에서는 사용이 안된다. 나의 계정(jaoneol)으로 설치한다.
 -->
 
 ```bash
