@@ -128,22 +128,31 @@ I wrote this based on [NVIDIA](https://docs.nvidia.com/datacenter/cloud-native/c
 NVIDIA Contrainer Toolkit 설치 위해 [NVIDIA](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)를 기반으로 작성하였다.
 -->
 
-- 1.Configure the production repository
-	The `nvidia-container-toolkit-keyring.gpg` file stores NVIDIA's official GPG key. The GPG(GNU Privacy Guard) key is used to verify the integrity and origin of packages, ensuring that the software downloaded through the package management system is genuinely provided by NVIDIA.    	
+- 1.Configure the production repository    
+	The `nvidia-container-toolkit-keyring.gpg` file stores NVIDIA's official GPG key. The GPG(GNU Privacy Guard) key is used to verify the integrity and origin of packages, ensuring that the software downloaded through the package management system is genuinely provided by NVIDIA.    
 	`curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg`    
 	
 	The file `libnvidia-container/stable/debian11/libnvidia-container.list` contains the list of NVIDIA's APT package repositories.     
 	The `sed` command is used to find and replace strings. Through this process, `[signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg]` is added to configure package verification using NVIDIA's official GPG key.    
-	The `tee` is a command that saves the output of a command to a file.
+	The `tee` is a command that saves the output of a command to a file.    
 	`curl -s -L https://nvidia.github.io/libnvidia-container/stable/debian11/libnvidia-container.list | \
     sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
     sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list`
   <br>
 - 2.Update the packages list from the repository
 	`sudo apt-get update`    
-  <br>
+
 - 3.Install the NVIDIA Container Toolkit packages
 	`sudo apt-get install -y nvidia-container-toolkit`
+
+```bash
+# An error occurs indicating that the GPU cannot be used because the NVIDIA Container Toolkit is not installed.
+(base) jaoneol@DESKTOP-B7GM3C5:~$ sudo docker run --rm --runtime=nvidia --gpus all ubuntu:24.04 nvidia-smi
+[sudo] password for jaoneol: 
+docker: Error response from daemon: unknown or invalid runtime name: nvidia.
+See 'docker run --help'.
+(base) jaoneol@DESKTOP-B7GM3C5:~$ 
+```
 
 ```bash
 # The file `/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg` is created.
@@ -225,10 +234,10 @@ Processing triggers for libc-bin (2.39-0ubuntu8.4) ...
 
 ## *Configuring Docker*
 
-- 1.Configure the container runtime by using the `nvidia-ctk` command. The `nvidia-ctk` command modifies the `/etc/docker/daemon.json` file on the host. The file is updated so that Docker can use the NVIDIA Container Runtime.  **This configuration ensures that all runtimes use the NVIDIA runtime.**
-	`sudo nvidia-ctk runtime configure --runtime=docker`
-<br>
-- 2.Restart the Docker daemon
+- 1.Configure the container runtime by using the `nvidia-ctk` command. The `nvidia-ctk` command modifies the `/etc/docker/daemon.json` file on the host. The file is updated so that Docker can use the NVIDIA Container Runtime.  **This configuration ensures that all runtimes use the NVIDIA runtime.**    
+	`sudo nvidia-ctk runtime configure --runtime=docker`    
+
+- 2.Restart the Docker daemon    
 	`sudo systemctl restart docker`
 	
 ```bash
@@ -253,10 +262,10 @@ INFO[0000] It is recommended that docker daemon be restarted.
 
 After you install and configure the toolkit and install an NVIDIA GPU Driver, you can verify your installation by running a sample workload. I wrote this based on [NVIDIA]https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/sample-workload.html) to install the NVIDIA Container Toolkit.
 
-- 1.Run a sample CUDA container
-	`sudo docker run --rm --runtime=nvidia --gpus all ubuntu:24.04 nvidia-smi`
-<br>
-- 2.To verify that PyTorch is running with GPU support, you can run the following Python commands
+- 1.Run a sample CUDA container    
+	`sudo docker run --rm --runtime=nvidia --gpus all ubuntu:24.04 nvidia-smi`    
+
+- 2.To verify that PyTorch is running with GPU support, you can run the following Python commands    
 	`docker run --rm --gpus all pytorch/pytorch:latest python -c "import torch; print(torch.cuda.is_available())"`
 	
 ```bash
