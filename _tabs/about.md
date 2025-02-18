@@ -35,7 +35,7 @@ font-weight:bold">
 ## Main Project
 ---
 
-**[AI]ML/Statistics based Machine Failure Prediction(2023)**
+**[AI]ML/Statistics-based Machine Failure Prediction(2023)**
 
 - Predicting Failure Probabilities in LOP & LPR Areas in Advance Using `Statistics and Machine Learning` by Analyzing Data from `Test Equipment with Design Rules` through EDA
 
