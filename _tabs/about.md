@@ -6,15 +6,16 @@ order: 4
 
 <!--author-->
 * * *
-<center>
-<span style=
-"font-size:170%;
-font-weight:bold">
-장용철
-</span>
-</center>
-<center>Software & AI Engineer & Data Scientist</center>
-<center>Samsung Electroics, Asan</center>
+<div style="display: flex; align-items: center; justify-content: center;">
+    <img src="/assets/img/favicons/mstile-150x150.png" 
+         width="100" 
+         style="border-radius: 50%; margin-right: 30px;">
+    <div style="display: flex; flex-direction: column; text-align: left;">
+        <span style="font-size:170%; font-weight:bold">장용철</span>
+        <span>ML/DL Engineer & Data Scientist</span>
+        <span>Samsung Electronics, Onyang</span>
+    </div>
+</div>
 
 
 ## Personal Data
