@@ -35,7 +35,7 @@ Later, in a Kubernetes (K8s) environment, you will learn about **Persistent Volu
 나중에 K8s 환경에서는 PV(Persistent Volume)에 대해서도 배울 건데, 이 방식은 볼륨과 유사하다는 점은 참고해서 이해해 보자.
 -->
 
-![Volume](/assets/img/2024-10-16-Docker-Understanding6_1.png)
+![Volume](/assets/img/docker/2024-10-16-Docker-Understanding6_1.png)
 _Docker volume and Bind Mount(Source: [Blog](https://deveric.tistory.com/111))_
 
 ## *Docker Volume*

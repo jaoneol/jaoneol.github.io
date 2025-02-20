@@ -117,5 +117,5 @@ Cheating Sheet에 있는 내용을 기반으로 LLM이 대답하게 만드는 �
 6. Prompt Contexts 구성
 7. LLM의 답변 생성(Response)
 -->
-![RAG Intro](/assets/img/2025-02-04-RAG-Prologue_1.png)
+![RAG Intro](/assets/img/llm&rag/2025-02-04-RAG-Prologue_1.png)
 _RAG Intro(Source: [NAVER CLOUD PLATFORM](https://www.ncloud-forums.com/topic/277/))_

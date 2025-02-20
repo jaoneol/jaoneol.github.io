@@ -48,7 +48,7 @@ You may press Ctrl+C now to abort this script.
 + sleep 20
 ```
 
-![docker engine Installation](/assets/img/2024-10-08-Docker-Setup2_1.png)
+![docker engine Installation](/assets/img/docker/2024-10-08-Docker-Setup2_1.png)
 _docker engine Installation_
 
 ## *Docker Settings*

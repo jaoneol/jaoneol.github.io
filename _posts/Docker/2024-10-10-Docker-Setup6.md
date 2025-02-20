@@ -28,7 +28,7 @@ In the previous post, we installed Docker Engine. However, with the advancement 
 이전 글에서 우리는 Docker Engine을 설치해 보았다. 그러나 AI의 발달로 Docker 위에서 NVIDIA GPU를 사용해야 하는 경우가 증가하고 있다. 이를 위해서 NVIDIA가 제공하는 플러그인이 NVIDIA Container Toolkit 이다. NVIDIA Container Toolkit를 설치하는 목적은 Docker 컨테이너 내에서 NVIDIA GPU를 효율적으로 활용할 수 있게 하여 GPU 가속화 애플리케이션의 배포와 실행을 용이하기 하기 위해 사용합니다. NVIDIA에서 제공하는 Manual([NVIDIA Container Tookit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html))을 참고하였다.
 -->
 
-![NVIDIA Container Toolkit](/assets/img/2024-10-10-Docker-Setup6_1.png)
+![NVIDIA Container Toolkit](/assets/img/docker/2024-10-10-Docker-Setup6_1.png)
 _NVIDIA Container Toolkit(Source: [NVIDIA](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html))_
 
 ## *Prerequisites*

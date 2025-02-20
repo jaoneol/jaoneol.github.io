@@ -33,7 +33,7 @@ orchestration platform 의 종류는 k8s이외에 Amazon ECS, Docker Swarm 등�
 |HashiCorp Nomad|~5%|A lightweight orchestration tool known for simplicity and fast deployment, but with a smaller ecosystem compared to Kubernetes.|
 |Others|~5%|Includes OpenShift, Rancher, and other platforms used in specific industries or enterprises.|
 
-![Historical context for Kubernetes](/assets/img/2024-10-05-Docker-Prologue1_1.png)
+![Historical context for Kubernetes](/assets/img/docker/2024-10-05-Docker-Prologue1_1.png)
 _Historical context for Kubernetes(Source: [Kubernetes](https://kubernetes.io/docs/concepts/overview/))_
 
 ## *Recommended For:*

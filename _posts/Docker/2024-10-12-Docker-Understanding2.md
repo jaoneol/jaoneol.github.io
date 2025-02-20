@@ -34,7 +34,7 @@ Docker image는 layer로 이루어져 있으며, 각 layer 계층은 모두 Read
 또한 동일한 image를 run할 때 image를 새로 받아오지 않는 이유도 다 이 때문입니다.
 -->
 
-![Containers and Layers](/assets/img/2024-10-12-Docker-Understanding2_1.png)
+![Containers and Layers](/assets/img/docker/2024-10-12-Docker-Understanding2_1.png)
 _Docker containers and layers(Source: [Docker Docs](https://docs.docker.com/engine/storage/drivers/))_
 
 ## *Pull Docker Image*
@@ -124,7 +124,7 @@ Docker Hub에서 mysql 검색 시 다양한 버전을 확인할 수 있다. late
 |`RUN set -eux; microdnf install -y "mysql-shell-$MYSQL_SHELL_VERSION"`|Install MySQL Shell|9|
 |`COPY docker-entrypoint.sh /usr/local/bin/`|Copy file|10|
 
-![Dockerfile](/assets/img/2024-10-12-Docker-Understanding2_2.png)
+![Dockerfile](/assets/img/docker/2024-10-12-Docker-Understanding2_2.png)
 _Dockerfile in Dockerhub(Source: [Dockerhub](https://hub.docker.com), [Dockerfile](https://github.com/docker-library/mysql/blob/df3a5c483a5e8c3c4d1eae61678fa5372c403bf0/innovation/Dockerfile.oracle))_
 
 ## *Run Docker Container*

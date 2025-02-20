@@ -18,7 +18,7 @@ pin: true
 It could be difficult to comprehend all the terms if you are new to Docker. Many Docker terminology can signify various things to different people, and they are occasionally used in diverse contexts. For instance, you could be curious about the differences between a Docker image and a Docker container, much like other people who are learning about Docker. They differ in a modest but important way.    
 The differences between Docker images and containers, and docker files will be covered in this article, which will also explain how and when to utilize each.
 
-![Dockerfile, Image, Container](/assets/img/2024-10-12-Docker-Understanding3_1.png)
+![Dockerfile, Image, Container](/assets/img/docker/2024-10-12-Docker-Understanding3_1.png)
 _Dockerfile, Docker Image, Docker Container_
 
 ## *Write a [Dockerfile]*

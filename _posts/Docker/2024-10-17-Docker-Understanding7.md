@@ -44,13 +44,13 @@ The `stress` command is commonly used as a tool for generating load, and various
 - `stress --vm 2 --vm-bytes 90m -t 5s`    
 	Creates two memory-consuming (worker) processes.  Each VM worker allocates 90MB of memory.
 
-![stress](/assets/img/2024-10-17-Docker-Understanding7_1.png)
+![stress](/assets/img/docker/2024-10-17-Docker-Understanding7_1.png)
 _`stress --vm 2 --vm-bytes 90m -t 5s`_
 
 - `stress -c 3 -t 5s` or `stress --cpu 3 --timeout 5s`    
 	Creates two CPU worker processes to generate CPU load.
 
-![stress](/assets/img/2024-10-17-Docker-Understanding7_2.png)
+![stress](/assets/img/docker/2024-10-17-Docker-Understanding7_2.png)
 _`stress -c 3 -t 5s`_
 
 <!--
