@@ -27,7 +27,7 @@ Moving forward, I plan to use Ollama to build a local LLM. To deploy it via K8s,
 
 I wrote this based on [Ollama](https://ollama.com/download/linux) to install the Ollama.
 
-- 1. It's very simple. Just run the command below, and you're done!   
+- 1.It's very simple. Just run the command below, and you're done!   
 	`curl -fsSL https://ollama.com/install.sh | sh`
 
 ```bash
@@ -46,7 +46,7 @@ Created symlink /etc/systemd/system/default.target.wants/ollama.service → /etc
 >>> Nvidia GPU detected.
 >>> The Ollama API is now available at 127.0.0.1:11434.
 >>> Install complete. Run "ollama" from the command line.
-(base) jaoneol@DESKTOP-B7GM3C5:~$
+(base) jaoneol@DESKTOP-B7GM3C5:~$ 
 ```
 
 ## *How to use Ollama*
@@ -57,13 +57,13 @@ You can download the LLM model you want to use by running the `ollama pull` or `
 [Ollama Home](https://ollama.com/search) 나 [Ollama Github](https://github.com/ollama/ollama) 에서 내가 활용하고 싶은 LLM 모델을 `ollama pull` 명령어로 다운받으면 된다. `ollama list`로 현재 다운받은 내용을 확인할 수 있다.
 -->
 
-- 1. Use the following command to download the LLM model. If you want to run it immediately, use `run` instead of `pull`.    
+- 1.Use the following command to download the LLM model. If you want to run it immediately, use `run` instead of `pull`.    
 	`ollama pull llama3.1`    
 	For reference, the location where the model is stored is as follows.    
 	`/usr/share/ollama/.ollama/models/`    
 - 2.You can check the LLM models managed by Ollama using the following command.  
 	`ollama list`   
-- 3.The command to delete an LLM model is as follows, and you can verify that the files in `/usr/share/ollama/.ollama/models/` have been removed.
+- 3.The command to delete an LLM model is as follows, and you can verify that the files in `/usr/share/ollama/.ollama/models/` have been removed.      
 	`ollama rm llama3.1`    
 - 4.When using `ollama rm` on Ubuntu, the files are deleted, but the size of `ext4.vhdx` does not decrease. To resolve this, you need to use `diskpart` to clean up the files. This program is used for disk cleanup. Enter the following commands in order.    
 	`select vdisk file="D:\01.WSL\ext4.vhdx"`    
@@ -105,14 +105,14 @@ success
 (base) jaoneol@DESKTOP-B7GM3C5:~$ ollama list
 NAME               ID              SIZE      MODIFIED
 llama3.1:latest    46e0c10c039e    4.9 GB    29 seconds ago
-(base) jaoneol@DESKTOP-B7GM3C5:~$
+(base) jaoneol@DESKTOP-B7GM3C5:~$ 
 
 # the location where the model is stored is as follows.    
 # `/usr/share/ollama/.ollama/models/`    
 (base) jaoneol@DESKTOP-B7GM3C5:~$ cd /usr/share/ollama/.ollama
 (base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models$ pwd
 /usr/share/ollama/.ollama/models
-(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models$
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models$ 
 (base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama$ ls
 id_ed25519  id_ed25519.pub  models
 (base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama$ cd models
@@ -126,7 +126,7 @@ total 4805448
 -rw-r--r-- 1 ollama ollama      12320 Mar  1 14:06 sha256-0ba8f0e314b4264dfd19df045cde9d4c394a52474bf92ed6a3de22a4ca31a177
 -rw-r--r-- 1 ollama ollama         96 Mar  1 14:06 sha256-56bb8bd477a519ffa694fc449c2413c6f0e1d3b1c88fa7e3c9d88d3ae49d4dcb
 -rw-r--r-- 1 ollama ollama        487 Mar  1 14:06 sha256-455f34728c9b5dd3376378bfb809ee166c145b0b4c1f1a6feca069055066ef9a
-(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$ 
 ```
 
 ```bash
@@ -136,7 +136,7 @@ deleted 'llama3.1'
 (base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$ ollama list
 NAME    ID    SIZE    MODIFIED
 (base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$ ls
-(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$ 
 ```
 
 ```bash
@@ -219,10 +219,11 @@ success
 NAME                  ID              SIZE      MODIFIED
 deepseek-r1:latest    0a8c26691023    4.7 GB    13 minutes ago
 llama3.1:latest       46e0c10c039e    4.9 GB    30 minutes ago
-(base) jaoneol@DESKTOP-B7GM3C5:~$
+(base) jaoneol@DESKTOP-B7GM3C5:~$ 
 ```
 
 ```bash
+# I run Llama 3.1.
 (base) jaoneol@DESKTOP-B7GM3C5:~$ ollama run deepseek-r1
 >>> Recommend two places worth visiting in Shanghai, China.
 <think>
