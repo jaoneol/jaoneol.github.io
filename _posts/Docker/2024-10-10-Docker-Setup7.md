@@ -27,7 +27,7 @@ Moving forward, I plan to use Ollama to build a local LLM. To deploy it via K8s,
 
 I wrote this based on [Ollama](https://ollama.com/download/linux) to install the Ollama.
 
-- 1.  It's very simple. Just run the command below, and you're done!   
+- 1. It's very simple. Just run the command below, and you're done!   
 	`curl -fsSL https://ollama.com/install.sh | sh`
 
 ```bash
@@ -57,15 +57,15 @@ You can download the LLM model you want to use by running the `ollama pull` or `
 [Ollama Home](https://ollama.com/search) 나 [Ollama Github](https://github.com/ollama/ollama) 에서 내가 활용하고 싶은 LLM 모델을 `ollama pull` 명령어로 다운받으면 된다. `ollama list`로 현재 다운받은 내용을 확인할 수 있다.
 -->
 
-- 1.  Use the following command to download the LLM model. If you want to run it immediately, use `run` instead of `pull`.    
+- 1. Use the following command to download the LLM model. If you want to run it immediately, use `run` instead of `pull`.    
 	`ollama pull llama3.1`    
 	For reference, the location where the model is stored is as follows.    
 	`/usr/share/ollama/.ollama/models/`    
-- 2.  You can check the LLM models managed by Ollama using the following command.  
+- 2.You can check the LLM models managed by Ollama using the following command.  
 	`ollama list`   
-- 3.  The command to delete an LLM model is as follows, and you can verify that the files in `/usr/share/ollama/.ollama/models/` have been removed.
+- 3.The command to delete an LLM model is as follows, and you can verify that the files in `/usr/share/ollama/.ollama/models/` have been removed.
 	`ollama rm llama3.1`    
-- 4. When using `ollama rm` on Ubuntu, the files are deleted, but the size of `ext4.vhdx` does not decrease. To resolve this, you need to use `diskpart` to clean up the files. This program is used for disk cleanup. Enter the following commands in order.    
+- 4.When using `ollama rm` on Ubuntu, the files are deleted, but the size of `ext4.vhdx` does not decrease. To resolve this, you need to use `diskpart` to clean up the files. This program is used for disk cleanup. Enter the following commands in order.    
 	`select vdisk file="D:\01.WSL\ext4.vhdx"`    
 	`attach vdisk readonly`    
 	`compact vdisk`    
