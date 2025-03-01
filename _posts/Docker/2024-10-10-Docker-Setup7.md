@@ -52,11 +52,28 @@ Created symlink /etc/systemd/system/default.target.wants/ollama.service → /etc
 ## *How to use Ollama*
 
 You can download the LLM model you want to use by running the `ollama pull` or `ollama run` command from [Ollama Home](https://ollama.com/search) or [Ollama GitHub](https://github.com/ollama/ollama). You can check the downloaded models using the `ollama list` command.    
-For reference, since Deepseek became a hot topic after the Ollama post, I updated this article on February 20. The list of LLMs is as follows. You can check the full list on [Ollama GitHub](https://github.com/ollama/ollama).
 
 <!--
 [Ollama Home](https://ollama.com/search) 나 [Ollama Github](https://github.com/ollama/ollama) 에서 내가 활용하고 싶은 LLM 모델을 `ollama pull` 명령어로 다운받으면 된다. `ollama list`로 현재 다운받은 내용을 확인할 수 있다.
+-->
 
+- 1.  Use the following command to download the LLM model. If you want to run it immediately, use `run` instead of `pull`.    
+	`ollama pull llama3.1`    
+	For reference, the location where the model is stored is as follows.    
+	`/usr/share/ollama/.ollama/models/`    
+- 2.  You can check the LLM models managed by Ollama using the following command.  
+	`ollama list`   
+- 3.  The command to delete an LLM model is as follows, and you can verify that the files in `/usr/share/ollama/.ollama/models/` have been removed.
+	`ollama rm llama3.1`    
+- 4. When using `ollama rm` on Ubuntu, the files are deleted, but the size of `ext4.vhdx` does not decrease. To resolve this, you need to use `diskpart` to clean up the files. This program is used for disk cleanup. Enter the following commands in order.    
+	`select vdisk file="D:\01.WSL\ext4.vhdx"`    
+	`attach vdisk readonly`    
+	`compact vdisk`    
+	`detach vdisk`    
+
+For reference, since Deepseek became a hot topic after the Ollama post, I updated this article on February 20. The list of LLMs is as follows. You can check the full list on [Ollama GitHub](https://github.com/ollama/ollama).
+
+<!--
 참고로 Ollama 포스트 이후에 Deepseek가 핫이슈라 이글 업데이트를 2/20일에 진행했다. LLM 리스트는 다음과 같다. 전체 리스트는 [Ollama Github](https://github.com/ollama/ollama) 확인하면 된다.
 -->
 
@@ -89,10 +106,68 @@ success
 NAME               ID              SIZE      MODIFIED
 llama3.1:latest    46e0c10c039e    4.9 GB    29 seconds ago
 (base) jaoneol@DESKTOP-B7GM3C5:~$
+
+# the location where the model is stored is as follows.    
+# `/usr/share/ollama/.ollama/models/`    
+(base) jaoneol@DESKTOP-B7GM3C5:~$ cd /usr/share/ollama/.ollama
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models$ pwd
+/usr/share/ollama/.ollama/models
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models$
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama$ ls
+id_ed25519  id_ed25519.pub  models
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama$ cd models
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models$ ls
+blobs  manifests
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models$ cd blobs/
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$ ls -lrt
+total 4805448
+-rw-r--r-- 1 ollama ollama 4920738944 Mar  1 14:06 sha256-667b0c1932bc6ffc593ed1d03f895bf2dc8dc6df21db3042284a6f4416b06a29
+-rw-r--r-- 1 ollama ollama       1481 Mar  1 14:06 sha256-948af2743fc78a328dcb3b0f5a31b3d75f415840fdb699e8b1235978392ecf85
+-rw-r--r-- 1 ollama ollama      12320 Mar  1 14:06 sha256-0ba8f0e314b4264dfd19df045cde9d4c394a52474bf92ed6a3de22a4ca31a177
+-rw-r--r-- 1 ollama ollama         96 Mar  1 14:06 sha256-56bb8bd477a519ffa694fc449c2413c6f0e1d3b1c88fa7e3c9d88d3ae49d4dcb
+-rw-r--r-- 1 ollama ollama        487 Mar  1 14:06 sha256-455f34728c9b5dd3376378bfb809ee166c145b0b4c1f1a6feca069055066ef9a
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$
 ```
 
 ```bash
-# I will try downloading Llama 3.1.
+# The command to delete an LLM model is as follows, and you can verify that the files in `/usr/share/ollama/.ollama/models/` have been removed.
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$ ollama rm llama3.1
+deleted 'llama3.1'
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$ ollama list
+NAME    ID    SIZE    MODIFIED
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$ ls
+(base) jaoneol@DESKTOP-B7GM3C5:/usr/share/ollama/.ollama/models/blobs$
+```
+
+```bash
+# Run the `diskpart` command. This program cleans up the disk.
+PS C:\Users\ycjang> diskpart
+PS C:\Users\ycjang>
+
+# run C:\Windows\system32\diskpart.exe
+Microsoft DiskPart 버전 10.0.19041.3636
+
+Copyright (C) Microsoft Corporation.
+컴퓨터: DESKTOP-B7GM3C5
+
+DISKPART> select vdisk file="D:\01.WSL\ext4.vhdx"
+DiskPart가 가상 디스크 파일을 선택했습니다.
+
+DISKPART> attach vdisk readonly
+  100 퍼센트 완료
+DiskPart가 가상 디스크 파일을 연결했습니다.
+
+DISKPART> compact vdisk
+  100 퍼센트 완료
+DiskPart가 가상 디스크 파일을 압축했습니다.
+
+DISKPART> detach vdisk
+DiskPart가 가상 디스크 파일을 분리했습니다.
+DISKPART>
+```
+
+```bash
+# I run Llama 3.1.
 (base) jaoneol@DESKTOP-B7GM3C5:~$ ollama run llama3.1
 >>> hi. my name is ds2man. what is your name?
 Hello DS2Man! I don't have a personal name, but you can call me Assistant or AI if you like. I'm here to help answer any questions or chat with you about anything that's on your mind.
