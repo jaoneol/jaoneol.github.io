@@ -172,6 +172,8 @@ RUN pip install -r requirements.txt
 ```
 
 - **CMD & ENTRYPOINT**    
+	 <ins>Both **CMD** and **ENTRYPOINT** are executed when a container runs (`docker run`). </ins> They are not executed when building the Dockerfile (creating an image with `docker build`). <ins>Since they run when the container starts, they will be executed again if the container is restarted using the `docker start` command.</ins> Most other Dockerfile instructions (such as `FROM`, `RUN`, `COPY`, `ADD`, and `WORKDIR`) are executed during the `docker build` process.    
+	 
 	**CMD**: Provides a default command, which can be **fully overridden**. Use CMD when you want to provide a default command that users **can override**.    
 	**ENTRYPOINT**(In my case, Recommend): Ensures a **fixed command** runs, passing arguments instead of replacing it. Use ENTRYPOINT when the container **must always** run a specific application.    
 	For reference, use both when you need a fixed command with flexible default parameters.
