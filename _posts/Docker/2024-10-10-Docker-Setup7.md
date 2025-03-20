@@ -1,5 +1,5 @@
 ---
-title: Ollama on Ubuntu
+title: (Option) Ollama on Ubuntu
 description: Let's Install Ollama on Ubuntu
 author: DS2Man
 date: 2024-10-10 15:00:00 +0000
@@ -16,11 +16,11 @@ pin: true
 ## *About Ollama*
 
 In the previous post, I installed Docker Engine and set up NVIDIA GPU support within Docker Containers by installing the NVIDIA Container Toolkit, making it easier to deploy and run GPU-accelerated applications. Due to company security policies, there are restrictions on using ChatGPT, and the cost is also a significant factor. Ollama addresses these constraints. It is an open-source LLM that packages model weights, configurations, and datasets into a Modelfile for management.    
-Moving forward, I plan to use Ollama to build a local LLM. To deploy it via K8s, it must be built as an image. Therefore, I will install Ollama on the Ubuntu system we have set up.
+Before creating and using an Ollama Image, let's first install Ollama on the WSL Ubuntu we set up. For reference, during development, it's often more convenient to install and use Ollama on Windows. So, for this post, we'll just focus on how to install it on Ubuntu.
 
 <!--
 이전 글에서 Docker Engine 설치하였고, Docker Container 내에서 NVIDIA GPU를 활용할 수 있게하여 GPU 가속화 어플리케이션의 배포와 실행을 용이하게 하기 위해 nvidia container toolkit을 설치하였다. 회사 보안상의 문제로 ChatGPT 사용에 제약이 있고,  비용 문제도 만만치 않다. 이러한 제약을 해소한 것이 Ollama 이다. Ollama는 오픈 소스 LLM으로 모델 가중치, 설정, 데이터셋을 패키지로 묶어서 Modelfile로 관리한다.
-앞으로 로컬 LLM 구축을 위해서 Ollama를 사용할 예정인데, K8s통한 배포를 위해서는 반드시 Image로 만들어야 한다. 이를 위해서 우리가 설치한 Unbutu에 ollama를 설치하고자 한다.
+앞으로 Ollama Image를 만들어서, 사용할 예정인데, 그에 앞서 설치한 WSL Ubuntu에 Ollama를 설치해 보자. 참고로, 개발하다보면 Windows에 Ollama를 설치하고 이용하는게 좀더 편해서, 이번 포스팅은 어떻게 Ubuntu에 설치하는 지만 알아두면 될거 같다.
 -->
 
 ## *Install Ollama*
@@ -52,7 +52,6 @@ Created symlink /etc/systemd/system/default.target.wants/ollama.service → /etc
 ## *How to use Ollama*
 
 You can download the LLM model you want to use by running the `ollama pull` or `ollama run` command from [Ollama Home](https://ollama.com/search) or [Ollama GitHub](https://github.com/ollama/ollama). You can check the downloaded models using the `ollama list` command.    
-
 <!--
 [Ollama Home](https://ollama.com/search) 나 [Ollama Github](https://github.com/ollama/ollama) 에서 내가 활용하고 싶은 LLM 모델을 `ollama pull` 명령어로 다운받으면 된다. `ollama list`로 현재 다운받은 내용을 확인할 수 있다.
 -->

@@ -2,8 +2,8 @@
 title: Comparison Between Models.
 description: Let's compare between models registered in Ollama
 author: DS2Man
-date: 2025-02-10 11:00:00 +0000
-categories: [LLM&RAG, L&R-Understanding]
+date: 2025-02-10 17:00:00 +0000
+categories: [LLM&RAG, L&R-Ollama]
 tags:
   - RAG
   - ChatOllama
@@ -36,12 +36,12 @@ From the next post, we will be learning various technologies. It would be useful
 |General|Llama-3.2-3B-Instruct|-|-|9.6|-|-|
 |General|gemma-2-2b-it|-|-|9.8|-|-|
 |General|polyglot-ko-1.3b|-|-|6.1|-|-|
-|Ollama|llama3.2-vision:latest|11b|7.9|10.7|mllama|Q4_K_M|
-|Ollama|gemma2:latest|9b|5.4|9|gemma2|Q4_0|
-|Ollama|gemma3:latest|7b|3.3|3.7|gemma3|Q4_K_M|
-|Ollama|gemma3:12b|12b|8.1|7.5|gemma3|Q4_K_M|
-|Ollama|deepseek-r1:14b|14b|9|9.3|qwen2|Q4_K_M|
-|Ollama|deepseek-r1:7b|7b|4.7|5.6|qwen2|Q4_K_M|
+|Ollama|llama3.2-vision:latest|11b|6.0|10.0|mllama|Q4_K_M|
+|Ollama|gemma2:latest|9b|5.4|8.4|gemma2|Q4_0|
+|Ollama|gemma3:latest|4b|3.3|4.5|gemma3|Q4_K_M|
+|Ollama|gemma3:12b|12b|8.1|7.0|gemma3|Q4_K_M|
+|Ollama|deepseek-r1:14b|14b|9.0|8.9|qwen2|Q4_K_M|
+|Ollama|deepseek-r1:7b|7b|4.7|5.2|qwen2|Q4_K_M|
 
 
 ```
