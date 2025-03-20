@@ -13,7 +13,7 @@ math: true
 pin: true
 ---
 
-## *About Ollama*
+## *Prologue*
 
 In the previous post, I installed Docker Engine and set up NVIDIA GPU support within Docker Containers by installing the NVIDIA Container Toolkit, making it easier to deploy and run GPU-accelerated applications. Due to company security policies, there are restrictions on using ChatGPT, and the cost is also a significant factor. Ollama addresses these constraints. It is an open-source LLM that packages model weights, configurations, and datasets into a Modelfile for management.    
 Before creating and using an Ollama Image, let's first install Ollama on the WSL Ubuntu we set up. For reference, during development, it's often more convenient to install and use Ollama on Windows. So, for this post, we'll just focus on how to install it on Ubuntu.
@@ -70,33 +70,16 @@ You can download the LLM model you want to use by running the `ollama pull` or `
 	`compact vdisk`    
 	`detach vdisk`    
 
-For reference, since Deepseek became a hot topic after the Ollama post, I updated this article on February 20. The list of LLMs is as follows. You can check the full list on [Ollama GitHub](https://github.com/ollama/ollama).
 
-<!--
-참고로 Ollama 포스트 이후에 Deepseek가 핫이슈라 이글 업데이트를 2/20일에 진행했다. LLM 리스트는 다음과 같다. 전체 리스트는 [Ollama Github](https://github.com/ollama/ollama) 확인하면 된다.
--->
-
-|Model|Parameters|Size|Download|
-|---|---|---|---|
-|**DeepSeek-R1**|7B|4.7GB|`ollama run deepseek-r1`|
-|DeepSeek-R1|671B|404GB|`ollama run deepseek-r1:671b`|
-|Llama 3.3|70B|43GB|`ollama run llama3.3`|
-|Llama 3.2|3B|2.0GB|`ollama run llama3.2`|
-|Llama 3.2|1B|1.3GB|`ollama run llama3.2:1b`|
-|Llama 3.2 Vision|11B|7.9GB|`ollama run llama3.2-vision`|
-|Llama 3.2 Vision|90B|55GB|`ollama run llama3.2-vision:90b`|
-|**Llama 3.1**|8B|4.7GB|`ollama run llama3.1`|
-|Llama 3.1|405B|231GB|`ollama run llama3.1:405b`|
-	
 ```bash
 # I will try downloading Llama 3.1.
 (base) jaoneol@DESKTOP-B7GM3C5:~$ ollama pull llama3.1
 pulling manifest
-pulling 667b0c1932bc... 100% ▕█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏ 4.9 GB
-pulling 948af2743fc7... 100% ▕█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏ 1.5 KB
-pulling 0ba8f0e314b4... 100% ▕█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏  12 KB
-pulling 56bb8bd477a5... 100% ▕█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏   96 B
-pulling 455f34728c9b... 100% ▕█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏  487 B
+pulling 667b0c1932bc... 100% ▕███████████████████████████████████████████▏ 4.9 GB
+pulling 948af2743fc7... 100% ▕███████████████████████████████████████████▏ 1.5 KB
+pulling 0ba8f0e314b4... 100% ▕███████████████████████████████████████████▏  12 KB
+pulling 56bb8bd477a5... 100% ▕███████████████████████████████████████████▏   96 B
+pulling 455f34728c9b... 100% ▕███████████████████████████████████████████▏  487 B
 verifying sha256 digest
 writing manifest
 success
@@ -190,66 +173,3 @@ Me too, DS2Man! It's great to have someone to chat with. I don't get bored or ti
 Speaking of which... What would you like to talk about next? Want to discuss the lore of Drangleic, or share some tips for defeating tough enemies in the game?
 ```
 
-## *Testing Deepseek-r1*
-
-Recently, due to **DeepSeek-R1**, the stock prices of American AI companies have dropped significantly. This is because it offers **high performance at a low cost**.    
-DeepSeek-R1 is a **fully open-source LLM** licensed by **MIT (Massachusetts Institute of Technology)**. It provides performance similar to the **OpenAI-O1 large language model** but at a much **lower cost**.    
-I tried using it—nothing more, nothing less.  
-Perhaps starting around **May 2025**, I might begin reading research papers on LLM models.
-
-<!--
-최근 DeepSeek-R1 으로인해, 미국 인공지능 회사들의 주가가 크게 떨어졌다. 저렴한 가격으로 높은 성능의 모델을 만들었기 때문이다.
-DeepSeek R1은 MIT(매사추세츠 공과대학)에서 라이선스를 취득한 완전 오픈 소스 LLM입니다. OpenAI-o1 대규모 언어 모델과 비슷한 성능을 제공하지만 훨씬 더 저렴한 LLM이다. 
-한번 사용해 보았다. 그 이상도 이하도 아니다. 아마 25년 5월 즈음부터 LLM 모델에 대한 논문을 읽어보게 되지 않을까 싶다. 
--->
-
-```bash
-(base) jaoneol@DESKTOP-B7GM3C5:~$ ollama pull deepseek-r1
-pulling manifest
-pulling 96c415656d37... 100% ▕█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏ 4.7 GB
-pulling 369ca498f347... 100% ▕█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏  387 B
-pulling 6e4c38e1172f... 100% ▕█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏ 1.1 KB
-pulling f4d24e9138dd... 100% ▕█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏  148 B
-pulling 40fb844194b2... 100% ▕█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏  487 B
-verifying sha256 digest
-writing manifest
-success
-(base) jaoneol@DESKTOP-B7GM3C5:~$ ollama list
-NAME                  ID              SIZE      MODIFIED
-deepseek-r1:latest    0a8c26691023    4.7 GB    13 minutes ago
-llama3.1:latest       46e0c10c039e    4.9 GB    30 minutes ago
-(base) jaoneol@DESKTOP-B7GM3C5:~$ 
-```
-
-```bash
-# I run Llama 3.1.
-(base) jaoneol@DESKTOP-B7GM3C5:~$ ollama run deepseek-r1
->>> Recommend two places worth visiting in Shanghai, China.
-<think>
-Okay, so the user has asked for recommendations on two places to visit in Shanghai, China. First off, they've previously asked about the capital of Korea and wanted a response in English,
-so now they're switching back to Shanghai.
-
-I should consider why they're interested in Shanghai. Maybe they're planning a trip there soon or looking for ideas for a visit. They probably want well-known attractions that are popular
-among tourists.
-
-Shanghai is known for its blend of old and new architecture, rich history, and modernity. Therefore, recommending places that showcase both aspects would be ideal. Huangpu River comes to
-mind because it's iconic with its bridges and the Bund district. Oriental Pearl TV Tower is another must-visit for its stunning views.
-
-In terms of cultural experiences, Shanghai Disneyland fits well as a family-friendly attraction with unique rides. For food enthusiasts, Huohe Road is famous for its variety of dumpling
-shops, which could be worth visiting if they're interested in local cuisine.
-
-I should present these options clearly and briefly explain why each place is recommended without being too lengthy. Keeping the tone friendly and helpful will make the response effective.
-</think>
-
-Two highly recommended places to visit in Shanghai are:
-
-1. **Huangpu River**
-   This iconic riverfront offers stunning views of the city's landmarks, including the Oriental Pearl Tower and Pudian Riverside Promenade. It's also a great spot for dining and shopping.
-
-2. **Oriental Pearl Tower (Shanghai Tower)**
-   The tallest skyscraper in China, this modern architectural marvel provides panoramic views of the Huangpu River and the city skyline.
-
-If you're looking for something more cultural and family-friendly, you might also enjoy exploring **Shanghai Disneyland**, which offers unique rides and attractions for all ages.
-
->>> Send a message (/? for help)
-```
