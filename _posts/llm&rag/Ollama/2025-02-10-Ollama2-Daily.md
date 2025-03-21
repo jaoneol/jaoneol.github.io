@@ -5,22 +5,16 @@ author: DS2Man
 date: 2025-02-10 17:00:00 +0000
 categories: [LLM&RAG, L&R-Ollama]
 tags:
-  - RAG
-  - ChatOllama
-  - LangChain
-  - LCEL
-  - Prompt
+  - Ollama
 math: true
 pin: true
 ---
 
-In the previous post, I used `ChatBrainAI()` to apply various general prompts and conversational prompts to configure LangChain. Going forward, I plan to build all projects using **ChatOllama()**.     
-From the next post, we will be learning various technologies. It would be useful to note the VRAM usage of the models registered in Ollama. In this post, I am writing to keep a record of the usage history when using different models. This will be continuously updated, so please refer to it.
+I plan to build all projects using **ChatOllama()**.  So, It would be useful to note the VRAM usage of the models registered in Ollama. In this post, I am writing to keep a record of the usage history when using different models. This will be continuously updated, so please refer to it.
 
 <!--
-이전 글에서는 ChatBrainAI()를 활용해서 다양한 일반형 Prompt와 대화형 Prompt를 적용, LangChain을 구성했었다.
-앞으로는 ChatOllama()를 활용해서 모든 프로젝트를 구성하려고 한다. 
-다음 글부터는 다양한 기술들을 배우게 될텐데 ollama에 등록된 모델의 VRAM사용량을 적어두면 좋을거 같다. 이번 글에서는 다양한 모델을 사용할때 이력을 기록해 두는 목적으로 글을 쓴다. 계속 업데이트 될테니 참고바란다.
+ChatOllama()를 활용해서 모든 프로젝트를 구성하려고 한다. 
+그래서 ollama에 등록된 모델의 VRAM사용량을 적어두면 좋을 거 같다. 이번 글에서는 다양한 모델을 사용할때 이력을 기록해 두는 목적으로 글을 쓴다. 계속 업데이트 될테니 참고바란다.
 -->
 
 ## *Comparison Between Models*
@@ -43,6 +37,14 @@ From the next post, we will be learning various technologies. It would be useful
 |Ollama|deepseek-r1:14b|14b|9.0|8.9|qwen2|Q4_K_M|
 |Ollama|deepseek-r1:7b|7b|4.7|5.2|qwen2|Q4_K_M|
 
+
+You can check key information about a model using the `ollama show` command. The quantization details are especially important.  
+As the use of Large Language Models (LLMs) rapidly increases, **model compression** and **optimization** have become critical. In particular, in edge environments with limited server resources or services that require real-time responses, it's often not feasible to use large-scale models as-is. In such cases, **quantization** is a technique that can **significantly reduce both inference speed and memory usage**, while preserving as much model accuracy as possible. I’ll update this post with further insights after trying it out myself.
+
+<!--
+- ollama show 명령어로 Model의 주요 정보를 알수 있다. 특히 quantization 정보가 중요한데. 
+LLM(Large Language Model)의 활용이 급격히 증가하면서, 모델의 **경량화**와 **최적화**가 핵심 이다. 특히, 서버 자원이 제한적인 엣지 환경이나 실시간 응답이 중요한 서비스에서는 고성능 모델을 그대로 사용할 수 없는 경우가 많다. 이때, **양자화(Quantization)**는 모델의 정확도는 최대한 유지하면서도 **속도와 메모리 사용량을 획기적으로 줄일 수 있는 기법**이라고 한다. 자세한 내용은 나중에 사용해 보면서 느낌점으로 업데이트 하겠다.
+-->
 
 ```
 PS C:\Users\ycjang> ollama show gemma3:12b
