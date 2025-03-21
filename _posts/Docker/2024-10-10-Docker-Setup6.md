@@ -28,6 +28,15 @@ In the previous post, we installed Docker Engine. However, with the advancement 
 이전 글에서 우리는 Docker Engine을 설치해 보았다. 그러나 AI의 발달로 Docker 위에서 NVIDIA GPU를 사용해야 하는 경우가 증가하고 있다. 이를 위해서 NVIDIA가 제공하는 플러그인이 NVIDIA Container Toolkit 이다. NVIDIA Container Toolkit를 설치하는 목적은 Docker 컨테이너 내에서 NVIDIA GPU를 효율적으로 활용할 수 있게 하여 GPU 가속화 애플리케이션의 배포와 실행을 용이하기 하기 위해 사용합니다. NVIDIA에서 제공하는 Manual([NVIDIA Container Tookit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html))을 참고하였다.
 -->
 
+There’s an very important point to keep in mind. You don’t need to add the NVIDIA Container Toolkit to your Dockerfile when building the image.  
+It only needs to be installed on the host OS (in my case, Ubuntu on WSL).  
+In other words, **the reason `nvidia-smi` works inside the container is not because the container itself has `nvidia-container-toolkit` installed, but because the NVIDIA Container Runtime passes the host’s GPU drivers into the container at runtime.**
+
+<!--
+유의할 점이 있다.  NVIDIA Container Toolkit은 Dockerfile에 추가해서 Image를 만들 필요가 없다.
+Host OS(나의 경우는 Ubuntu(WSL)) 에 설치하면 되는 것이다. 즉 **컨테이너에서 `nvidia-smi`가 동작하는 것은 컨테이너 내부에 `nvidia-container-toolkit`이 있기 때문이 아니라, 컨테이너 실행 시 NVIDIA Container Runtime이 호스트 GPU 드라이버를 컨테이너로 전달해주기 때문**이야. 
+-->
+
 ![NVIDIA Container Toolkit](/assets/img/docker/2024-10-10-Docker-Setup6_1.png)
 _NVIDIA Container Toolkit(Source: [NVIDIA](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html))_
 
