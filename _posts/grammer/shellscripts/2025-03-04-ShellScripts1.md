@@ -183,7 +183,7 @@ false                        # always false
 
 ```
 
-Note. **Double Parentheses (( expression ))**
+Note. **Double Parentheses (( expression ))**    
 An arithmetic or comparison expression can be placed inside the `expression`.
 
 ```bash
@@ -216,6 +216,8 @@ fi
 $ ./mytest.sh
 Enter a number: 3 5
 3 is less then 5
+Double Parentheses
+3 < 5
 ```
 
 ## *case Statement*
