@@ -1,0 +1,319 @@
+---
+title: ShellScripts
+description: Let's study ShellScripts.
+author: DS2Man
+date: 2025-03-14 11:00:00 +0000
+categories: [Grammer, ShellScript]
+tags:
+  - ShellScript
+  - Grammer
+math: true
+pin: true
+---
+
+## *Shebang*
+
+The first line written in a script defines which shell will be used to execute the script when it runs.  
+There are multiple versions of shells.    
+- sh: The original Unix shell (Bourne shell), released in 1977.    
+- ksh: Also known as the Korn shell, developed by David Korn in 1983 as an extension of `sh`.
+- csh: Created in 1978 at the University of California, Berkeley, based on the C programming language.    
+- <ins>**bash**: Developed by Brian Fox in 1987, it is mostly compatible with `sh`.</ins>
+
+The first line is a declaration that the script will be executed using the standard shell, `bash`.  
+This type of shell declaration is called a **Shebang**.
+
+```bash
+#!/usr/bin/bash
+echo $(which bash) # /usr/bin/bash
+```
+
+```bash
+/usr/bin/bash
+```
+
+## *File Permission Settings and Execution*
+
+
+```bash
+# Case1)
+$ vi mytest.sh
+# #!/usr/bin/bash
+# echo $(which bash)
+$ chmod +x mytest.sh or chmod 755 mytest.sh
+$ ./mytest.sh
+
+# Case2)
+$ vi mytest.sh
+# #!/usr/bin/bash
+# echo $(which bash)
+$ bash mytest.sh # When executed with `bash`, it can run without granting execute permissions.
+```
+
+```bash
+$ /usr/bin/bash
+```
+
+## *Shell Variable Declaration*
+
+### *basic*
+
+There are various types of variables, such as local variables, global variables, environment variables, reserved variables, and parameters.
+
+- Variables are case-sensitive.    
+- Variable names can include numbers, but cannot start with a number.    
+- All values are stored as **strings** in variables.    
+- Data types are not specified when declaring variables (e.g., `int number`, `char names[10]` are not used), meaning you can assign any value.    
+- When using a variable, prefix its name with the special character `$` (e.g., `echo ${myname} or echo $myname`).    
+- When assigning a value to a variable, do **not** use `$` (e.g., `myname=ds2man`).    
+- There should be no spaces around the `=` sign when creating a variable (e.g., `myname="abcd"`).
+
+```bash
+## $ vi mytest.sh
+
+#!/usr/bin/bash
+
+myname="ds2man"
+phone_no1=01011233342 # type is string!
+phone_no2="01011233342" # type is string!
+
+echo $myname
+echo "my name is ${myname}"
+echo my name is ${myname}
+printf "%d vs %s\n" $phone_no1 $phone_no1 # not %d, %s is collect
+printf "%d vs %s\n" $phone_no2 $phone_no2 # not %d, %s is collect
+printf "=========\n"
+unset myname # initialize variable
+echo my name is ${myname}
+```
+
+```bash
+$ ./mytest.sh
+ds2man
+my name is ds2man
+my name is ds2man
+136656610 vs 01011233342
+136656610 vs 01011233342
+=========
+my name is
+```
+
+### *Environment Variable*
+
+In a shell script, prefixing a variable name with `export` sets it as an environment variable, making it accessible in child scripts.  
+However, when using environment variables, be careful not to use variable names that conflict with predefined **reserved variables** in the system.
+
+```bash
+## $ vi mytest.sh
+
+#!/usr/bin/bash
+
+echo ${myname}
+```
+
+```bash
+$ export myname="ds2man is datascientist"
+$ ./mytest.sh
+ds2man is datascientist
+```
+
+### *Global and Local Variable*
+
+Variables declared in the shell are, by default, **global variables**.  However, <ins>local variables can be used only within functions</ins>, and to declare them, you need to prefix the variable name with `local`.
+
+```bash
+## $ vi mytest.sh
+
+#!/usr/bin/bash
+
+mystring="ds2man study" # global variable
+
+function string_test() {
+    # A variable is recognized as a local variable only when prefixed with `local`.  
+    # If `local` is omitted, it will overwrite the global variable instead.
+    local mystring="ds2man lecture"
+    echo string_test, ${mystring}
+}
+
+
+string_test # string_test() is error...
+echo out of string_test, ${mystring}
+
+# 변수 초기화
+unset string
+```
+
+```bash
+$ ./mytest.sh
+string_test, ds2man lecture
+out of string_test, ds2man study
+```
+
+## *Control Structures*
+
+Shell scripting allows us to control the flow of execution using conditional and loop statements, just like in most programming languages. we’ll go over five key control structures: **`if`**, **`case`**, **`for`**, **`for-in`**, and **`while`**, with clear examples for each.
+
+### *if Statement*
+
+Before diving into the `if` statement, let's take a look at comparison operators and logical operators
+
+```bash
+# comparison operators
+value1 -eq value2     # equal, Note. not ==
+value1 -ne value2     # not equal, Note. not !=
+value1 -lt value2     # less than, Note. not <
+value1 -le value2     # less than or equal, Note. not <=
+value1 -gt value2     # greater than. not >
+value1 -ge value2     # greater than or equal, Note. not >=
+
+string1 = string2        # string1 and string2 are equal (just one '=' works like in SQL)
+string1 == string2       # string1 and string2 are equal
+string1 != string2       # string1 and string2 are not equal
+-z string                # true if the string is null (zero length)
+-n string                # true if the string is not null
+string == pattern        # true if the string matches the pattern
+string != pattern        # true if the string does not match the pattern
+
+# logical operators
+condition1 && condition2     # AND
+condition1 || condition2     # OR
+!condition                   # condition is not true  
+true                         # always true  
+false                        # always false  
+
+```
+
+Note. **Double Parentheses (( expression ))**
+An arithmetic or comparison expression can be placed inside the `expression`.
+
+```bash
+## $ vi mytest.sh
+
+#!/usr/bin/bash
+
+# The `read` command is used to receive input from the user and store it in a variable.
+read -p "Enter a number: " num1 num2
+
+if [ ${num1} -lt ${num2} ]; then 
+	echo "${num1} is less then ${num2}"
+elif [ ${num1} -gt ${num2} ]; then 
+	echo "${num1} is greater then ${num2}"
+else
+	echo "${num1} is equal to ${num2}"
+fi
+
+echo "Double Parentheses"
+if (( ${num1} < ${num2} )); then 
+	echo "${num1} < ${num2}"
+elif (( ${num1} > ${num2} )); then 
+	echo "${num1} > ${num2}"
+else
+	echo "${num1} is equal to ${num2}"
+fi
+```
+
+```bash
+$ ./mytest.sh
+Enter a number: 3 5
+3 is less then 5
+```
+
+## *case Statement*
+
+```bash
+## $ vi mytest.sh
+
+#!/bin/bash
+
+read -p "Choose an option (a/b/c): " option
+
+case $option in
+  a)
+    echo "You selected option A."
+    ;;
+  b)
+    echo "You selected option B."
+    ;;
+  c)
+    echo "You selected option C."
+    ;;
+  *)
+    echo "Invalid input."
+    ;;
+esac
+```
+
+```bash
+$ ./mytest.sh
+Choose an option (a/b/c): c
+You selected option C.
+```
+
+## *for Loop Statement*
+
+```bash
+## $ vi mytest.sh
+
+#!/usr/bin/bash
+
+for ((i=1; i<=5; i++))
+do
+  echo "Current number: $i"
+done
+```
+
+```bash
+$ ./mytest.sh
+Current number: 1
+Current number: 2
+Current number: 3
+Current number: 4
+Current number: 5
+```
+
+## *for-in Loop Statement*
+
+```bash
+## $ vi mytest.sh
+
+#!/usr/bin/bash
+
+FRULTS=("apple" "banana" orange)
+# Note. `[@]` splits each element of the array into separate individual arguments.
+for fruit in "${FRULTS[@]}" # for fruit in ${FRULTS[@]} is same!
+do
+  echo "Fruit: $fruit"
+done
+```
+
+```bash
+$ ./mytest.sh
+Fruit: apple
+Fruit: banana
+Fruit: orange
+```
+
+## *while Loop Statement*
+
+```bash
+## $ vi mytest.sh
+
+#!/usr/bin/bash
+
+count=1
+
+while (( $count <= 5 ))
+do
+  echo "Count: $count"
+  ((count++))
+done
+```
+
+```bash
+$ ./mytest.sh
+Count: 1
+Count: 2
+Count: 3
+Count: 4
+Count: 5
+```
