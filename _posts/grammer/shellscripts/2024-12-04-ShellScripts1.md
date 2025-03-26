@@ -2,7 +2,7 @@
 title: ShellScripts
 description: Let's study ShellScripts.
 author: DS2Man
-date: 2025-03-14 11:00:00 +0000
+date: 2024-12-04 11:00:00 +0000
 categories: [Grammer, ShellScript]
 tags:
   - ShellScript
