@@ -30,7 +30,7 @@ order: 4
 
 > Github : <a href="https://github.com/jaoneol">https://github.com/jaoneol</a>
 
-> Linkedln : <a href="https://www.linkedin.com/in/yong-cheol-jang-593794197">https://www.linkedin.com/in/yong-cheol-jang-593794197</a>
+> Linkedln : <a href="https://www.linkedin.com/in/ds2man">https://www.linkedin.com/in/ds2man</a>
 
 
 ## Main Project
