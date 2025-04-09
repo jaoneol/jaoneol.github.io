@@ -28,7 +28,7 @@ order: 4
 
 > e-mail : jaoneol@gmail.com
 
-> Github : <a href="https://github.com/jaoneol">https://github.com/jaoneol</a>
+> Github : <a href="https://github.com/ds2man">https://github.com/ds2man</a>
 
 > Linkedln : <a href="https://www.linkedin.com/in/ds2man">https://www.linkedin.com/in/ds2man</a>
 
