@@ -1,0 +1,5 @@
+User-agent: *
+
+Allow: /
+
+Sitemap: http://ds2man.github.io/sitemap.xml
