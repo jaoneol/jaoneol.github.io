@@ -27,6 +27,7 @@ _sass/vendors
 assets/js/dist
 
 # MyIgnore
+_posts/assets
 _posts/mylife-kor
 _posts/zReference_md
 _posts/zArticle_pre-work_folder
