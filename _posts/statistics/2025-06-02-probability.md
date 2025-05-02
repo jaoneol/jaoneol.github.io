@@ -2,7 +2,7 @@
 title: 확률 기초
 description: Statistics
 author: Devin
-date: 2025-05-02 11:00:00 +0000
+date: 2025-06-02 11:00:00 +0000
 categories:
   - Statistics
 tags:

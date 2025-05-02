@@ -2,7 +2,7 @@
 title: 통계학의 이해
 description: Statistics
 author: DS2Man
-date: 2025-05-01 11:00:00 +0000
+date: 2025-06-01 11:00:00 +0000
 categories:
   - Statistics
 tags:
