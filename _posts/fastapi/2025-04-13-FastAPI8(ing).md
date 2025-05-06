@@ -1,6 +1,6 @@
 ---
-title: Response Model
-description: Let's learn Response Models in FastAPI for Clean and Secure APIs
+title: Depends in FastAPI
+description: Let's learn Depends in FastAPI.
 author: DS2Man
 date: 2025-04-13 11:00:00 +0000
 categories: [Backend, FastAPI]
@@ -9,4 +9,7 @@ math: true
 pin: true
 ---
 
-Depends 사용법
+## *Why Use Depends?*
+
+`Depends` is FastAPI’s way of declaring dependencies. It allows you to define **shared logic** -such as database sessions, authentication, or reusable components - and inject that logic into multiple endpoints.
+
