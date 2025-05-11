@@ -2,7 +2,7 @@
 title: Depends in FastAPI
 description: Let's learn Depends in FastAPI.
 author: DS2Man
-date: 2025-04-13 11:00:00 +0000
+date: 2125-04-13 11:00:00 +0000
 categories: [Backend, FastAPI]
 tags: [Backend, FastAPI]
 math: true
