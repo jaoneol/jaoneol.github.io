@@ -1,5 +1,5 @@
 ---
-title: LinuX Container and Docker Container
+title: Linux Container and Docker Container
 description: Let's Understand the Features of Linux/Docker Container.
 author: DS2Man
 date: 2024-10-11 11:00:00 +0000
